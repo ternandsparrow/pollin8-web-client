@@ -1,0 +1,62 @@
+<div layout="column" ng-cloak="" class="sidenavdemoBasicUsage">
+
+	<section layout="row" flex="">
+
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="vm.$mdMedia('gt-md')">
+
+			<md-toolbar class="md-theme-indigo">
+				<h1 class="md-toolbar-tools">Menu</h1>
+			</md-toolbar>
+			<md-content layout-padding="" ng-controller="LeftController as vm">
+				<md-button ng-click="vm.close()" class="md-primary" hide-gt-md="">
+					Close Sidenav Left
+				</md-button>
+				<md-list flex>
+					<md-list-item class="md-3-line" ng-repeat="item in menuItems" ng-click="null">
+						<div class="md-avatar">{{ item.initial }}</div>
+						<div class="md-list-item-text" layout="column">
+							<h3>{{ item.title }}</h3>
+							<p>{{ item.notes }}</p>
+						</div>
+					</md-list-item>
+				</md-list>
+			</md-content>
+
+		</md-sidenav>
+
+		<md-content flex="">
+
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<md-button class="md-icon-button" aria-label="Settings" ng-click="vm.toggleLeft()" hide-gt-md="">
+						<md-icon md-svg-icon="images/menu.svg"></md-icon>
+					</md-button>
+					<h2>
+						<span>Pollin8</span>
+					</h2>
+					<span flex></span>
+
+					<md-button class="md-icon-button" aria-label="More">
+						<md-icon md-svg-icon="images/more_vert.svg"></md-icon>
+					</md-button>
+				</div>
+			</md-toolbar>
+
+
+			<div layout="column" layout-fill="" layout-align="top center">
+				<h1>Pollinators</h1>
+				<p>Cutting edge 1997 web app technology to improve your profits through better pollination.</p>
+				<button ng-click="vm.hitApi()">
+				<span ng-hide="isLoading">Calculate</span>
+				<span ng-show="isLoading">loading</span>
+			</button>
+				<h3>The result is: <span>{{response}}</span></h3>
+
+			</div>
+
+			<div flex=""></div>
+
+		</md-content>
+
+	</section>
+</div>
