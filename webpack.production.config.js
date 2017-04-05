@@ -88,7 +88,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'ng-annotate-loader?add=true!babel-loader!',
+        loader: 'ng-annotate-loader?add=true!babel-loader',
         exclude: /node_modules/
       },
       {

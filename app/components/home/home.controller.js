@@ -24,7 +24,7 @@ class AppController {
         initial: 'SL',
         title: 'Scenario library',
         notes: 'Manage your saved scenarios'
-      },
+      }
     ]
   }
 
