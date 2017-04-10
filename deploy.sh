@@ -4,8 +4,8 @@ cd `dirname $0`
 OUTPUT_DIR=target
 rm -fr $OUTPUT_DIR
 npm run build
-NPM_RC = $?
-if [ "$NPM_RC" != "0"]; then
+NPM_RC=$?
+if [ "$NPM_RC" != "0" ]; then
   echo "[ERROR] NPM failed"
   exit 1
 fi

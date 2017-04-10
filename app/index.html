@@ -2,34 +2,16 @@
 <html lang="en">  
 	<head>  
 	  	<meta charset="UTF-8">
-	  	<title>Home - Pollin8</title>
+	  	<title>Pollin8</title>
 			<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>  
-	<body layout="column">
+	<body layout="column" ng-cloak="">
 		<section layout="row" flex>
-			<div ng-controller="SidebarController as vm" ng-cloak="" layout="row">
-				<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
-						md-is-locked-open="vm.$mdMedia('gt-md')" layout-column >
-					<md-toolbar>
-						<h1 class="md-toolbar-tools">Menu</h1>
-					</md-toolbar>
-					<md-content layout-padding="">
-						<md-button ng-click="vm.close()" class="md-primary" hide-gt-md="">
-							Close Sidenav Left
-						</md-button>
-						<md-list flex>
-							<md-list-item class="md-3-line" ng-repeat="item in menuItems" ng-click="null">
-								<md-icon md-font-library="material-icons">{{ item.icon }}</md-icon>
-								<div class="md-list-item-text" layout="column">
-									<h3>{{ item.title }}</h3>
-									<p>{{ item.notes }}</p>
-								</div>
-							</md-list-item>
-						</md-list>
-					</md-content>
-				</md-sidenav>
+			<sidebar layout="row"></sidebar>
+			<div layout="column" flex layout-column>
+				<pollin8-toolbar></pollin8-toolbar>
+				<div ui-view=""></div>
 			</div>
-			<div ui-view="" layout="column" flex layout-column></div>
 		</section>
 	</body>  
 </html> 

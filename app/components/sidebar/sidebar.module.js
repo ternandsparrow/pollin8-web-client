@@ -1,6 +1,11 @@
-
 import { SidebarController } from './sidebar.controller'
 
 angular
   .module('sidebar', [])
-  .controller('SidebarController', SidebarController)
+  .component('sidebar', {
+    controller: SidebarController,
+    controllerAs: 'vm',
+    restrict: 'E',
+    templateUrl: 'components/sidebar/sidebar.html',
+    replace: true
+  })

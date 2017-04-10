@@ -2,7 +2,7 @@
 import './vendor'
 
 const components = {
-  app: ['home', 'sidebar'],
+  app: ['home', 'sidebar', 'calculate', 'toolbar', 'scenario-library'],
   vendor: ['ui.router', 'ngMessages',
     'ng', 'ngAnimate', 'ngAria',
     'material.core', 'material.core.gestures', 'material.core.layout',

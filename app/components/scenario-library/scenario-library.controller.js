@@ -1,13 +1,13 @@
 /* @ngInject */
-class AppController {
+class ScenarioLibController {
   constructor ($scope) {
     this.$scope = $scope
     this.configureScope()
   }
 
   configureScope () {
-    this.$scope.title = 'Pollinators decision tool'
+    this.$scope.title = 'Scenario Library'
   }
 }
 
-export {AppController}
+export {ScenarioLibController}

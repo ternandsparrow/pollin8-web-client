@@ -1,8 +1,7 @@
-
-import { HomeConfig } from './home.config'
+import { config } from './home.config'
 import { AppController } from './home.controller'
 
 angular
   .module('home', [])
-  .config(HomeConfig)
+  .config(config)
   .controller('AppController', AppController)

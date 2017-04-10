@@ -13,22 +13,26 @@ class SidebarController {
       {
         icon: 'home',
         title: 'Home',
-        notes: "Let's get you up and running"
+        notes: "Let's get you up and running",
+        view: 'home'
       },
       {
         icon: 'edit_location',
         title: 'Define property',
-        notes: 'Define your current property'
+        notes: 'Define your current property',
+        view: 'home' // FIXME
       },
       {
         icon: 'library_books',
         title: 'Scenario library',
-        notes: 'Manage your saved scenarios'
+        notes: 'Manage your saved scenarios',
+        view: 'scenario-lib'
       },
       {
         icon: 'pie_chart_outlined',
         title: 'Run calculation',
-        notes: 'Calculate change to profit'
+        notes: 'Calculate change to profit',
+        view: 'calc'
       }
     ]
   }

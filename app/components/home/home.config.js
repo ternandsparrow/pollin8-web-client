@@ -1,5 +1,5 @@
 /* @ngInject */
-function HomeConfig ($stateProvider, $urlRouterProvider) {
+function config ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('home', {
     url: '/home',
     views: {
@@ -13,4 +13,4 @@ function HomeConfig ($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise('/home')
 }
-export { HomeConfig }
+export { config }

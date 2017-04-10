@@ -1,0 +1,11 @@
+<md-content flex="">
+	<div layout="column" layout-fill="" layout-align="top center">
+		<h1>Calc</h1>
+		<p>Click the button to hit the webservice and simulate a calcuation.</p>
+		<md-button class="md-raised md-primary" ng-click="vm.hitApi()">
+			<span ng-hide="isLoading">Calculate</span>
+			<span ng-show="isLoading">loading</span>
+		</md-button>
+		<h3>The result is: <span>{{response}}</span></h3>
+	</div>
+</md-content>
