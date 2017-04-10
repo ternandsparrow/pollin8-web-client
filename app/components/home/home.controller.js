@@ -1,12 +1,12 @@
 /* @ngInject */
 class AppController {
-  constructor ($scope, $timeout, $mdSidenav, $mdMedia, $log, $http) {
+  constructor ($scope, $mdSidenav, $mdMedia, $http, $log, $timeout) {
     this.$mdMedia = $mdMedia
-    this.$scope = $scope
-    this.$timeout = $timeout
     this.$mdSidenav = $mdSidenav
-    this.$log = $log
+    this.$scope = $scope
     this.$http = $http
+    this.$log = $log
+    this.$timeout = $timeout
     this.toggleLeft = this.buildDelayedToggler('left')
     this.configureScope()
   }
@@ -14,18 +14,6 @@ class AppController {
   configureScope () {
     this.$scope.response = "(nothing yet, click 'calculate')"
     this.$scope.isLoading = false
-    this.$scope.menuItems = [
-      {
-        initial: 'GS',
-        title: 'Getting started',
-        notes: "Let's get you up and running"
-      },
-      {
-        initial: 'SL',
-        title: 'Scenario library',
-        notes: 'Manage your saved scenarios'
-      }
-    ]
   }
 
   /**
@@ -59,15 +47,6 @@ class AppController {
     }, 200)
   }
 
-  buildToggler (navID) {
-    let vm = this
-    return function () {
-      vm.$mdSidenav(navID).toggle().then(function () {
-        vm.$log.debug('toggle ' + navID + ' is done')
-      })
-    }
-  }
-
   hitApi () {
     this.$scope.isLoading = true
     this.$http({
@@ -83,19 +62,4 @@ class AppController {
   }
 }
 
-/* @ngInject */
-class LeftController {
-  constructor ($mdSidenav, $log) {
-    this.$mdSidenav = $mdSidenav
-    this.$log = $log
-  }
-
-  close () {
-    let vm = this
-    this.$mdSidenav('left').close().then(function () {
-      vm.$log.debug('close LEFT is done')
-    })
-  }
-}
-
-export {AppController, LeftController}
+export {AppController}
