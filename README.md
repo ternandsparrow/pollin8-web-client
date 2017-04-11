@@ -19,3 +19,14 @@ npm run build
 ```
 docker run -v $(pwd)/target:/usr/share/nginx/html:ro --rm -p 8080:80 nginx
 ```
+
+## Adding/Updating Swagger UI to the project
+Follow instructions at https://cloud.google.com/endpoints/docs/adding-swagger
+
+Basically:
+```
+git clone https://github.com/swagger-api/swagger-ui.git
+cp -R swagger-ui/dist /your/project/docs
+#update index.html with url="your url"
+#update the app config to serve up swagger.json and the docs/ dir statically
+```

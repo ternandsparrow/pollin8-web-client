@@ -1,8 +1,9 @@
 /* @ngInject */
 class CalcController {
-  constructor ($scope, $http) {
+  constructor ($scope, $http, pollin8serverUrl) {
     this.$scope = $scope
     this.$http = $http
+    this.serverUrl = pollin8serverUrl
     this.configureScope()
   }
 
@@ -14,7 +15,7 @@ class CalcController {
   hitApi () {
     this.$scope.isLoading = true
     this.$http({
-      url: 'https://echo-service-dot-pollin8-web-client-162107.appspot.com/_ah/api/echo/v1/echo',
+      url: this.serverUrl,
       method: 'POST',
       data: {'message': 'result from server'}
     }).then((resp) => {
