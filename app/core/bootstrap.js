@@ -2,7 +2,7 @@
 import './vendor'
 
 const components = {
-  app: ['home', 'sidebar', 'calculate', 'toolbar', 'scenario-library'],
+  app: ['home', 'sidebar', 'calculate', 'toolbar', 'scenario-library', 'define'],
   vendor: ['ui.router', 'ngMessages',
     'ng', 'ngAnimate', 'ngAria',
     'material.core', 'material.core.gestures', 'material.core.layout',
@@ -38,6 +38,6 @@ const appModule = require('../index')(components)
 // replaces ng-app="appName"
 angular.element(document).ready(function () {
   angular.bootstrap(document, [appModule.name], {
-    strictDi: true
+    // strictDi: true // FIXME had to turn this off for leaflet-ui
   })
 })

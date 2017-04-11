@@ -20,7 +20,7 @@ class SidebarController {
         icon: 'edit_location',
         title: 'Define property',
         notes: 'Define your current property',
-        view: 'home' // FIXME
+        view: 'define'
       },
       {
         icon: 'library_books',

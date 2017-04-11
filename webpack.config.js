@@ -39,6 +39,10 @@ module.exports = {
         loader: 'style-loader!css-loader'
       },
       {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+        loader: 'file-loader'
+      },
+      {
         // set up standard-loader as a preloader
         enforce: 'pre',
         test: /\.js$/,
