@@ -1,8 +1,9 @@
 /* @ngInject */
 class CalcController {
-  constructor ($scope, $http, pollin8serverUrl) {
+  constructor ($scope, $http, $mdDialog, pollin8serverUrl) {
     this.$scope = $scope
     this.$http = $http
+    this.$mdDialog = $mdDialog
     this.serverUrl = pollin8serverUrl
     this.configureScope()
   }
@@ -21,9 +22,24 @@ class CalcController {
     }).then((resp) => {
       this.$scope.response = resp.data.message
       this.$scope.isLoading = false
-    }, function (reason) {
+    }, (reason) => {
+      this.$scope.isLoading = false
+      this.handleError(reason)
       throw reason
     })
+  }
+
+  handleError (reason) {
+    this.$mdDialog.show(
+      this.$mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title("That didn't work like we planned")
+        .textContent("Something has gone wrong. Check that you're still connected to the internet." +
+          " If you are then the problem is on our side and we're working on it.")
+        .ariaLabel('Action failed dialog')
+        .ok('Got it!')
+        .theme('somethingWrong')
+    )
   }
 }
 

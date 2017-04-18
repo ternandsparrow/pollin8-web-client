@@ -32,6 +32,9 @@ module.exports = function (components) {
     $mdThemingProvider.theme('default')
       .primaryPalette('orange')
       .accentPalette('cyan')
+
+    $mdThemingProvider.theme('somethingWrong')
+      .primaryPalette('deep-orange')
   }])
   setupConfig(result)
   return result
