@@ -50,9 +50,7 @@ module.exports = {
     }),
     new ExtractTextPlugin({ filename: '[name].[hash].css', disable: false }),
     new webpack.NoEmitOnErrorsPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   include: ['vendor']
-    // }), disabled because something dies when uglified (angular iteself I think)
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.LoaderOptionsPlugin({
       options: {
         postcss: [

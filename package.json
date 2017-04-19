@@ -56,6 +56,6 @@
     "angular-ui-router": "^0.4.2",
     "jquery": "~3.2.1",
     "ui-leaflet": "^1.0.3",
-    "ui-leaflet-draw": "0.0.5"
+    "ui-leaflet-draw": "tomsaleeba/ui-leaflet-draw#issue-8"
   }
 }
