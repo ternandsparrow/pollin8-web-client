@@ -6,6 +6,6 @@ angular
     controller: SidebarController,
     controllerAs: 'vm',
     restrict: 'E',
-    templateUrl: 'components/sidebar/sidebar.html',
+    template: require('./sidebar.html'),
     replace: true
   })

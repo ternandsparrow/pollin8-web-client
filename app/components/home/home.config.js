@@ -4,7 +4,7 @@ function config ($stateProvider, $urlRouterProvider) {
     url: '/home',
     views: {
       '': {
-        templateUrl: 'components/home/home.html',
+        template: require('./home.html'),
         controller: 'AppController',
         controllerAs: 'vm'
       }

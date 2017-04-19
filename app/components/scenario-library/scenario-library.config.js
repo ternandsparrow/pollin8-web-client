@@ -4,7 +4,7 @@ function config ($stateProvider, $urlRouterProvider) {
     url: '/scenario-lib',
     views: {
       '': {
-        templateUrl: 'components/scenario-library/scenario-library.html',
+        template: require('./scenario-library.html'),
         controller: 'ScenarioLibController',
         controllerAs: 'vm'
       }

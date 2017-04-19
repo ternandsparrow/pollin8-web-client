@@ -9,8 +9,8 @@ var TARGET = path.join(__dirname, '/tmp')
 module.exports = {
   context: APP,
   entry: {
-    app: './core/bootstrap.js',
-    vendor: './core/vendor.js'
+    app: './index.js',
+    vendor: './vendor.js'
   },
   output: {
     path: TARGET,

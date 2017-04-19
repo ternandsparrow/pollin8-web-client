@@ -4,7 +4,7 @@ function config ($stateProvider, $urlRouterProvider) {
     url: '/calc',
     views: {
       '': {
-        templateUrl: 'components/calculate/calculate.html',
+        template: require('./calculate.html'),
         controller: 'CalcController',
         controllerAs: 'vm'
       }

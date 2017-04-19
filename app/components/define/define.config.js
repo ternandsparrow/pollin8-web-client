@@ -4,7 +4,7 @@ function config ($stateProvider, $urlRouterProvider) {
     url: '/define',
     views: {
       '': {
-        templateUrl: 'components/define/define.html',
+        template: require('./define.html'),
         controller: 'DefineController',
         controllerAs: 'vm'
       }

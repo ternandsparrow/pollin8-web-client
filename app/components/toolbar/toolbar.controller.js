@@ -7,6 +7,12 @@ class ToolbarController {
     this.$timeout = $timeout
     this.$http = $http
     this.toggleLeft = this.buildDelayedToggler('left')
+    this.configureScope()
+  }
+
+  configureScope () {
+    this.$scope.menuIcon = require('../../images/menu.svg')
+    this.$scope.moreVertIcon = require('../../images/more_vert.svg')
   }
 
   /**

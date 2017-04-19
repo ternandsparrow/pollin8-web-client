@@ -4,7 +4,6 @@ var webpack = require('webpack')
 var autoprefixer = require('autoprefixer')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 var path = require('path')
 var APP = path.join(__dirname, '/app')
@@ -22,8 +21,8 @@ module.exports = {
   context: APP,
   devtool: 'source-map',
   entry: {
-    app: ['./core/bootstrap.js', './index.js'],
-    vendor: ['./core/vendor.js']
+    app: ['./index.js'],
+    vendor: ['./vendor.js']
   },
   output: {
     path: TARGET,
@@ -38,14 +37,22 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
-      inject: 'body'
+      inject: 'body',
+      chunksSortMode: function vendorBeforeAppSorter (a, b) {
+        if (a.names[0] === 'app') {
+          return 1
+        }
+        if (b.names[0] === 'app') {
+          return -1
+        }
+        return 0
+      }
     }),
     new ExtractTextPlugin({ filename: '[name].[hash].css', disable: false }),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
-    new CopyWebpackPlugin([{
-      from: APP
-    }]),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   include: ['vendor']
+    // }), disabled because something dies when uglified (angular iteself I think)
     new webpack.LoaderOptionsPlugin({
       options: {
         postcss: [

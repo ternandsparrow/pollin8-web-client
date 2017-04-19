@@ -8,7 +8,7 @@ class DefineController {
   }
 
   configureScope () {
-    L.Icon.Default.imagePath = "https://unpkg.com/leaflet@0.7.7/dist/images" // pretty sure minification forces us to do this. It works in any case
+    L.Icon.Default.imagePath = 'https://unpkg.com/leaflet@0.7.7/dist/images' // pretty sure minification forces us to do this. It works in any case
     this.$scope.title = 'Define Baseline'
     var drawnItems = new L.FeatureGroup()
     this.$scope.map = {
