@@ -53,9 +53,7 @@ module.exports = {
           error: false,
           // enable snazzy output (default = true)
           snazzy: true,
-          // other config options to be passed through to standard e.g.
-          parser: 'babel-eslint',
-          globals: ['angular']
+          globals: ['angular', 'L']
         }
       },
       {

@@ -86,15 +86,27 @@ module.exports = {
           error: false,
           // enable snazzy output (default = true)
           snazzy: true,
-          // other config options to be passed through to standard e.g.
-          parser: 'babel-eslint',
-          globals: ['angular']
+          globals: ['angular', 'L']
         }
       },
       {
         test: /\.js$/,
-        loader: 'ng-annotate-loader?add=true!babel-loader',
-        exclude: /node_modules/
+        use: [
+          {
+            loader: 'ng-annotate-loader?add=true',
+          },
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['es2015', {
+                  modules: false // trying to get tree shaking working
+                }]
+              ]
+            }
+          }
+        ],
+        exclude: /node_modules/,
       },
       {
         test: /\.html$/,
