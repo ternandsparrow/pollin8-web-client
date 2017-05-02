@@ -1,0 +1,16 @@
+@font-face {
+  font-family: attractive;
+  src:
+    url(./fonts/Attractive-Regular.woff2) format('woff2'),
+    url(./fonts/Attractive-Regular.woff) format('woff'),
+    url(./fonts/Attractive-Regular.eot) format('eot');
+}
+
+button, select, html, textarea, input {
+  font-family: attractive, "Helvetica Neue", sans-serif;
+  font-size: 1.2em;
+}
+
+.main-content {
+  max-width: 864px;
+}
