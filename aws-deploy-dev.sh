@@ -13,4 +13,4 @@ if [ "$NPM_RC" != "0" ]; then
   echo "[ERROR] NPM failed"
   exit $NPM_RC
 fi
-aws s3 sync --delete ./$OUTPUT_DIR/ s3://$S3_TARGET_BUCKET/
+aws s3 sync --delete ./$OUTPUT_DIR/ s3://$S3_TARGET_BUCKET/ --acl public-read
