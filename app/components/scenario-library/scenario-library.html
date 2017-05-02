@@ -1,7 +1,49 @@
-<md-content flex>
-	<div layout="column" layout-fill="" layout-align="top center">
+<md-content flex layout-padding>
 		<h1>{{title}}</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in dolor sit amet mi rutrum finibus. In hac 
-			habitasse platea dictumst. In sed elit imperdiet, vestibulum enim in, tincidunt nisi. Etiam vitae ex felis.</p>
-	</div>
+		<md-content class="md-padding" layout-xs="column" layout="row" class="main-content">
+			<div flex-xs flex-gt-xs="50" layout="column">
+				<md-card ng-repeat="item in items" ng-if="$even">
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">{{::item.title}}</span>
+							<span class="md-subhead">Last saved: {{::item.lastSaved | date : "dd-MMM-yyyy HH:mm"}}</span>
+							<span class="md-subhead">Production: {{::item.area.production}}ha</span>
+							<span class="md-subhead">Pollinators: {{::item.area.pollinator}}ha</span>
+							<span class="md-body-1">{{::item.description}}</span>
+						</md-card-title-text>
+						<md-card-title-media>
+							<div class="md-media-lg card-media">
+								<img src="../../images/saved-scenario-map-1.png">
+							</div>
+						</md-card-title-media>
+					</md-card-title>
+					<md-card-actions layout="row" layout-align="end center">
+						<md-button>Edit</md-button>
+						<md-button>Delete</md-button>
+					</md-card-actions>
+				</md-card>
+			</div>
+			<div flex-xs flex-gt-xs="50" layout="column">
+				<md-card ng-repeat="item in items" ng-if="$odd">
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">{{::item.title}}</span>
+							<span class="md-subhead">Last saved: {{::item.lastSaved | date : "dd-MMM-yyyy HH:mm"}}</span>
+							<span class="md-subhead">Production: {{::item.area.production}}ha</span>
+							<span class="md-subhead">Pollinators: {{::item.area.pollinator}}ha</span>
+							<span class="md-body-1">{{::item.description}}</span>
+						</md-card-title-text>
+						<md-card-title-media>
+							<div class="md-media-lg card-media">
+								<img src="../../images/saved-scenario-map-2.png">
+							</div>
+						</md-card-title-media>
+					</md-card-title>
+					<md-card-actions layout="row" layout-align="end center">
+						<md-button>Edit</md-button>
+						<md-button>Delete</md-button>
+					</md-card-actions>
+				</md-card>
+			</div>
+		</md-content>
 </md-content>
