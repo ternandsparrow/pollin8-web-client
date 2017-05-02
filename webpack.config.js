@@ -43,6 +43,13 @@ module.exports = {
         loader: 'file-loader'
       },
       {
+        test: /\.ico$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]' // don't hash filename
+        }
+      },
+      {
         // set up standard-loader as a preloader
         enforce: 'pre',
         test: /\.js$/,

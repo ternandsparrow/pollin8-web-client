@@ -1,4 +1,5 @@
 require('./index.scss')
+require('./images/favicon.ico')
 
 function applyConfig (angularModule, config) {
   const CONSTANT_NAME_PREFIX = 'pollin8'
