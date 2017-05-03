@@ -1,10 +1,10 @@
 /* @ngInject */
 class CalcController {
-  constructor ($scope, $http, $mdDialog, pollin8_userEndpointUrl) {
+  constructor ($scope, $http, $mdDialog, pollin8_algoEndpointUrl) {
     this.$scope = $scope
     this.$http = $http
     this.$mdDialog = $mdDialog
-    this.pollin8_userEndpointUrl = pollin8_userEndpointUrl
+    this.pollin8_algoEndpointUrl = pollin8_algoEndpointUrl
     this.configureScope()
   }
 
@@ -45,7 +45,7 @@ class CalcController {
   hitApi () {
     this.$scope.isLoading = true
     this.$http({
-      url: this.pollin8_userEndpointUrl + '/v1/run-scenario',
+      url: this.pollin8_algoEndpointUrl + '/v1/run-scenario',
       method: 'POST',
       data: {
         baseline: {
