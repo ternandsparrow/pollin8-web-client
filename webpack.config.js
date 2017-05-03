@@ -38,7 +38,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
-      inject: 'head'
+      inject: 'body'
     }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' })
   ],

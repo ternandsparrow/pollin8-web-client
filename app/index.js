@@ -1,5 +1,6 @@
 require('./index.scss')
 require('./images/favicon.ico')
+var loadjs = require('loadjs')
 
 const components = {
   app: ['home', 'sidebar', 'calculate', 'toolbar', 'scenario-library',
@@ -31,24 +32,35 @@ const components = {
   ]
 }
 
-let deps = components.app
-for (let i = 0; i < deps.length; i++) {
-  require('./components/' + deps[i] + '/' + deps[i] + '.module')
-}
+loadjs('/config-module.js', { // using loadjs rather than <script> in html so we don't have ordering issues with webpack-html-plugin
+  success: function() {
+    let deps = components.app
+    for (let i = 0; i < deps.length; i++) {
+      require('./components/' + deps[i] + '/' + deps[i] + '.module')
+    }
 
-let pollin8Dependencies = ['pollin8.config'].concat(components.vendor.concat(components.app))
-let pollin8Module = angular.module('pollin8', pollin8Dependencies)
-pollin8Module.config(['$mdThemingProvider', function ($mdThemingProvider) {
-  $mdThemingProvider.theme('default')
-    .primaryPalette('orange')
-    .accentPalette('cyan')
+    let pollin8Dependencies = ['pollin8.config'].concat(components.vendor.concat(components.app))
+    let pollin8Module = angular.module('pollin8', pollin8Dependencies)
+    pollin8Module.config(['$mdThemingProvider', function ($mdThemingProvider) {
+      $mdThemingProvider.theme('default')
+        .primaryPalette('orange')
+        .accentPalette('cyan')
 
-  $mdThemingProvider.theme('somethingWrong')
-    .primaryPalette('deep-orange')
-}])
+      $mdThemingProvider.theme('somethingWrong')
+        .primaryPalette('deep-orange')
+    }])
 
-angular.element(document).ready(function () {
-  angular.bootstrap(document, [pollin8Module.name], {
-    // strictDi: true // FIXME had to turn this off for leaflet-ui
-  })
+    angular.element(document).ready(function () {
+      angular.bootstrap(document, [pollin8Module.name], {
+        // strictDi: true // FIXME had to turn this off for leaflet-ui
+      })
+    })
+  },
+  error: function(depsNotFound) {
+    let body = document.getElementsByTagName('body')[0]
+    body.style = 'display: initial !important;' // break ng-cloak
+    let msg = 'Config problem: unable to load the "config module", cannot continue.'
+    body.innerHTML = '<h1>' + msg + '</h1>'
+    throw new Error(msg)
+  }
 })
