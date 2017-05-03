@@ -1,26 +1,62 @@
 /* @ngInject */
 class CalcController {
-  constructor ($scope, $http, $mdDialog, pollin8serverUrl) {
+  constructor ($scope, $http, $mdDialog, pollin8_userEndpointUrl) {
     this.$scope = $scope
     this.$http = $http
     this.$mdDialog = $mdDialog
-    this.serverUrl = pollin8serverUrl
+    this.pollin8_userEndpointUrl = pollin8_userEndpointUrl
     this.configureScope()
   }
 
   configureScope () {
-    this.$scope.response = "(nothing yet, click 'calculate')"
+    let defaultAmount = {
+      isPositive: true,
+      value: 0
+    }
+    this.$scope.response = {
+      profit: defaultAmount,
+      efficiency: defaultAmount,
+      yield: defaultAmount
+    }
     this.$scope.isLoading = false
+    this.$scope.baselines = [
+      'Baseline saved on 10 March 2017',
+      'Baseline saved on 03 April 2017'
+    ]
+    this.$scope.selectedBaseline = ''
+    this.$scope.scenarios = [
+      'More scrub along north fence',
+      'More scrub along west fence',
+      'More scrub along east fence',
+      'Scrub on south neighbour',
+      'Super-pollinator in centre paddock'
+    ]
+    this.$scope.selectedScenario = ''
+    this.$scope.commoditityValueUnits = [
+      'per ton',
+      'per kilogram'
+    ]
+    this.$scope.overheadValueUnits = [
+      'per hectare',
+      'per square metre'
+    ]
   }
 
   hitApi () {
     this.$scope.isLoading = true
     this.$http({
-      url: this.serverUrl,
+      url: this.pollin8_userEndpointUrl + '/v1/run-scenario',
       method: 'POST',
-      data: {'message': 'result from server'}
+      data: {
+        baseline: {
+          // TODO add details
+        },
+        scenario: {
+          // TODO add details
+        }
+      }
     }).then((resp) => {
-      this.$scope.response = resp.data.message
+      this.$scope.response = resp.data
       this.$scope.isLoading = false
     }, (reason) => {
       this.$scope.isLoading = false

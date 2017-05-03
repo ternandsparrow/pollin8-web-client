@@ -1,36 +1,9 @@
 require('./index.scss')
 require('./images/favicon.ico')
 
-function applyConfig (angularModule, config) {
-  const CONSTANT_NAME_PREFIX = 'pollin8'
-  for (var attr in config) {
-    if (!config.hasOwnProperty(attr)) {
-      continue
-    }
-    angularModule.constant(CONSTANT_NAME_PREFIX + attr, config[attr])
-  }
-}
-
-function setupConfig (angularModule) {
-  var defaults = {
-    serverUrl: 'https://echo-service-dot-pollin8-web-client-162107.appspot.com/_ah/api/echo/v1/echo'
-  }
-  try {
-    var overrides = require('./config-overrides')
-    for (var attr in overrides) {
-      if (!overrides.hasOwnProperty(attr)) {
-        continue
-      }
-      defaults[attr] = overrides[attr]
-    }
-  } catch (error) {
-    console.log('No config overrides loaded')
-  }
-  applyConfig(angularModule, defaults)
-}
-
 const components = {
-  app: ['home', 'sidebar', 'calculate', 'toolbar', 'scenario-library', 'define'],
+  app: ['home', 'sidebar', 'calculate', 'toolbar', 'scenario-library',
+    'define', 'config-checker'],
   vendor: ['ui.router', 'ngMessages',
     'ng', 'ngAnimate', 'ngAria',
     'material.core', 'material.core.gestures', 'material.core.layout',
@@ -63,7 +36,8 @@ for (let i = 0; i < deps.length; i++) {
   require('./components/' + deps[i] + '/' + deps[i] + '.module')
 }
 
-var pollin8Module = angular.module('pollin8', components.vendor.concat(components.app))
+let pollin8Dependencies = ['pollin8.config'].concat(components.vendor.concat(components.app))
+let pollin8Module = angular.module('pollin8', pollin8Dependencies)
 pollin8Module.config(['$mdThemingProvider', function ($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('orange')
@@ -72,7 +46,6 @@ pollin8Module.config(['$mdThemingProvider', function ($mdThemingProvider) {
   $mdThemingProvider.theme('somethingWrong')
     .primaryPalette('deep-orange')
 }])
-setupConfig(pollin8Module)
 
 angular.element(document).ready(function () {
   angular.bootstrap(document, [pollin8Module.name], {

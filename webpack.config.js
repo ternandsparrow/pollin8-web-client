@@ -5,6 +5,8 @@ var path = require('path')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var APP = path.join(__dirname, '/app')
 var TARGET = path.join(__dirname, '/tmp')
+var devServerHost = 'localhost'
+var devServerPort = 8080
 
 module.exports = {
   context: APP,
@@ -17,6 +19,18 @@ module.exports = {
     filename: 'bundle.js'
   },
   devtool: 'source-map',
+  devServer: {
+    proxy: {
+      "/config-module.js": {
+        // trap the call to get config so we can override it locally
+        target: 'http://localhost:8080',
+        pathRewrite: {'.*': 'local-config-module.js'},
+        changeOrigin: true
+      }
+    },
+    host: devServerHost,
+    port: devServerPort,
+  },
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -24,7 +38,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
-      inject: 'body'
+      inject: 'head'
     }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' })
   ],
