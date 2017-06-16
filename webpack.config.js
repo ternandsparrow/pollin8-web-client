@@ -21,7 +21,7 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     proxy: {
-      "/config-module.js": {
+      '/config-module.js': {
         // trap the call to get config so we can override it locally
         target: 'http://localhost:8080',
         pathRewrite: {'.*': 'local-config-module.js'},
@@ -29,7 +29,7 @@ module.exports = {
       }
     },
     host: devServerHost,
-    port: devServerPort,
+    port: devServerPort
   },
   plugins: [
     new webpack.ProvidePlugin({
