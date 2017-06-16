@@ -1,6 +1,7 @@
 #!/bin/bash
 cd `dirname $0`
-S3_TARGET_BUCKET="www.dev.pollin8.aekos.org.au"
+set -e
+S3_TARGET_BUCKET="www.dev.pollin8.org.au"
 OUTPUT_DIR="target"
 S3_LS=`sh -c "aws s3 ls | grep $S3_TARGET_BUCKET"`
 if [ -z "$S3_LS" ]; then
@@ -8,9 +9,4 @@ if [ -z "$S3_LS" ]; then
   exit 1
 fi
 npm run build
-NPM_RC=$?
-if [ "$NPM_RC" != "0" ]; then
-  echo "[ERROR] NPM failed"
-  exit $NPM_RC
-fi
 aws s3 sync --delete ./$OUTPUT_DIR/ s3://$S3_TARGET_BUCKET/ --acl public-read

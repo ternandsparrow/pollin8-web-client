@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  envlevel:
+    Type: String
+    AllowedValues:
+    - dev.
+    - test.
+    - ''
+    Default: dev.
+Resources:
+  S3B1FFDH:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName:
+        Fn::Join:
+          - "-"
+          - - www.
+            - Ref: envlevel
+            - pollin8.org.au
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        RoutingRules:
+          -
+            RoutingRuleCondition:
+              KeyPrefixEquals: config-module.js
+            RedirectRule:
+              Protocol: https
+              HostName:
+                Fn::Join:
+                  - "-"
+                  - - api-user.
+                    - Ref: envlevel
+                    - pollin8.org.au
+              ReplaceKeyWith: config-module.js
+  S3B10B8Q:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName:
+        Fn::Join:
+          - "-"
+          - - Ref: envlevel
+            - pollin8.org.au
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName:
+            Fn::Join:
+              - "-"
+              - - www.
+                - Ref: envlevel
+                - pollin8.org.au
+          Protocol: http
