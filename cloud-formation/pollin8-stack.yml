@@ -1,0 +1,100 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  envlevel:
+    Type: String
+    AllowedValues:
+    - dev.
+    - test.
+    - ''
+    Default: dev.
+  theregion:
+    Type: String
+    Default: us-west-1
+Resources:
+  cfdistro:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - Fn::Join:
+            - ''
+            - - www.
+              - Ref: envlevel
+              - pollin8.org.au
+        DefaultCacheBehavior:
+          ForwardedValues:
+            QueryString: false # maybe we do need this for Angular to work
+          TargetOriginId:
+            Fn::Join:
+              - ''
+              - - S3-Website-www.
+                - Ref: envlevel
+                - pollin8.org.au.s3-website-
+                - Ref: theregion
+                - .amazonaws.com
+          ViewerProtocolPolicy: redirect-to-https
+        Enabled: true
+        Origins:
+          -
+            CustomOriginConfig:
+              OriginProtocolPolicy: http-only
+            DomainName:
+              Fn::Join:
+                - ''
+                - - www.
+                  - Ref: envlevel
+                  - pollin8.org.au.s3-website-
+                  - Ref: theregion
+                  - .amazonaws.com
+            Id:
+              Fn::Join:
+              - ''
+              - - S3-Website-www.
+                - Ref: envlevel
+                - pollin8.org.au.s3-website-
+                - Ref: theregion
+                - .amazonaws.com
+        ViewerCertificate:
+          AcmCertificateArn: arn:aws:acm:us-east-1:819017055465:certificate/919fc55a-7423-46a9-97bc-68c88d4a9fd3
+          SslSupportMethod: sni-only
+  wwwbucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName:
+        Fn::Join:
+          - ''
+          - - www.
+            - Ref: envlevel
+            - pollin8.org.au
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        RoutingRules:
+          -
+            RoutingRuleCondition:
+              KeyPrefixEquals: config-module.js
+            RedirectRule:
+              Protocol: https
+              HostName:
+                Fn::Join:
+                  - ''
+                  - - api-user.
+                    - Ref: envlevel
+                    - pollin8.org.au
+              ReplaceKeyWith: config-module.js
+  apexbucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName:
+        Fn::Join:
+          - ''
+          - - Ref: envlevel
+            - pollin8.org.au
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName:
+            Fn::Join:
+              - ''
+              - - www.
+                - Ref: envlevel
+                - pollin8.org.au
+          Protocol: http

@@ -1,133 +1,89 @@
 <md-content flex>
 	<div layout="column" layout-fill layout-align="top center">
-	<div flex layout-padding layout-fill class="main-content">
-		<h1>Run scenario calculation</h1>
-		<md-content class="md-padding" layout="row" class="main-content">
-			<div flex="50" layout="column">
-				<div class="md-media-lg card-media">
-					<img src="../../images/saved-scenario-map-1.png">
-				</div>
-				<div layout-gt-sm="row">
-					<md-input-container class="md-block" flex-gt-sm>
-						<label>Select baseline</label>
-						<md-select ng-model="selectedBaseline">
-							<md-option ng-repeat="curr in baselines">
-								{{curr}}
-							</md-option>
-						</md-select>
-					</md-input-container>
-				</div>
-				<table class="full-width">
-					<thead>
-						<tr>
-							<th>Commoditiy</th>
-							<th>Area</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Apples</td>
-							<td>15 ha</td>
-						</tr>
-						<tr>
-							<td>Pears</td>
-							<td>15 ha</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div flex="50" layout="column">
-				<div class="md-media-lg card-media">
-					<img src="../../images/saved-scenario-map-2.png">
-				</div>
-				<div layout-gt-sm="row">
-					<md-input-container class="md-block" flex-gt-sm>
-						<label>Select scenario</label>
-						<md-select ng-model="selectedScenario">
-							<md-option ng-repeat="curr in scenarios">
-								{{curr}}
-							</md-option>
-						</md-select>
-					</md-input-container>
-				</div>
-				<table class="full-width">
-					<thead>
-						<tr>
-							<th>Commoditiy</th>
-							<th>Area</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Apples</td>
-							<td>12 ha</td>
-						</tr>
-						<tr>
-							<td>Pears</td>
-							<td>12 ha</td>
-						</tr>
-						<tr>
-							<td>Super pollination</td>
-							<td>6 ha</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</md-content>
-		<div layout="column">
-			<h3>Commodity values</h3>
-		</div>
-		<div layout="row">
-			<md-input-container class="md-block" flex-gt-sm>
-				<label>Value of Apples ($)</label>
-				<input name="appleValue" ng-model="appleValue" placeholder="123" md-maxlength="5">
-				<div ng-messages="userForm.appleValue.$error" role="alert" multiple>
-					<div ng-message="required" class="my-message">You must supply a value for apples.</div>
-					<div ng-message="pattern" class="my-message">That doesn't look like a valid value for apples.</div>
-					<div ng-message="md-maxlength" class="my-message">
-						That's probably more expensive than you mean
+		<div flex layout-padding layout-fill class="main-content">
+			<h1>Run scenario calculation</h1>
+			<md-content class="md-padding" layout="row" class="main-content">
+				<div flex="50" layout="column">
+					<div class="md-media-lg card-media">
+						<img src="../../images/saved-scenario-map-1.png">
 					</div>
-				</div>
-			</md-input-container>
-			<md-input-container class="md-block" flex-gt-sm>
-				<label>Value units</label>
-				<md-select ng-model="selectedAppleValueUnit">
-					<md-option ng-repeat="curr in commoditityValueUnits">
-						{{curr}}
-					</md-option>
-				</md-select>
-			</md-input-container>
-		</div>
-		<div layout="row">
-			<md-input-container class="md-block" flex-gt-sm>
-				<label>Value of Pears ($)</label>
-				<input name="pearValue" ng-model="pearValue" placeholder="123" md-maxlength="5">
-				<div ng-messages="userForm.pearValue.$error" role="alert" multiple>
-					<div ng-message="required" class="my-message">You must supply a value for pears.</div>
-					<div ng-message="pattern" class="my-message">That doesn't look like a valid value for pears.</div>
-					<div ng-message="md-maxlength" class="my-message">
-						That's probably more expensive than you mean
+					<div layout-gt-sm="row">
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>Select baseline</label>
+							<md-select ng-model="selectedBaseline">
+								<md-option ng-repeat="curr in baselines">
+									{{curr}}
+								</md-option>
+							</md-select>
+						</md-input-container>
 					</div>
+					<table class="full-width">
+						<thead>
+							<tr>
+								<th>Commoditiy</th>
+								<th>Area</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Apples</td>
+								<td>15 ha</td>
+							</tr>
+							<tr>
+								<td>Pears</td>
+								<td>15 ha</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-			</md-input-container>
-			<md-input-container class="md-block" flex-gt-sm>
-				<label>Value units</label>
-				<md-select ng-model="selectedPearValueUnit">
-					<md-option ng-repeat="curr in commoditityValueUnits">
-						{{curr}}
-					</md-option>
-				</md-select>
-			</md-input-container>
-		</div>
-		<div layout="column">
-			<h3>Property overheads</h3>
+				<div flex="50" layout="column">
+					<div class="md-media-lg card-media">
+						<img src="../../images/saved-scenario-map-2.png">
+					</div>
+					<div layout-gt-sm="row">
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>Select scenario</label>
+							<md-select ng-model="selectedScenario">
+								<md-option ng-repeat="curr in scenarios">
+									{{curr}}
+								</md-option>
+							</md-select>
+						</md-input-container>
+					</div>
+					<table class="full-width">
+						<thead>
+							<tr>
+								<th>Commoditiy</th>
+								<th>Area</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Apples</td>
+								<td>12 ha</td>
+							</tr>
+							<tr>
+								<td>Pears</td>
+								<td>12 ha</td>
+							</tr>
+							<tr>
+								<td>Super pollination</td>
+								<td>6 ha</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</md-content>
+			<div layout="column">
+				<h3>Commodity values</h3>
+			</div>
 			<div layout="row">
 				<md-input-container class="md-block" flex-gt-sm>
-					<label>Overheads ($)</label>
-					<input name="overheadsValue" ng-model="overheadsValue" placeholder="123" md-maxlength="5">
-					<div ng-messages="userForm.overheadsValue.$error" role="alert" multiple>
-						<div ng-message="required" class="my-message">You must supply a value for overheads.</div>
-						<div ng-message="pattern" class="my-message">That doesn't look like a valid value for overheads.</div>
+					<label>Value of Apples ($)</label>
+					<input name="appleValue" ng-model="appleValue" placeholder="123" md-maxlength="5">
+					<div ng-messages="userForm.appleValue.$error" role="alert" multiple>
+						<div ng-message="required" class="my-message">You must supply a value for apples.</div>
+						<div ng-message="pattern" class="my-message">That doesn't look like a valid value for apples.</div>
 						<div ng-message="md-maxlength" class="my-message">
 							That's probably more expensive than you mean
 						</div>
@@ -135,21 +91,91 @@
 				</md-input-container>
 				<md-input-container class="md-block" flex-gt-sm>
 					<label>Value units</label>
-					<md-select ng-model="selectedOverheadsUnit">
-						<md-option ng-repeat="curr in overheadValueUnits">
+					<md-select ng-model="selectedAppleValueUnit">
+						<md-option ng-repeat="curr in commoditityValueUnits">
 							{{curr}}
 						</md-option>
 					</md-select>
 				</md-input-container>
 			</div>
+			<div layout="row">
+				<md-input-container class="md-block" flex-gt-sm>
+					<label>Value of Pears ($)</label>
+					<input name="pearValue" ng-model="pearValue" placeholder="123" md-maxlength="5">
+					<div ng-messages="userForm.pearValue.$error" role="alert" multiple>
+						<div ng-message="required" class="my-message">You must supply a value for pears.</div>
+						<div ng-message="pattern" class="my-message">That doesn't look like a valid value for pears.</div>
+						<div ng-message="md-maxlength" class="my-message">
+							That's probably more expensive than you mean
+						</div>
+					</div>
+				</md-input-container>
+				<md-input-container class="md-block" flex-gt-sm>
+					<label>Value units</label>
+					<md-select ng-model="selectedPearValueUnit">
+						<md-option ng-repeat="curr in commoditityValueUnits">
+							{{curr}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+			</div>
+			<div layout="column">
+				<h3>Property overheads</h3>
+				<div layout="row">
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Overheads ($)</label>
+						<input name="overheadsValue" ng-model="overheadsValue" placeholder="123" md-maxlength="5">
+						<div ng-messages="userForm.overheadsValue.$error" role="alert" multiple>
+							<div ng-message="required" class="my-message">You must supply a value for overheads.</div>
+							<div ng-message="pattern" class="my-message">That doesn't look like a valid value for overheads.</div>
+							<div ng-message="md-maxlength" class="my-message">
+								That's probably more expensive than you mean
+							</div>
+						</div>
+					</md-input-container>
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Value units</label>
+						<md-select ng-model="selectedOverheadsUnit">
+							<md-option ng-repeat="curr in overheadValueUnits">
+								{{curr}}
+							</md-option>
+						</md-select>
+					</md-input-container>
+				</div>
+			</div>
+			<div layout="row" layout-align="end center">
+				<md-button class="md-raised md-primary" ng-click="vm.hitApi()">
+					<span ng-hide="isLoading">Calculate</span>
+					<span ng-show="isLoading">loading</span>
+				</md-button>
+			</div>
+			<h2>Results</h2>
+			<md-table-container>
+				<table md-table md-progress="doingCalc">
+					<thead md-head>
+						<tr md-row>
+							<th md-column>Measurement</th>
+							<th md-column>Baseline</th>
+							<th md-column>Scenario</th>
+							<th md-column>Change</th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row ng-repeat="curr in response">
+							<td md-cell>{{curr.label}}</td>
+							<td md-cell>{{vm.getDisplayValue(curr.baseline)}}</td>
+							<td md-cell>{{vm.getDisplayValue(curr.scenario)}}</td>
+							<td md-cell ng-class="{'positive-result': !curr.change.isNegative, 'negative-result': curr.change.isNegative}">
+								{{vm.getChangeDisplayValue(curr.change)}}
+							</td>
+						</tr>
+						<tr md-row ng-hide="isResponseAvailable()">
+							<td md-cell>No results yet</td>
+						</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+			<span id="bottom"></span>
 		</div>
-		<md-button class="md-raised md-primary" ng-click="vm.hitApi()">
-			<span ng-hide="isLoading">Calculate</span>
-			<span ng-show="isLoading">loading</span>
-		</md-button>
-		<h3>Profit: <span ng-if="!response.profit.isPositive">-</span>${{response.profit.value}}</h3>
-		<h3>Pollinator Efficiency: <span ng-if="!response.efficiency.isPositive">-</span>{{response.efficiency.value}}%</h3>
-		<h3>Yield: <span ng-if="!response.yield.isPositive">-</span>{{response.yield.value}}%</h3>
-	</div>
 	</div>
 </md-content>

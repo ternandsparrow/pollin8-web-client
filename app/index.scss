@@ -19,3 +19,15 @@ table.full-width {
    width: 100%;
    text-align: left;
 }
+
+table.md-table td.md-cell.positive-result, table.md-table td.md-cell.negative-result {
+  font-weight: bold;
+  font-size: .9em;
+}
+table.md-table td.md-cell.positive-result {
+  color: green;
+}
+
+table.md-table td.md-cell.negative-result {
+  color: red;
+}

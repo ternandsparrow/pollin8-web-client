@@ -2,6 +2,6 @@ import { config } from './calculate.config'
 import { CalcController } from './calculate.controller'
 
 angular
-  .module('calculate', [])
+  .module('calculate', ['md.data.table'])
   .config(config)
   .controller('CalcController', CalcController)

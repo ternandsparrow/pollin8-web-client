@@ -1,22 +1,20 @@
 /* @ngInject */
 class CalcController {
-  constructor ($scope, $http, $mdDialog, pollin8_algoEndpointUrl) {
+  constructor ($scope, $http, $mdDialog, $anchorScroll, $timeout, pollin8_algoEndpointUrl) {
     this.$scope = $scope
     this.$http = $http
     this.$mdDialog = $mdDialog
+    this.$anchorScroll = $anchorScroll
+    this.$timeout = $timeout
     this.pollin8_algoEndpointUrl = pollin8_algoEndpointUrl
     this.configureScope()
   }
 
   configureScope () {
-    let defaultAmount = {
-      isPositive: true,
-      value: 0
-    }
-    this.$scope.response = {
-      profit: defaultAmount,
-      efficiency: defaultAmount,
-      yield: defaultAmount
+    this.$scope.selectedResult = []
+    this.$scope.response = []
+    this.$scope.isResponseAvailable = () => {
+      return this.$scope.response.length > 0
     }
     this.$scope.isLoading = false
     this.$scope.baselines = [
@@ -42,9 +40,25 @@ class CalcController {
     ]
   }
 
+  getDisplayValue (item) {
+    let isMoney = item.units === '$'
+    if (isMoney) {
+      return item.units + item.value
+    }
+    return item.value + item.units
+  }
+
+  getChangeDisplayValue (item) {
+    let value = this.getDisplayValue(item)
+    if (item.isNegative) {
+      return '-' + value
+    }
+    return '+' + value
+  }
+
   hitApi () {
     this.$scope.isLoading = true
-    this.$http({
+    this.$scope.doingCalc = this.$http({
       url: this.pollin8_algoEndpointUrl + '/v1/run-scenario',
       method: 'POST',
       data: {
@@ -58,6 +72,9 @@ class CalcController {
     }).then((resp) => {
       this.$scope.response = resp.data
       this.$scope.isLoading = false
+      this.$timeout(() => {
+        this.$anchorScroll('anchor')
+      }, 300)
     }, (reason) => {
       this.$scope.isLoading = false
       this.handleError(reason)
