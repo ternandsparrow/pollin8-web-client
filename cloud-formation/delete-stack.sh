@@ -3,6 +3,7 @@
 cd `dirname $0`
 set -e
 STACK_NAME=$1
+source ./create-stack.sh
 if [ -z "$STACK_NAME" ]; then
   echo "[ERROR] no stack name provided"
   echo "usage: $0 [stack name]"
@@ -11,13 +12,15 @@ if [ -z "$STACK_NAME" ]; then
 fi
 
 echo "[INFO] deleting stack '$STACK_NAME'"
-aws cloudformation \
+aws --region=$REGION \
+  cloudformation \
   delete-stack \
   --stack-name $STACK_NAME
 sleep 5
 echo "[INFO] checking progress"
-aws cloudformation \
+aws --region=$REGION \
+  cloudformation \
   describe-stacks \
   --stack-name $STACK_NAME
-echo "[INFO] check progress with: aws cloudformation describe-stacks --stack-name $STACK_NAME"
-echo "[INFO] find errors with:    aws cloudformation describe-stack-events --stack-name $STACK_NAME"
+echo "[INFO] check progress with: ./$CS_STACK_NAME-describe-stack.sh"
+echo "[INFO] find errors with:    ./$CS_STACK_NAME-describe-stack-events.sh"
