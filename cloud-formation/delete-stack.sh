@@ -10,12 +10,12 @@ if [ -z "$STACK_NAME" ]; then
   echo "   eg: $0 dev"
   exit 1
 fi
-
 echo "[INFO] deleting stack '$STACK_NAME'"
 aws --region=$REGION \
   cloudformation \
   delete-stack \
   --stack-name $STACK_NAME
+echo "[WARN] this will fail if you haven't emptied all the S3 buckets that are to be deleted"
 sleep 5
 echo "[INFO] checking progress"
 aws --region=$REGION \
