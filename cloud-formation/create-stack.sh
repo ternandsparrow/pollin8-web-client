@@ -17,7 +17,9 @@ function actionStack {
     $CS_ACTION-stack \
     --stack-name $CS_STACK_NAME \
     --template-body file://$CFTEMPLATE \
-    --parameters ParameterKey=envlevel,ParameterValue=$CS_ENV_LEVEL,ParameterKey=theregion,ParameterValue=$REGION
+    --parameters \
+      ParameterKey=envlevel,ParameterValue=$CS_ENV_LEVEL \
+      ParameterKey=theregion,ParameterValue=$REGION
   sleep 5
   echo "[INFO] describing stack to check progress"
   aws --region=$REGION \

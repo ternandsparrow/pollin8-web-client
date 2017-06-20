@@ -10,4 +10,4 @@ fi
 actionStack \
   CS_STACK_NAME="prod" \
   CS_ACTION=$ACTION \
-  CS_ENV_LEVEL=""
+  CS_ENV_LEVEL="PROD"
