@@ -19,6 +19,11 @@ class DefineController {
       },
       layers: {
         baselayers: {
+          esri: {
+            name: 'ESRI Satellite',
+            url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            type: 'xyz'
+          },
           xyz: {
             name: 'OpenStreetMap (XYZ)',
             url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
