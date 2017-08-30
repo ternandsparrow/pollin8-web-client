@@ -163,6 +163,10 @@
   dependencies:
     tsickle "^0.21.0"
 
+"@asymmetrik/ngx-leaflet@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@asymmetrik/ngx-leaflet/-/ngx-leaflet-2.3.0.tgz#40d7fdc85ab53a417c066e55a0aeb4f519770e60"
+
 "@ngtools/json-schema@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
@@ -190,6 +194,10 @@
     "@types/crossfilter" "*"
     "@types/d3" "^3"
 
+"@types/geojson@*":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.3.tgz#fbcf7fa5eb6dd108d51385cc6987ec1f24214523"
+
 "@types/jasmine@*", "@types/jasmine@~2.5.53":
   version "2.5.54"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.54.tgz#a6b5f2ae2afb6e0307774e8c7c608e037d491c63"
@@ -199,6 +207,12 @@
   resolved "https://registry.yarnpkg.com/@types/jasminewd2/-/jasminewd2-2.0.2.tgz#5f68e1e697bf10bc6fd8cbf2e006a3d6712c5b64"
   dependencies:
     "@types/jasmine" "*"
+
+"@types/leaflet@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.2.0.tgz#5f15f5012b24d30507f3c4dc3271c88acbe4be49"
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/node@^6.0.46", "@types/node@~6.0.60":
   version "6.0.88"
@@ -2994,6 +3008,10 @@ lcid@^1.0.0:
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"
   dependencies:
     invert-kv "^1.0.0"
+
+leaflet@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.2.0.tgz#fd5d93d9cb00091f5f8a69206d0d6744c1c82697"
 
 less-loader@^4.0.5:
   version "4.0.5"

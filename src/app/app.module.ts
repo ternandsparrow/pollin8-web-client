@@ -4,6 +4,7 @@ import { MdInputModule, MdMenuModule, MdButtonModule, MdSelectModule, MdCardModu
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import 'hammerjs'
+import { LeafletModule } from '@asymmetrik/ngx-leaflet'
 
 let mdComponents = [
   MdInputModule,
@@ -27,7 +28,8 @@ import { DcChartModule } from './dc-chart'
   imports: [
     BrowserModule,
     mdComponents,
-    DcChartModule
+    DcChartModule,
+    LeafletModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

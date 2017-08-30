@@ -12,7 +12,12 @@
 </p8-card>
 
 <p8-card cardTitle="Step 2">
-  <div>TODO show map</div>
+  <div style="height: 300px;"
+    leaflet 
+    [leafletOptions]="options"
+    [leafletBaseLayers]="baseLayers"
+    [leafletLayersControlOptions]="layersControlOptions">
+  </div>
   <div>
     What percentage of the land in the 1km circle (see map) is native vegetation?
     <md-select placeholder="native veg %">

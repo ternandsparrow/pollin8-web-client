@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import * as L from 'leaflet'
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,55 @@ export class AppComponent implements OnInit {
     { value: 'o4', title: 'Option 4'},
     { value: 'super', title: 'Super pollination habitat'}
   ]
+  drawnItems = new L.FeatureGroup()
+  LAYER_ESRI = {
+		id: 'esrisat',
+		layer: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+			maxZoom: 18,
+			attribution: 'ESRi'
+		})
+	};
+	LAYER_OSM = {
+		id: 'openstreetmap',
+		layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Open Street Map'
+		})
+	}
+	layersControlOptions = { position: 'bottomright' }
+	baseLayers = {
+		'ESRi Satellite': this.LAYER_ESRI.layer,
+		'Open Street Map': this.LAYER_OSM.layer,
+	}
+	options = {
+		zoom: 4,
+    center: L.latLng([-28.071980301779845, 134.208984375]),
+    drawOptions: { // TODO get drawing controls working
+      position: 'bottomleft',
+      draw: {
+        polyline: false,
+        polygon: {
+          allowIntersection: false,
+          metric: true,
+          showArea: true,
+          drawError: {
+            color: '#b00b00',
+            timeout: 1000
+          },
+          shapeOptions: {
+            color: 'blue'
+          }
+        },
+        circle: false,
+        marker: true
+      },
+      edit: {
+        featureGroup: this.drawnItems,
+        edit: true,
+        remove: true
+      }
+    }
+	}
   yearDimension
   yearGroup
   x = window['d3'].scale.linear().domain([0,10])
