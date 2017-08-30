@@ -1,0 +1,61 @@
+<div style="text-align:center">
+  <h1>Pollin8</h1>
+</div>
+
+<p8-card cardTitle="Step 1">
+  What type of crop are you growing?
+  <md-select placeholder="Crop type">
+    <md-option *ngFor="let curr of crops" [value]="curr.value">
+      {{ curr.title }}
+    </md-option>
+  </md-select>
+</p8-card>
+
+<p8-card cardTitle="Step 2">
+  <div>TODO show map</div>
+  <div>
+    What percentage of the land in the 1km circle (see map) is native vegetation?
+    <md-select placeholder="native veg %">
+      <md-option *ngFor="let curr of nativeVegOptions" [value]="curr.value">
+        {{ curr.title }}
+      </md-option>
+    </md-select>
+  </div>
+</p8-card>
+
+<p8-card cardTitle="Step 3">
+  <div>
+    What is the area of your field?
+    <md-input-container>
+      <input mdInput type="number" placeholder="Area">
+    </md-input-container>
+    <md-select placeholder="Area unit">
+      <md-option *ngFor="let curr of areaUnits" [value]="curr.value">
+        {{ curr.title }}
+      </md-option>
+    </md-select>
+  </div>
+  <div>
+    What type of vegetation is present around your field?
+    <md-select placeholder="vegetation type">
+      <md-option *ngFor="let curr of vegTypes" [value]="curr.value">
+        {{ curr.title }}
+      </md-option>
+    </md-select>
+  </div>
+</p8-card>
+
+<p8-card cardTitle="Results - Profit">
+  <div class="p8-chart"
+    dc-chart="seriesChart"
+    [dcDimension]="yearDimension"
+    [dcGroup]="yearGroup"
+    [dcX]="x"
+    dcHeight="480"
+    [dcBrushOn]="false"
+    dcXAxisLabel="Year"
+    dcYAxisLabel="Profit ($)"
+    [dcLegend]="legend"
+    [extraConfigCallback]="chartCallback">
+  </div>
+</p8-card>

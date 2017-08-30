@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Code generator</title>
+</head>
+<body>
+  <h1>Code generator</h1>
+  <h2>What is it?</h2>
+  <p>
+    This script compiles a list of all the functions that can called on a
+    DC.js chart and then writes out a block of typescript code that you can
+    copy+paste into the directive. Used to update the list of inputs when
+    a new version of DC.js is release. Ideally we could build the list of
+    @Inputs on the fly in the directive but I can't figure out how to do that.
+  </p>
+  <ol>
+    <li>Open this file in a browser</li>
+    <li>Copy and paste the output in the following <strong>two</strong> &lt;pre&gt;s into the dc-chart.directive.ts file</li>
+  </ol>
+  <p>Input row count = <span id="row-count"></span></p>
+  <h3>Input definitions</h3>
+  <pre id="input-def-code"></pre>
+  <h3>Apply input value</h3>
+  <pre id="input-apply-code"></pre>
+  <div id="the-chart"></div>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.3.14/crossfilter.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.min.js"></script>
+  <script type="text/javascript">
+    // We can remember the types of specific setters here
+    var types = {
+      width: 'number',
+      height: 'number',
+      dimension: '{}[]',
+      group: '{}[]',
+      yAxisLabel: 'string',
+      brushOn: 'boolean'
+    }
+    // Functions that match out filter for chart constructors but shouldn't be processed
+    var redHerringChartConstructors = [
+      'registerChart',
+      'deregisterChart',
+      'hasChart',
+      'instanceOfChart',
+      'abstractBubbleChart',
+      'baseChart',
+      'colorChart',
+      'coordinateGridChart',
+      'stackableChart'
+    ]
+    // We can blacklist inputs that we shouldn't expose here
+    var inputBlacklist = [
+      'chartID'
+    ]
+
+    var chartConstructors = getChartConstructors()
+    console.log('Processing charts: ' + chartConstructors)
+    var inputs = getInputs(chartConstructors)
+    var inputCount = Object.keys(inputs).length
+    console.log('Found ' + inputCount + ' inputs')
+    var inputDefCodeBlock = buildInputDefCodeBlock(inputs)
+    var inputApplyCodeBlock = buildInputApplyCodeBlock(inputs)
+    document.getElementById('input-def-code').innerHTML = inputDefCodeBlock
+    document.getElementById('input-apply-code').innerHTML = inputApplyCodeBlock
+    document.getElementById('row-count').innerHTML = inputCount
+
+    function getChartConstructors () {
+      return Object.keys(dc).reduce(function(prev,curr) {
+        if (!curr.endsWith('Chart') || redHerringChartConstructors.indexOf(curr) >= 0) {
+          return prev
+        }
+        prev.push(curr)
+        return prev
+      },[])
+    }
+
+    function getInputs (chartConstructors) {
+      var result = {}
+      chartConstructors.forEach(function (currChartConstructor) {
+        var disposableChart = dc[currChartConstructor]('#the-chart')
+        Object.keys(disposableChart).forEach(function (curr) {
+          var isPrivate = curr.charAt(0) === '_'
+          var isNotFunction = typeof disposableChart[curr] !== 'function'
+          var isBlacklisted = inputBlacklist.indexOf(curr) >= 0
+          if (isPrivate || isNotFunction || isBlacklisted) {
+            return
+          }
+          let inputName = 'dc' + curr.charAt(0).toUpperCase()
+          if (curr.length > 1) {
+            inputName += curr.substring(1)
+          }
+          result[inputName] = curr
+        })
+      })
+      return result
+    }
+
+    function buildInputDefCodeBlock (inputs) {
+      var codeFragments = Object.keys(inputs).reduce(function (prev, curr) {
+        prev.push("@Input('" + curr + "') " + inputs[curr] + ":" + getType(inputs[curr]))
+        return prev
+      }, [])
+      codeFragments.sort()
+      var result = codeFragments.reduce(function (prev, curr) {
+        prev += curr + '\n'
+        return prev
+      }, '')
+      return result
+    }
+
+    function buildInputApplyCodeBlock (inputs) {
+      var codeFragments = Object.keys(inputs).reduce(function (prev, curr) {
+        prev.push("'" + inputs[curr] + "',")
+        return prev
+      }, [])
+      codeFragments.sort()
+      var result = codeFragments.reduce(function (prev, curr) {
+        prev += '  ' + curr + '\n'
+        return prev
+      }, '')
+      return 'const attributeNames = [\n' + result.replace(/,\n$/,'') + '\n]'
+    }
+
+    function getType (name) {
+      var result = types[name]
+      if (typeof result !== 'undefined') {
+        return result
+      }
+      return 'any'
+    }
+  </script>
+</body>
+</html>

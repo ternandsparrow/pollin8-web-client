@@ -1,0 +1,8 @@
+.p8-card {
+  padding: 0;
+  margin: 1em;
+}
+
+.p8-card md-card-content {
+  padding: 2em 1em;
+}

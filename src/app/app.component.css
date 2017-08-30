@@ -1,0 +1,7 @@
+.p8-chart.dc-chart {
+  float: none; /* turns off style added by dc.css */
+}
+
+.p8-chart > svg {
+  width: 100%;
+}
