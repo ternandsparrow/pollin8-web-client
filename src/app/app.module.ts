@@ -18,12 +18,14 @@ let mdComponents = [
 
 import { AppComponent } from './app.component';
 import { P8CardComponent } from './p8-card/p8-card.component';
-import { DcChartModule } from './dc-chart'
+import { DcChartModule } from './dc-chart';
+import { P8ChartCardComponent } from './p8-chart-card/p8-chart-card.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    P8CardComponent
+    P8CardComponent,
+    P8ChartCardComponent
   ],
   imports: [
     BrowserModule,

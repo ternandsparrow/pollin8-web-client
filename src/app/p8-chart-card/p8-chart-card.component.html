@@ -1,0 +1,16 @@
+<p8-card [cardTitle]="cardTitle">
+  <div class="p8-chart"
+    dc-chart="seriesChart"
+    [dcDimension]="yearDimension"
+    [dcGroup]="yearGroup"
+    [dcX]="x"
+    dcHeight="480"
+    [dcBrushOn]="false"
+    dcXAxisLabel="Year"
+    [dcYAxisLabel]="yAxisLabel"
+    [dcLegend]="legend"
+    [dcRenderHorizontalGridLines]="true"
+    dcYAxisPadding="10%"
+    [extraConfigCallback]="chartCallback">
+  </div>
+</p8-card>

@@ -6,7 +6,7 @@ const directiveName = 'dc-chart'
 })
 export class DcChartDirective {
   private nativeElement: Node
-  @Input() extraConfigCallback:(chart, dc)=>void
+  @Input() extraConfigCallback:(chart, dc, d3)=>void
   @Input(directiveName) chartType:string
   // place the copy+paste @Input code here \/ see `generate-input-code.html`
   @Input('dcAddFilterHandler') addFilterHandler:any
@@ -421,7 +421,7 @@ export class DcChartDirective {
       this.applyIfSupplied(theChart, e)
     })
     if (this.extraConfigCallback) {
-      this.extraConfigCallback(theChart, dc)
+      this.extraConfigCallback(theChart, dc, d3)
     }
     theChart.render()
   }
