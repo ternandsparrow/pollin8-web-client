@@ -23,13 +23,13 @@
       (leafletMapReady)="onMapReady($event)">
     </div>
   </div>
-  <div>
-    Lat = {{getLat()}}, Long = {{getLng()}}
+  <div class="question-row">
+    <span class="monospace">Lat = {{getLat()}}, Long = {{getLng()}}</span>
     <button md-raised-button color="primary" (click)="showNativeVegCircle()">
       My field is in the centre
     </button>
   </div>
-  <div>
+  <div class="question-row">
     What percentage of the land in the 2km circle (see map) is native vegetation?
     <md-select placeholder="native veg %">
       <md-option *ngFor="let curr of nativeVegOptions" [value]="curr.value">
@@ -40,7 +40,7 @@
 </p8-card>
 
 <p8-card cardTitle="Step 3">
-  <div>
+  <div class="question-row">
     What is the area of your field?
     <md-input-container>
       <input mdInput type="number" placeholder="Area">
@@ -51,7 +51,7 @@
       </md-option>
     </md-select>
   </div>
-  <div>
+  <div class="question-row">
     What type of vegetation is present around your field?
     <md-select placeholder="vegetation type">
       <md-option *ngFor="let curr of vegTypes" [value]="curr.value">

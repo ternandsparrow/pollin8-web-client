@@ -73,7 +73,6 @@ export class AppComponent implements OnInit {
       if (!this.circle) {
         return
       }
-      // TODO do we need circle to stay on zoom?
       map.removeLayer(this.circle)
     })
   }

@@ -6,6 +6,14 @@
   width: 100%;
 }
 
+.monospace {
+  font-family: monospace;
+}
+
+.question-row {
+  margin: 2em 0 0em;
+}
+
 .map-container {
   position: relative; /* makes .map-target-overlay.width work */
 }
