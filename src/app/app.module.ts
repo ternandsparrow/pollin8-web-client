@@ -20,6 +20,7 @@ import { AppComponent } from './app.component';
 import { P8CardComponent } from './p8-card/p8-card.component';
 import { DcChartModule } from './dc-chart';
 import { P8ChartCardComponent } from './p8-chart-card/p8-chart-card.component'
+import { P8EngineService } from './p8-engine'
 
 @NgModule({
   declarations: [
@@ -31,9 +32,12 @@ import { P8ChartCardComponent } from './p8-chart-card/p8-chart-card.component'
     BrowserModule,
     mdComponents,
     DcChartModule,
-    LeafletModule.forRoot()
+    LeafletModule.forRoot(),
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    P8EngineService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
