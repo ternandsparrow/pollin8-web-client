@@ -12,14 +12,25 @@
 </p8-card>
 
 <p8-card cardTitle="Step 2">
-  <div style="height: 300px;"
-    leaflet 
-    [leafletOptions]="options"
-    [leafletBaseLayers]="baseLayers"
-    [leafletLayersControlOptions]="layersControlOptions">
+  <p>Place your field in the centre of the map</p>
+  <div class="map-container">
+    <div class="map-target-overlay"></div>
+    <div class="the-map"
+      leaflet 
+      [leafletOptions]="options"
+      [leafletBaseLayers]="baseLayers"
+      [leafletLayersControlOptions]="layersControlOptions"
+      (leafletMapReady)="onMapReady($event)">
+    </div>
   </div>
   <div>
-    What percentage of the land in the 1km circle (see map) is native vegetation?
+    Lat = {{getLat()}}, Long = {{getLng()}}
+    <button md-raised-button color="primary" (click)="showNativeVegCircle()">
+      My field is in the centre
+    </button>
+  </div>
+  <div>
+    What percentage of the land in the 2km circle (see map) is native vegetation?
     <md-select placeholder="native veg %">
       <md-option *ngFor="let curr of nativeVegOptions" [value]="curr.value">
         {{ curr.title }}

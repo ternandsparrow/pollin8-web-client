@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
     { value: 'o4', title: 'Option 4'},
     { value: 'super', title: 'Super pollination habitat'}
   ]
-  drawnItems = new L.FeatureGroup()
   LAYER_ESRI = {
 		id: 'esrisat',
 		layer: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -53,34 +52,54 @@ export class AppComponent implements OnInit {
 		'Open Street Map': this.LAYER_OSM.layer,
 	}
 	options = {
-		zoom: 4,
-    center: L.latLng([-28.071980301779845, 134.208984375]),
-    drawOptions: { // TODO get drawing controls working
-      position: 'bottomleft',
-      draw: {
-        polyline: false,
-        polygon: {
-          allowIntersection: false,
-          metric: true,
-          showArea: true,
-          drawError: {
-            color: '#b00b00',
-            timeout: 1000
-          },
-          shapeOptions: {
-            color: 'blue'
-          }
-        },
-        circle: false,
-        marker: true
-      },
-      edit: {
-        featureGroup: this.drawnItems,
-        edit: true,
-        remove: true
+    zoom: 4,
+    center: L.latLng([-28.071980301779845, 134.208984375])
+  }
+  currMapCentreLat:number = this.options.center.lat
+  currMapCentreLng:number = this.options.center.lng
+  getLat () {
+    return this.currMapCentreLat
+  }
+  getLng () {
+    return this.currMapCentreLng
+  }
+  mapRef:L.Map = null
+  onMapReady (map: L.Map) {
+    this.mapRef = map
+    map.on('move', (event) => {
+      let c = map.getCenter()
+      this.currMapCentreLat = c.lat
+      this.currMapCentreLng = c.lng
+      if (!this.circle) {
+        return
       }
+      // TODO do we need circle to stay on zoom?
+      map.removeLayer(this.circle)
+    })
+  }
+  circle:L.Layer = null
+  showNativeVegCircle () {
+    const requiredZoom = 14
+    this.mapRef.setZoomAround(
+      L.latLng([this.currMapCentreLat, this.currMapCentreLng]), requiredZoom
+    )
+    let addLayer = () => {
+      let radiusInMetres = 1000
+      this.circle = L.circle(
+        [ this.currMapCentreLat, this.currMapCentreLng ],
+        { radius: radiusInMetres }
+      )
+      this.mapRef.addLayer(this.circle)
     }
-	}
+    if (this.mapRef.getZoom() === requiredZoom) {
+      addLayer()
+      return
+    }
+    this.mapRef.on('zoomend', () => {
+      addLayer()
+      this.mapRef.off('zoomend')
+    })
+  }
   yearDimension
   yearGroup
   x = window['d3'].scale.linear().domain([0,10])

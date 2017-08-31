@@ -5,3 +5,21 @@
 .p8-chart > svg {
   width: 100%;
 }
+
+.map-container {
+  position: relative; /* makes .map-target-overlay.width work */
+}
+
+.map-container .map-target-overlay, .map-container .the-map {
+  height: 300px;
+}
+
+.map-container .map-target-overlay {
+  position: absolute;
+  z-index: 9999;
+  background-image: url('/assets/small-target.png');
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  pointer-events: none; /* FIXME need another solution with more support */
+}
