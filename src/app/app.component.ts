@@ -62,14 +62,14 @@ export class AppComponent implements OnInit {
   }
   LAYER_ESRI = {
 		id: 'esrisat',
-		layer: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 			maxZoom: 18,
 			attribution: 'ESRi'
 		})
 	};
 	LAYER_OSM = {
 		id: 'openstreetmap',
-		layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		layer: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
 			attribution: 'Open Street Map'
 		})

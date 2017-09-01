@@ -21,5 +21,11 @@ ng serve # open http://localhost:4200 in browser
 ```
 cd pollin8-web-client/
 ng build -prod
-# deploy the 'dist/' directory to production server
+# build will be in dist/
+```
+
+## Building AND deploying a production release
+```
+cd pollin8-web-client/
+./aws-deploy-prod.sh # builds and deploys
 ```
