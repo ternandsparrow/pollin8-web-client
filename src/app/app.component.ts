@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import * as L from 'leaflet'
 
-import { P8EngineService } from './p8-engine';
+import { P8EngineService, ScenarioModel } from './p8-engine'
 
 @Component({
   selector: 'app-root',
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     { value: 'o4', title: 'Option 4'},
     { value: 'super', title: 'Super pollination habitat'}
   ]
-  defaultScenario = {
+  defaultScenario:ScenarioModel = {
     cropType: this.crops.filter(v => {return v.value === 'apple'})[0].value,
     fieldLocation: {
       lat: -34.97839266420273,
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     },
     vegType: this.vegTypes.filter(v => {return v.value === 'roadside'})[0].value,
   }
-  scenarioModel = {
+  scenarioModel:ScenarioModel = {
     cropType: this.defaultScenario.cropType,
     fieldLocation: {
       lat: this.defaultScenario.fieldLocation.lat,

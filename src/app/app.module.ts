@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { MdInputModule, MdMenuModule, MdButtonModule, MdSelectModule, MdCardModule, MdToolbarModule } from '@angular/material'
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import 'hammerjs'
 import { LeafletModule } from '@asymmetrik/ngx-leaflet'

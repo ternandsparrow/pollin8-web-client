@@ -1,172 +1,128 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable()
 export class P8EngineService {
+  private processorChain = [
+    new PollinatorQualityProcessor(),
+    new PollinatorQuantityProcessor(),
+    new FinalProcessor()
+  ]
 
-  constructor() { }
-
-  compute (scenarioModel) {
-    return [
-      {
-        "yearNum": 1,
-        "scenario": "wsp",
-        "cost": "10000",
-        "pollEff": "10",
-        "profit": "10000",
-        "yield": "8800"
-      },
-      {
-        "yearNum": 1,
-        "scenario": "wosp",
-        "cost": "100",
-        "pollEff": "10",
-        "profit": "19900",
-        "yield": "10000"
-      },
-      {
-        "yearNum": 2,
-        "scenario": "wsp",
-        "cost": "8000",
-        "pollEff": "13",
-        "profit": "12000",
-        "yield": "11440"
-      },
-      {
-        "yearNum": 2,
-        "scenario": "wosp",
-        "cost": "130",
-        "pollEff": "11",
-        "profit": "19870",
-        "yield": "9800"
-      },
-      {
-        "yearNum": 3,
-        "scenario": "wsp",
-        "cost": "6400",
-        "pollEff": "17",
-        "profit": "13600",
-        "yield": "14960"
-      },
-      {
-        "yearNum": 3,
-        "scenario": "wosp",
-        "cost": "169",
-        "pollEff": "12",
-        "profit": "19831",
-        "yield": "9604"
-      },
-      {
-        "yearNum": 4,
-        "scenario": "wsp",
-        "cost": "5120",
-        "pollEff": "22",
-        "profit": "14880",
-        "yield": "19360"
-      },
-      {
-        "yearNum": 4,
-        "scenario": "wosp",
-        "cost": "220",
-        "pollEff": "13",
-        "profit": "19780",
-        "yield": "9412"
-      },
-      {
-        "yearNum": 5,
-        "scenario": "wsp",
-        "cost": "4096",
-        "pollEff": "28",
-        "profit": "15904",
-        "yield": "24640"
-      },
-      {
-        "yearNum": 5,
-        "scenario": "wosp",
-        "cost": "418",
-        "pollEff": "14",
-        "profit": "19582",
-        "yield": "9224"
-      },
-      {
-        "yearNum": 6,
-        "scenario": "wsp",
-        "cost": "3277",
-        "pollEff": "36",
-        "profit": "16723",
-        "yield": "31680"
-      },
-      {
-        "yearNum": 6,
-        "scenario": "wosp",
-        "cost": "794",
-        "pollEff": "15",
-        "profit": "19206",
-        "yield": "9040"
-      },
-      {
-        "yearNum": 7,
-        "scenario": "wsp",
-        "cost": "2622",
-        "pollEff": "46",
-        "profit": "17378",
-        "yield": "40480"
-      },
-      {
-        "yearNum": 7,
-        "scenario": "wosp",
-        "cost": "1509",
-        "pollEff": "16",
-        "profit": "18491",
-        "yield": "8859"
-      },
-      {
-        "yearNum": 8,
-        "scenario": "wsp",
-        "cost": "2098",
-        "pollEff": "59",
-        "profit": "17902",
-        "yield": "51920"
-      },
-      {
-        "yearNum": 8,
-        "scenario": "wosp",
-        "cost": "2867",
-        "pollEff": "17",
-        "profit": "17133",
-        "yield": "8682"
-      },
-      {
-        "yearNum": 9,
-        "scenario": "wsp",
-        "cost": "1678",
-        "pollEff": "76",
-        "profit": "18322",
-        "yield": "66880"
-      },
-      {
-        "yearNum": 9,
-        "scenario": "wosp",
-        "cost": "5447",
-        "pollEff": "18",
-        "profit": "14553",
-        "yield": "8508"
-      },
-      {
-        "yearNum": 10,
-        "scenario": "wsp",
-        "cost": "1342",
-        "pollEff": "97",
-        "profit": "18658",
-        "yield": "85360"
-      },
-      {
-        "yearNum": 10,
-        "scenario": "wosp",
-        "cost": "10349",
-        "pollEff": "19",
-        "profit": "9651",
-        "yield": "8338"
-      }
-    ]
+  compute (scenarioModel):ScenarioResult[] {
+    let initial = [] // TODO do we need to init a value?
+    return this.processorChain.reduce((previous, current) => {
+      return current.handle(previous, scenarioModel)
+    }, initial)
   }
+}
+
+const withSuperPollinatorHabitat = 'wsp'
+const withoutSuperPollinatorHabitat = 'wosp'
+
+interface InterimProcessingResult {
+  yearNum:number,
+  scenarios:{
+    wsp:InterimScenarioResult,
+    wosp:InterimScenarioResult
+  }
+}
+
+class InterimScenarioResult {
+  constructor (
+    readonly cost:number,
+    readonly pollEff:number,
+    readonly profit:number,
+    readonly grossProfit:number
+  ) { }
+}
+
+class ScenarioResult {
+  constructor (
+    readonly yearNum:number,
+    readonly scenario:string, // TODO change all these to numbers
+    readonly cost:string,
+    readonly pollEff:string,
+    readonly profit:string,
+    readonly grossProfit:string
+  ) { }
+}
+
+export interface ScenarioModel {
+  cropType:string,
+  fieldLocation:{
+    lat:number,
+    lng:number
+  },
+  nativeVegCover:string,
+  fieldArea: {
+    value:number,
+    units:string,
+  },
+  vegType:string
+}
+
+interface Processor {
+  handle (previous:InterimProcessingResult[], scenarioModel:ScenarioModel)
+}
+
+class PollinatorQualityProcessor implements Processor {
+  handle (previous:InterimProcessingResult[], scenarioModel:ScenarioModel) {
+    // TODO calculate stuff
+    return []
+  }
+}
+
+class PollinatorQuantityProcessor implements Processor {
+  handle (previous:InterimProcessingResult[], scenarioModel:ScenarioModel) {
+    // TODO calculate stuff
+    let result:InterimProcessingResult[] = [] // TODO do we need a 'now'/year 0 entry?
+    for(let yearNum = 1; yearNum <= 10; yearNum++) {
+      result.push({
+        yearNum: yearNum,
+        scenarios: {
+          wsp: computeWsp(yearNum, scenarioModel),
+          wosp: computeWosp(yearNum, scenarioModel)
+        }
+      })
+    }
+    return result
+  }
+}
+
+function computeWsp (yearNum:number, scenarioModel:ScenarioModel):InterimScenarioResult {
+  let cost = yearNum * 1000 * scenarioModel.fieldArea.value
+  return new InterimScenarioResult(
+    cost,
+    100 - ((Math.pow(yearNum, 2) * scenarioModel.fieldArea.value) % 100),
+    20000 - cost,
+    8 * yearNum)
+}
+
+function computeWosp (yearNum:number, scenarioModel:ScenarioModel):InterimScenarioResult {
+  let cost = yearNum * 500 * scenarioModel.fieldArea.value
+  return new InterimScenarioResult(
+    cost,
+    100 - ((yearNum * scenarioModel.fieldArea.value) % 100),
+    20000 - cost,
+    2 * yearNum)
+}
+
+class FinalProcessor implements Processor {
+  handle (processedResult:InterimProcessingResult[], scenarioModel:ScenarioModel) {
+    return processedResult.reduce((previous, current) => {
+      previous.push(buildScenarioResult(current, withSuperPollinatorHabitat))
+      previous.push(buildScenarioResult(current, withoutSuperPollinatorHabitat))
+      return previous
+    }, [])
+  }
+}
+
+function buildScenarioResult (interimResult:InterimProcessingResult, scenarioCode:string) {
+  return new ScenarioResult(
+    interimResult.yearNum,
+    scenarioCode,
+    '' + interimResult.scenarios[scenarioCode].cost,
+    '' + interimResult.scenarios[scenarioCode].pollEff,
+    '' + interimResult.scenarios[scenarioCode].profit,
+    '' + interimResult.scenarios[scenarioCode].grossProfit)
 }
