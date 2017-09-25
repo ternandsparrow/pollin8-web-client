@@ -1,95 +1,14 @@
-<div style="text-align:center">
-  <h1>Pollin8</h1>
+<md-toolbar color="primary">
+  <a md-button routerLink="/app">
+    <img class="logo-bee" src="../assets/small-white-bee.png">
+    Pollin8
+  </a>
+  <a md-button routerLink="/help">Help using this tool</a>
+  <a md-button routerLink="/about">About the authors</a>
+</md-toolbar>
+
+<div class="main-content">
+  <h1 align="middle" class="under-construction">Under construction</h1>
+  <h2 align="middle" class="under-construction">We're still building this tool. You're welcome to play with it but all the results are using fake data, don't trust them.</h2>
+  <router-outlet></router-outlet>
 </div>
-
-<p8-card cardTitle="Step 1">
-  What type of crop are you growing?
-  <md-select placeholder="Crop type" [(ngModel)]="scenarioModel.cropType"
-      (change)="updateCharts()" class="input-padding">
-    <md-option *ngFor="let curr of crops" [value]="curr.value">
-      {{ curr.title }}
-    </md-option>
-  </md-select>
-</p8-card>
-
-<p8-card cardTitle="Step 2">
-  <p>Place your field in the centre of the map</p>
-  <div class="map-container">
-    <div class="map-target-overlay"></div>
-    <div class="the-map"
-      leaflet 
-      [leafletOptions]="options"
-      [leafletBaseLayers]="baseLayers"
-      [leafletLayersControlOptions]="layersControlOptions"
-      (leafletMapReady)="onMapReady($event)">
-    </div>
-  </div>
-  <div class="question-row">
-    <span class="monospace">Lat = {{getLat()}}, Long = {{getLng()}}</span>
-    <button md-raised-button color="primary" (click)="showNativeVegCircle()" class="input-padding">
-      My field is in the centre
-    </button>
-  </div>
-  <div class="question-row">
-    What percentage of the land in the 2km circle (see map) is native vegetation?
-    <md-select placeholder="native veg %" [(ngModel)]="scenarioModel.nativeVegCover" class="input-padding">
-      <md-option *ngFor="let curr of nativeVegOptions" [value]="curr.value">
-        {{ curr.title }}
-      </md-option>
-    </md-select>
-  </div>
-</p8-card>
-
-<p8-card cardTitle="Step 3">
-  <div class="question-row">
-    What is the area of your field?
-    <md-input-container class="input-padding">
-      <input mdInput type="number" placeholder="Area" [(ngModel)]="scenarioModel.fieldArea.value">
-    </md-input-container>
-    <md-select placeholder="Area unit" [(ngModel)]="scenarioModel.fieldArea.units" class="input-padding">
-      <md-option *ngFor="let curr of areaUnits" [value]="curr.value">
-        {{ curr.title }}
-      </md-option>
-    </md-select>
-  </div>
-  <div class="question-row">
-    What type of vegetation is present around your field?
-    <md-select placeholder="vegetation type" [(ngModel)]="scenarioModel.vegType" class="input-padding">
-      <md-option *ngFor="let curr of vegTypes" [value]="curr.value">
-        {{ curr.title }}
-      </md-option>
-    </md-select>
-  </div>
-</p8-card>
-
-<p8-chart-card
-  [data]="chartData"
-  yFieldName="cost"
-  [yTickFormatter]="thousandDollarTickFormatter"
-  yUnitSymbol="$"
-  title="Cost">
-</p8-chart-card>
-
-<p8-chart-card
-  [data]="chartData"
-  yFieldName="profit"
-  [yTickFormatter]="thousandDollarTickFormatter"
-  yUnitSymbol="$"
-  title="Profit">
-</p8-chart-card>
-
-<p8-chart-card
-  [data]="chartData"
-  yFieldName="grossProfit"
-  [yTickFormatter]="thousandDollarTickFormatter"
-  yUnitSymbol="$"
-  title="Gross profit">
-</p8-chart-card>
-
-<p8-chart-card
-  [data]="chartData"
-  yFieldName="pollEff"
-  [yTickFormatter]="percentTickFormatter"
-  yUnitSymbol="%"
-  title="Pollinator efficiency">
-</p8-chart-card>

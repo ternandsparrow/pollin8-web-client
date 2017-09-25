@@ -18,20 +18,23 @@ export class P8EngineService {
 
 const withSuperPollinatorHabitat = 'wsp'
 const withoutSuperPollinatorHabitat = 'wosp'
+const withVarroaMite = 'wvm'
+const withoutVarroaMite = 'wovm'
 
 interface InterimProcessingResult {
   yearNum:number,
   scenarios:{
     wsp:InterimScenarioResult,
-    wosp:InterimScenarioResult
+    wosp:InterimScenarioResult,
+    wvm:InterimScenarioResult,
+    wovm:InterimScenarioResult
   }
 }
 
 class InterimScenarioResult {
   constructor (
-    readonly cost:number,
     readonly pollEff:number,
-    readonly profit:number,
+    readonly netProfit:number,
     readonly grossProfit:number
   ) { }
 }
@@ -40,9 +43,8 @@ class ScenarioResult {
   constructor (
     readonly yearNum:number,
     readonly scenario:string, // TODO change all these to numbers
-    readonly cost:string,
     readonly pollEff:string,
-    readonly profit:string,
+    readonly netProfit:string,
     readonly grossProfit:string
   ) { }
 }
@@ -81,7 +83,9 @@ class PollinatorQuantityProcessor implements Processor {
         yearNum: yearNum,
         scenarios: {
           wsp: computeWsp(yearNum, scenarioModel),
-          wosp: computeWosp(yearNum, scenarioModel)
+          wosp: computeWosp(yearNum, scenarioModel),
+          wvm: computeWvm(yearNum, scenarioModel),
+          wovm: computeWovm(yearNum, scenarioModel)
         }
       })
     }
@@ -90,21 +94,35 @@ class PollinatorQuantityProcessor implements Processor {
 }
 
 function computeWsp (yearNum:number, scenarioModel:ScenarioModel):InterimScenarioResult {
-  let cost = yearNum * 1000 * scenarioModel.fieldArea.value
+  let grossProfit = yearNum * 1000 * scenarioModel.fieldArea.value
   return new InterimScenarioResult(
-    cost,
     100 - ((Math.pow(yearNum, 2) * scenarioModel.fieldArea.value) % 100),
-    20000 - cost,
-    8 * yearNum)
+    grossProfit - (100 * yearNum),
+    grossProfit)
 }
 
 function computeWosp (yearNum:number, scenarioModel:ScenarioModel):InterimScenarioResult {
-  let cost = yearNum * 500 * scenarioModel.fieldArea.value
+  let grossProfit = yearNum * 500 * scenarioModel.fieldArea.value
   return new InterimScenarioResult(
-    cost,
-    100 - ((yearNum * scenarioModel.fieldArea.value) % 100),
-    20000 - cost,
-    2 * yearNum)
+    100 - ((yearNum * scenarioModel.fieldArea.value * 2) % 100),
+    grossProfit - (100 * yearNum),
+    grossProfit)
+}
+
+function computeWvm (yearNum:number, scenarioModel:ScenarioModel):InterimScenarioResult {
+  let grossProfit = yearNum * 200 * scenarioModel.fieldArea.value
+  return new InterimScenarioResult(
+    100 - ((yearNum * scenarioModel.fieldArea.value * 3) % 100),
+    grossProfit - (100 * yearNum),
+    grossProfit)
+}
+
+function computeWovm (yearNum:number, scenarioModel:ScenarioModel):InterimScenarioResult {
+  let grossProfit = yearNum * 700 * scenarioModel.fieldArea.value
+  return new InterimScenarioResult(
+    100 - ((yearNum * scenarioModel.fieldArea.value * 4) % 100),
+    grossProfit - (100 * yearNum),
+    grossProfit)
 }
 
 class FinalProcessor implements Processor {
@@ -112,6 +130,8 @@ class FinalProcessor implements Processor {
     return processedResult.reduce((previous, current) => {
       previous.push(buildScenarioResult(current, withSuperPollinatorHabitat))
       previous.push(buildScenarioResult(current, withoutSuperPollinatorHabitat))
+      previous.push(buildScenarioResult(current, withVarroaMite))
+      previous.push(buildScenarioResult(current, withoutVarroaMite))
       return previous
     }, [])
   }
@@ -121,8 +141,7 @@ function buildScenarioResult (interimResult:InterimProcessingResult, scenarioCod
   return new ScenarioResult(
     interimResult.yearNum,
     scenarioCode,
-    '' + interimResult.scenarios[scenarioCode].cost,
     '' + interimResult.scenarios[scenarioCode].pollEff,
-    '' + interimResult.scenarios[scenarioCode].profit,
+    '' + interimResult.scenarios[scenarioCode].netProfit,
     '' + interimResult.scenarios[scenarioCode].grossProfit)
 }

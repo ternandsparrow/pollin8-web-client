@@ -44,7 +44,9 @@ export class P8ChartCardComponent implements OnInit {
     .seriesAccessor((d) => {
       let seriesNames = {
         wsp: 'With super pollinator habitat',
-        wosp: 'Without super pollinator habitat'
+        wosp: 'Without super pollinator habitat',
+        wvm: 'With Varroa mite',
+        wovm: 'Without Varroa mite'
       }
       return seriesNames[d.key[0]]
     })
