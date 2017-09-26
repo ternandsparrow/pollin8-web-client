@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core'
 import * as L from 'leaflet'
 
+import { P8ChartCardComponent } from '../p8-chart-card'
 import { P8EngineService, ScenarioModel } from '../p8-engine'
 
 @Component({
@@ -122,6 +123,9 @@ export class P8CalculatorComponent implements OnInit {
   }
   circle:L.Layer = null
   showNativeVegCircle () {
+    if (this.circle) {
+      this.mapRef.removeLayer(this.circle)
+    }
     const requiredZoom = 15
     this.mapRef.setZoomAround(
       L.latLng([this.currMapCentreLat, this.currMapCentreLng]), requiredZoom
@@ -137,6 +141,7 @@ export class P8CalculatorComponent implements OnInit {
       )
       this.mapRef.addLayer(this.circle)
     }
+    this.updateCharts()
     if (this.mapRef.getZoom() === requiredZoom) {
       addLayer()
       return
@@ -153,16 +158,32 @@ export class P8CalculatorComponent implements OnInit {
     return v + '%'
   }
 
+  @ViewChild('netProfitChart')
+  private netProfitChart:P8ChartCardComponent
+
+  @ViewChild('grossProfitChart')
+  private grossProfitChart:P8ChartCardComponent
+
+  @ViewChild('pollinatorEfficiencyChart')
+  private pollinatorEfficiencyChart:P8ChartCardComponent
+
   constructor (private engine:P8EngineService) { }
 
   chartData = []
-  ngOnInit() {
-    this.updateCharts()
+  ngOnInit () {
+    this.computeLatestChartData()
+  }
+
+  private computeLatestChartData () {
+    this.chartData = this.engine.compute(this.scenarioModel)
   }
 
   updateCharts () {
-    this.chartData = this.engine.compute(this.scenarioModel)
-    // TODO get charts to redraw
+    // TODO consider a loading bar or spinner and completion message (like Google Keep or Docs) to indicate recalculation
+    this.computeLatestChartData()
+    this.netProfitChart.replaceData(this.chartData)
+    this.grossProfitChart.replaceData(this.chartData)
+    this.pollinatorEfficiencyChart.replaceData(this.chartData)
   }
 
   getSelectedAreaUnits () {

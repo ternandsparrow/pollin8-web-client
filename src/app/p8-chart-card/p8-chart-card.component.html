@@ -1,5 +1,6 @@
 <p8-card [cardTitle]="cardTitle">
   <div class="p8-chart"
+    [ngClass]="{'p8-refreshing-chart': isRefreshing}"
     dc-chart="seriesChart"
     [dcDimension]="yearDimension"
     [dcGroup]="yearGroup"
@@ -11,6 +12,7 @@
     [dcLegend]="legend"
     [dcRenderHorizontalGridLines]="true"
     dcYAxisPadding="10%"
+    [dcElasticY]="true"
     [extraConfigCallback]="chartCallback">
   </div>
 </p8-card>

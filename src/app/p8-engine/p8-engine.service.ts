@@ -127,12 +127,12 @@ function computeWovm (yearNum:number, scenarioModel:ScenarioModel):InterimScenar
 
 class FinalProcessor implements Processor {
   handle (processedResult:InterimProcessingResult[], scenarioModel:ScenarioModel) {
-    return processedResult.reduce((previous, current) => {
-      previous.push(buildScenarioResult(current, withSuperPollinatorHabitat))
-      previous.push(buildScenarioResult(current, withoutSuperPollinatorHabitat))
-      previous.push(buildScenarioResult(current, withVarroaMite))
-      previous.push(buildScenarioResult(current, withoutVarroaMite))
-      return previous
+    return processedResult.reduce((accumulator, currInterimResult) => {
+      accumulator.push(buildScenarioResult(currInterimResult, withSuperPollinatorHabitat))
+      accumulator.push(buildScenarioResult(currInterimResult, withoutSuperPollinatorHabitat))
+      accumulator.push(buildScenarioResult(currInterimResult, withVarroaMite))
+      accumulator.push(buildScenarioResult(currInterimResult, withoutVarroaMite))
+      return accumulator
     }, [])
   }
 }

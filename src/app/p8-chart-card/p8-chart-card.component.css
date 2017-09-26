@@ -5,3 +5,7 @@
 .p8-chart > svg {
   width: 100%;
 }
+
+.p8-refreshing-chart {
+  opacity: 0.2;
+}

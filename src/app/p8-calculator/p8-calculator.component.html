@@ -40,9 +40,9 @@
   <div class="question-row">
     What is the area of your field?
     <md-input-container class="input-padding">
-      <input mdInput type="number" placeholder="Area" [(ngModel)]="scenarioModel.fieldArea.value">
+      <input mdInput type="number" placeholder="Area" [(ngModel)]="scenarioModel.fieldArea.value" (change)="updateCharts()">
     </md-input-container>
-    <md-select placeholder="Area unit" [(ngModel)]="scenarioModel.fieldArea.units" class="input-padding">
+    <md-select placeholder="Area unit" [(ngModel)]="scenarioModel.fieldArea.units" (change)="updateCharts()" class="input-padding">
       <md-option *ngFor="let curr of areaUnits" [value]="curr.value">
         {{ curr.title }}
       </md-option>
@@ -57,8 +57,7 @@
     </md-radio-group>
   </div>
 </p8-card>
-
-<p8-chart-card
+<p8-chart-card #netProfitChart
   [data]="chartData"
   yFieldName="netProfit"
   [yTickFormatter]="thousandDollarTickFormatter"
@@ -66,7 +65,7 @@
   [title]="'Net Profit per ' + getSelectedAreaUnits()">
 </p8-chart-card>
 
-<p8-chart-card
+<p8-chart-card #grossProfitChart
   [data]="chartData"
   yFieldName="grossProfit"
   [yTickFormatter]="thousandDollarTickFormatter"
@@ -74,7 +73,7 @@
   [title]="'Gross Profit per ' + getSelectedAreaUnits()">
 </p8-chart-card>
 
-<p8-chart-card
+<p8-chart-card #pollinatorEfficiencyChart
   [data]="chartData"
   yFieldName="pollEff"
   [yTickFormatter]="percentTickFormatter"

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+const fakeLoadingTime = 700
+
 @Component({
   selector: 'p8-chart-card',
   templateUrl: './p8-chart-card.component.html',
@@ -7,21 +9,25 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class P8ChartCardComponent implements OnInit {
 
-  @Input() data:{scenario:string, yearNum:number}[]
+  @Input() data:{scenario:string, yearNum:number, pollEff:number, netProfit:number, grossProfit:number}[]
   @Input() yFieldName:string
   @Input() title:string
   @Input() yTickFormatter:(v:number) => string = v => {return '' + v}
   @Input() yUnitSymbol:string = ''
 
+  private ndx = null
+  private theChart = null
+  isRefreshing = false
   yearDimension = null
   yearGroup = null
   cardTitle:string = null
   yAxisLabel:string = null
   x = window['d3'].scale.linear().domain([0,10])
   legend = window['dc'].legend().x(90).y(10).itemHeight(13).gap(5)
+
   ngOnInit() {
-    let ndx = crossfilter(this.data)
-    this.yearDimension = ndx.dimension((d) => {
+    this.ndx = crossfilter(this.data)
+    this.yearDimension = this.ndx.dimension((d) => {
       return [d.scenario, d.yearNum]
     })
     this.yearGroup = this.yearDimension.group().reduceSum((d) => {
@@ -33,6 +39,7 @@ export class P8ChartCardComponent implements OnInit {
   }
 
   chartCallback = (theChart:dc.SeriesChart, dc, d3) => {
+    this.theChart = theChart
     theChart
     .chart(c => {
       var radius = 4
@@ -59,5 +66,15 @@ export class P8ChartCardComponent implements OnInit {
     .yAxis()
       .tickFormat(this.yTickFormatter)
     theChart.margins().left += 20
+  }
+
+  replaceData (newData) {
+    this.isRefreshing = true
+    this.ndx.remove()
+    this.ndx.add(newData)
+    setTimeout(() => {
+      this.isRefreshing = false
+      this.theChart.redraw()
+    }, fakeLoadingTime)
   }
 }
