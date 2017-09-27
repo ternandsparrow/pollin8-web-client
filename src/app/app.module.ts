@@ -55,7 +55,9 @@ const appRoutes: Routes = [
     DcChartModule,
     LeafletModule.forRoot(),
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, {
+      useHash: true // TODO change back to html5mode when we figure out how to config CloudFront to not intercept the URLs
+    })
   ],
   providers: [
     P8EngineService
