@@ -110,7 +110,7 @@ function computeWosp (yearNum:number, scenarioModel:ScenarioModel):InterimScenar
 }
 
 function computeWvm (yearNum:number, scenarioModel:ScenarioModel):InterimScenarioResult {
-  let grossProfit = yearNum * 200 * scenarioModel.fieldArea.value
+  let grossProfit = yearNum * 200 * scenarioModel.fieldArea.value * -1
   return new InterimScenarioResult(
     100 - ((yearNum * scenarioModel.fieldArea.value * 3) % 100),
     grossProfit - (100 * yearNum),
