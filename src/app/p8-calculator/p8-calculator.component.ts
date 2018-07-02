@@ -151,18 +151,17 @@ export class P8CalculatorComponent implements OnInit {
       this.mapRef.off('zoomend')
     })
   }
-  thousandDollarTickFormatter (v:number) {
-    return '$' + (v / 1000) + 'k'
+
+  yieldTickFormatter (v:number) {
+    return v
   }
+
   percentTickFormatter (v:number) {
     return v + '%'
   }
 
-  @ViewChild('netProfitChart')
-  private netProfitChart:P8ChartCardComponent
-
-  @ViewChild('grossProfitChart')
-  private grossProfitChart:P8ChartCardComponent
+  @ViewChild('yieldChart')
+  private yieldChart:P8ChartCardComponent
 
   @ViewChild('pollinatorEfficiencyChart')
   private pollinatorEfficiencyChart:P8ChartCardComponent
@@ -181,8 +180,7 @@ export class P8CalculatorComponent implements OnInit {
   updateCharts () {
     // TODO consider a loading bar or spinner and completion message (like Google Keep or Docs) to indicate recalculation
     this.computeLatestChartData()
-    this.netProfitChart.replaceData(this.chartData)
-    this.grossProfitChart.replaceData(this.chartData)
+    this.yieldChart.replaceData(this.chartData)
     this.pollinatorEfficiencyChart.replaceData(this.chartData)
   }
 

@@ -57,20 +57,12 @@
     </md-radio-group>
   </div>
 </p8-card>
-<p8-chart-card #netProfitChart
+<p8-chart-card #yieldChart
   [data]="chartData"
   yFieldName="netProfit"
-  [yTickFormatter]="thousandDollarTickFormatter"
-  yUnitSymbol="$"
-  [title]="'Net Profit per ' + getSelectedAreaUnits()">
-</p8-chart-card>
-
-<p8-chart-card #grossProfitChart
-  [data]="chartData"
-  yFieldName="grossProfit"
-  [yTickFormatter]="thousandDollarTickFormatter"
-  yUnitSymbol="$"
-  [title]="'Gross Profit per ' + getSelectedAreaUnits()">
+  [yTickFormatter]="yieldTickFormatter"
+  yUnitSymbol="points"
+  title="Relative yield">
 </p8-chart-card>
 
 <p8-chart-card #pollinatorEfficiencyChart
