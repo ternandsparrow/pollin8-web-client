@@ -44,7 +44,7 @@
 ## Debugging
 
 We use Ava for testing, so following their
-(advice)[https://github.com/avajs/ava/blob/master/docs/recipes/debugging-with-chrome-devtools.md]:
+[advice](https://github.com/avajs/ava/blob/master/docs/recipes/debugging-with-chrome-devtools.md):
 ```bash
 yarn global add inspect-process
 # edit your code to add a 'debugger' statement
