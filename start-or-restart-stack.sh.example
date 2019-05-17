@@ -1,0 +1,26 @@
+#!/bin/bash
+# starts, or restarts, the docker stack
+set -euo pipefail
+cd `dirname "$0"`
+
+# Docker image tag of the backend image we'll deploy
+export API_IMAGE_TAG=1.1.2_3.6.0        # change me if needed
+
+# public DNS that this app responds to (when behind Nginx)
+export WEBAPP_PUBLIC_DNS=staging.app.pollin8.org.au
+
+# Email to use when minting LetsEncrypt SSL certs so you can get expiry notifications
+export SYSOPS_EMAIL=you@whatever.blah
+
+# Set this to be the post_server_item token from your Rollbar.com account, so we can report errors from the server
+export ROLLBAR_SERVER_TOKEN=63f11edc2d494baaaabbbbbccccc98b1  # TODO change me
+
+# Set this to be the post_client_item token from your Rollbar.com account, so we can report errors from clients
+export ROLLBAR_CLIENT_TOKEN=63f11edc2d494beeefffff11112222b1  # TODO change me
+
+# Name of the environment that we're deploying to
+export DEPLOYED_TO_ENV=staging # TODO change to 'production' when appropriate
+
+echo "[INFO] $(date) - starting stack"
+docker-compose up -d $@
+echo '[INFO] stack started'

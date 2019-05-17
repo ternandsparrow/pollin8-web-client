@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  p8_webapp:
+    build: .
+    image: ternandsparrow/pollin8-web-client:${P8_IMAGE_TAG:-dev}
+    container_name: p8_web
+    environment:
+      API_BASE_URL: 'http://p8_api:5000'
+      ROLLBAR_SERVER_TOKEN: ${ROLLBAR_SERVER_TOKEN}
+      ROLLBAR_CLIENT_TOKEN: ${ROLLBAR_CLIENT_TOKEN}
+      DEPLOYED_TO_ENV: ${DEPLOYED_TO_ENV}
+      VIRTUAL_HOST: ${WEBAPP_PUBLIC_DNS}
+      LETSENCRYPT_HOST: ${WEBAPP_PUBLIC_DNS}
+      LETSENCRYPT_EMAIL: ${SYSOPS_EMAIL:-}
+    restart: unless-stopped
+    ports:
+      - ${P8_WEB_PORT:-3000}:3000 # only used when we aren't running behind nginx
+
+  p8_api:
+    image: ternandsparrow/natcap-invest-docker-flask:${API_IMAGE_TAG}
+    container_name: p8_api
+    environment:
+      NIDF_ENV: production
+    restart: unless-stopped
+
+  # FIXME add nginx and LE

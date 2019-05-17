@@ -1,0 +1,8 @@
+.nuxt
+node_modules/
+.git
+Dockerfile
+start-or-restart.sh*
+docker-compose.yml
+todo
+.circleci/

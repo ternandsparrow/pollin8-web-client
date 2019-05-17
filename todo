@@ -1,0 +1,6 @@
+Implement nicer UX for page transitions on client side
+  - use approach like https://github.com/Zip753/nuxt-spa-proof-of-concept/blob/master/pages/spa.vue /
+    https://github.com/nuxt/nuxt.js/issues/2568
+  - add skeleton UI https://github.com/egoist/vue-content-loader
+Do we need a sitemap.xml or robots.txt?
+Add 'rollbar_env' param, or similar, that we can use to both pass to rollbar and display the 'test env' toolbar chip

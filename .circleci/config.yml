@@ -1,0 +1,91 @@
+version: 2
+jobs:
+  ci-job:
+    docker:
+      - image: circleci/node:10-browsers
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+      # FIXME probably need a stub API (and maybe Keycloak) to test against
+      - run: yarn test
+
+  build-deploy-job:
+    docker:
+      - image: circleci/buildpack-deps:cosmic
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image then write and execute a deploy script on the target VM
+          command: |
+            export IMAGE_TAG="${CIRCLE_SHA1:?}.${CIRCLE_BRANCH:?}.${CIRCLE_BUILD_NUM:?}"
+            export IMAGE_FULL_LABEL=ternandsparrow/pollin8-web-client:${IMAGE_TAG:?}
+
+            # docker image
+            docker build -t ${IMAGE_FULL_LABEL:?} .
+            echo ${DOCKER_PASS:?} | docker login -u ${DOCKER_USER:?} --password-stdin
+            docker push $IMAGE_FULL_LABEL
+
+            # deploy
+            echo "
+            # branch=${CIRCLE_BRANCH}
+            # commit=${CIRCLE_SHA1}
+            # job=${CIRCLE_JOB}
+            # timestamp=$(date)
+            set -e
+            cd ~/pollin8-web-client/
+            git fetch
+            git checkout $CIRCLE_SHA1
+            docker pull $IMAGE_FULL_LABEL
+            export P8_IMAGE_TAG=$IMAGE_TAG
+            ./start-or-restart.sh
+            " | ssh \
+              -o StrictHostKeyChecking=no \
+              $(eval echo "\$SSH_USER_SERVER_${CIRCLE_BRANCH}") \
+              "/bin/bash -c 'cat > /tmp/deploy-frontend.sh && bash /tmp/deploy-frontend.sh'"
+            export ROLLBAR_ENV=`[ "${CIRCLE_BRANCH:?}" == "master" ] && echo production || echo staging`
+            sh ./.circleci/rollbar-deploy-notifier.sh
+
+workflows:
+  version: 2
+
+  build-deploy-prod:
+    jobs:
+      - ci-job:
+          filters:
+            branches:
+              only: master
+      - build-deploy-job:
+          requires:
+            - ci-job
+          filters:
+            branches:
+              only: master
+
+  build-deploy-staging:
+    jobs:
+      - ci-job:
+          filters:
+            branches:
+              ignore: master # will CI all branches
+      - build-deploy-job:
+          requires:
+            - ci-job
+          filters:
+            branches:
+              only: staging
