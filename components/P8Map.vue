@@ -1,7 +1,8 @@
 <template>
   <div id="map-wrap">
     <no-ssr>
-      <l-map :zoom="zoom" :center="center" ref="map" id="the-map">
+      <l-map :zoom="zoom" :center="center" ref="map" id="the-map"
+                                                     :options="mapOptions">
         <l-tile-layer :url="hereMapsUrl()"></l-tile-layer>
         <l-feature-group>
           <l-control-draw :options="drawOptions" @change="onDrawChange" />
@@ -27,7 +28,18 @@ export default {
   data() {
     return {
       zoom:13,
+      mapOptions: {
+        sleep: true,
+        wakeTime: 1500,
+        wakeMessage: 'Click or hover (for 1.5s) to wake',
+        sleepNoteStyle: {
+          opacity: '0.9',
+        },
+      }
     }
+  },
+  mounted () {
+    require('leaflet-sleep')
   },
   computed: {
     drawOptions() {

@@ -19,6 +19,7 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "cross-env": "^5.2.0",
     "leaflet-draw": "^1.0.4",
+    "leaflet-sleep": "https://github.com/ternandsparrow/Leaflet.Sleep",
     "moment": "^2.24.0",
     "nuxt": "^2.4.0",
     "nuxt-env": "^0.1.0",
