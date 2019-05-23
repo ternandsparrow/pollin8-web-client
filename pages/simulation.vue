@@ -8,8 +8,9 @@
       xs12
       sm8
       md6
+      class="vw-100"
     >
-      <v-card>
+    <v-card>
         <v-card-title class="display-2">Run simulation</v-card-title>
         <v-card-text>
           <p>TODO add instructions</p>
@@ -26,6 +27,8 @@
         <v-card-title class="headline">Step 2: farm location</v-card-title>
         <v-card-text>
           <p>TODO add instructions</p>
+          <p>Feature count = {{farmFeatureCount}}</p>
+          <p8-map @change="onFarmChange" :center="mapCenter"></p8-map>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
@@ -55,9 +58,17 @@
 import { mapState } from 'vuex'
 import { pageTitle } from '~/util/helpers'
 import P8Logging from '~/mixins/P8Logging'
+import P8Map from '~/components/P8Map'
 
 export default {
   head: pageTitle('Run simulation'),
+  components: { P8Map },
+  data () {
+    return {
+      farmGeojson: null,
+      mapCenter: [-34.970635, 138.638178], // FIXME get dynamically
+    }
+  },
   computed: {
     ...mapState(['lastRunResult']),
     elapsedMs () {
@@ -66,7 +77,13 @@ export default {
         return 0
       }
       return lrr.elapsed_ms
-    }
+    },
+    farmFeatureCount () {
+      if (!this.farmGeojson || !this.farmGeojson.features) {
+        return 0
+      }
+      return this.farmGeojson.features.length
+    },
   },
   mixins: [P8Logging],
   methods: {
@@ -78,6 +95,9 @@ export default {
         this.consoleError(msg, err)
         this.$toast.error(msg, 'Error', { timeout: 0 })
       }
+    },
+    onFarmChange (farmGeojson) {
+      this.farmGeojson = farmGeojson
     },
   },
 }

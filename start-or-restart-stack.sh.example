@@ -4,7 +4,7 @@ set -euo pipefail
 cd `dirname "$0"`
 
 # Docker image tag of the backend image we'll deploy
-export API_IMAGE_TAG=1.1.2_3.6.0        # change me if needed
+export API_IMAGE_TAG=1.1.3_3.6.0        # change me if needed
 
 # public DNS that this app responds to (when behind Nginx)
 export WEBAPP_PUBLIC_DNS=staging.app.pollin8.org.au
