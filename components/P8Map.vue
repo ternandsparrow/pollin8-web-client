@@ -1,8 +1,13 @@
 <template>
   <div id="map-wrap">
     <no-ssr>
-      <l-map :zoom="zoom" :center="center" ref="map" id="the-map"
-                                                     :options="mapOptions">
+      <l-map
+        :zoom="zoom"
+        :center="center"
+        ref="map"
+        id="the-map"
+        :options="mapOptions"
+      >
         <l-tile-layer :url="hereMapsUrl()"></l-tile-layer>
         <l-feature-group>
           <l-control-draw :options="drawOptions" @change="onDrawChange" />
@@ -20,14 +25,15 @@ export default {
     LControlDraw,
   },
   props: {
-    center: { // [lat, lon]
+    center: {
+      // [lat, lon]
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      zoom:13,
+      zoom: 13,
       mapOptions: {
         sleep: true,
         wakeTime: 1500,
@@ -35,10 +41,10 @@ export default {
         sleepNoteStyle: {
           opacity: '0.9',
         },
-      }
+      },
     }
   },
-  mounted () {
+  mounted() {
     require('leaflet-sleep')
   },
   computed: {
@@ -51,8 +57,9 @@ export default {
             allowIntersection: false, // Restricts shapes to simple polygons
             drawError: {
               color: '#e1e100',
-              message: '<strong>Oh snap!</strong> You can\'t<br />draw a shape that intersects itself!'
-            }
+              message:
+                "<strong>Oh snap!</strong> You can't<br />draw a shape that intersects itself!",
+            },
           },
           circle: true,
           rectangle: true,
@@ -60,24 +67,25 @@ export default {
           circlemarker: false,
         },
         edit: {
-          remove: true
-        }
+          remove: true,
+        },
       }
-    }
+    },
   },
   methods: {
-    hereMapsUrl () {
+    hereMapsUrl() {
       // FIXME inject keys from env
       const appId = 'zM6cic4akir1Yp2L2eXF'
       const appCode = 'aEbtMxj4GbBX-3pvDgOMkQ'
-      const template = 'https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8'
-        + '?app_id={app_id}&app_code={app_code}&lg=eng'
+      const template =
+        'https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8' +
+        '?app_id={app_id}&app_code={app_code}&lg=eng'
       return template.replace('{app_id}', appId).replace('{app_code}', appCode)
     },
-    onDrawChange (geojson) {
+    onDrawChange(geojson) {
       this.$emit('change', geojson)
     },
-  }
+  },
 }
 </script>
 

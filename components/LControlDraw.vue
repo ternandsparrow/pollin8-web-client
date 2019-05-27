@@ -40,7 +40,9 @@ export default {
     })
   },
   beforeDestroy() {
-    this.mapObject.remove()
+    if (this.mapObject) {
+      this.mapObject.remove()
+    }
   },
   render() {
     return null
