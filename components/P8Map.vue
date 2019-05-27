@@ -9,6 +9,11 @@
         :options="mapOptions"
       >
         <l-tile-layer :url="hereMapsUrl()"></l-tile-layer>
+        <l-geo-json
+          v-if="geojsonGuide"
+          :geojson="geojsonGuide"
+          :optionsStyle="geojsonGuideStyle"
+        ></l-geo-json>
         <l-feature-group>
           <l-control-draw :options="drawOptions" @change="onDrawChange" />
         </l-feature-group>
@@ -30,6 +35,19 @@ export default {
       type: Array,
       required: true,
     },
+    geojsonGuide: {
+      // geojson to draw on the map as a guide, it will *not* be interactive
+      type: Object,
+      required: false,
+    },
+    drawLayerColour: {
+      type: String,
+      default: '#00e5ff',
+    },
+    guideLayerColour: {
+      type: String,
+      default: '#ff7800',
+    },
   },
   data() {
     return {
@@ -42,6 +60,11 @@ export default {
           opacity: '0.9',
         },
       },
+      geojsonGuideStyle: {
+        // TODO consider doing something to the guide layer to indicate it
+        // can't be edited here
+        color: this.guideLayerColour,
+      },
     }
   },
   mounted() {
@@ -52,7 +75,6 @@ export default {
       return {
         position: 'topleft',
         draw: {
-          polyline: false,
           polygon: {
             allowIntersection: false, // Restricts shapes to simple polygons
             drawError: {
@@ -60,11 +82,19 @@ export default {
               message:
                 "<strong>Oh snap!</strong> You can't<br />draw a shape that intersects itself!",
             },
+            shapeOptions: {
+              color: this.drawLayerColour,
+            },
           },
-          circle: true,
-          rectangle: true,
+          rectangle: {
+            shapeOptions: {
+              color: this.drawLayerColour,
+            },
+          },
+          circle: false,
           marker: false,
           circlemarker: false,
+          polyline: false,
         },
         edit: {
           remove: true,

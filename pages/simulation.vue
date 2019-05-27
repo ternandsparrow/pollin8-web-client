@@ -27,7 +27,7 @@
         <v-card-text>
           <p>TODO add instructions</p>
           <p>Feature count = {{ farmFeatureCount }}</p>
-          <p8-map @change="onFarmChange" :center="mapCenter"></p8-map>
+          <p8-map @change="onFarmChange" :center="mapCenter" :drawLayerColour="farmColour"></p8-map>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
@@ -37,7 +37,9 @@
         <v-card-text>
           <p>TODO add instructions</p>
           <p>Feature count = {{ revegFeatureCount }}</p>
-          <p8-map @change="onRevegChange" :center="mapCenter"></p8-map>
+          <p8-map @change="onRevegChange" :center="mapCenter"
+            :geojsonGuide="farmFeatureCollection"
+            :drawLayerColour="revegColour" :guideLayerColour="farmColour"></p8-map>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
@@ -113,6 +115,8 @@ export default {
       ],
       // FIXME make map show features from store
       mapCenter: [-34.970635, 138.638178], // FIXME get dynamically
+      farmColour: '#ff6100',
+      revegColour: '#00ff9d',
     }
   },
   computed: {
@@ -176,6 +180,7 @@ export default {
     isInputValid() {
       // FIXME add validation that reveg is close enough to farm (almost touching)
       // FIXME add validation that zoom isn't too far out
+      // FIXME limit drawing to the area of SA that we have a raster for
       return (
         this.years &&
         this.cropType &&
@@ -199,6 +204,7 @@ export default {
     },
     onFarmChange(theGeojson) {
       this.$store.commit('updateFarm', theGeojson)
+      // FIXME move the reveg map to focus the farm
     },
     onRevegChange(theGeojson) {
       this.$store.commit('updateReveg', theGeojson)
