@@ -27,7 +27,11 @@
         <v-card-text>
           <p>TODO add instructions</p>
           <p>Feature count = {{ farmFeatureCount }}</p>
-          <p8-map @change="onFarmChange" :center="mapCenter" :drawLayerColour="farmColour"></p8-map>
+          <p8-map
+            @change="onFarmChange"
+            :center="mapCenter"
+            :drawLayerColour="farmColour"
+          ></p8-map>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
@@ -37,9 +41,13 @@
         <v-card-text>
           <p>TODO add instructions</p>
           <p>Feature count = {{ revegFeatureCount }}</p>
-          <p8-map @change="onRevegChange" :center="mapCenter"
+          <p8-map
+            @change="onRevegChange"
+            :center="mapCenter"
             :geojsonGuide="farmFeatureCollection"
-            :drawLayerColour="revegColour" :guideLayerColour="farmColour"></p8-map>
+            :drawLayerColour="revegColour"
+            :guideLayerColour="farmColour"
+          ></p8-map>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
@@ -85,27 +93,48 @@
         </v-card-text>
       </v-card>
       <!-- TODO create some sort of separator here for results -->
-      <v-card class="mt-4">
+      <v-card class="mt-4" v-if="isShowResultSection">
         <v-card-title class="headline">Results</v-card-title>
-        <v-card-text>
-          <p>elaspsed time = {{ elapsedMs }}</p>
-          <img :src="farmRaster" />
-          <img :src="revegRaster" />
+        <v-card-text v-if="isShowLoading">
+          <v-progress-linear :indeterminate="true"></v-progress-linear>
+        </v-card-text>
+        <v-card-text v-if="isShowError" class="text-center">
+          <b-alert show variant="danger">
+            Failed while running the simulation
+            <!-- FIXME add something more to help user here -->
+          </b-alert>
+        </v-card-text>
+        <v-card-text v-if="isShowChart">
+          <p8-line-chart :chartdata="springChartData"></p8-line-chart>
+          <!-- FIXME add summer chart -->
+          <p class="text-right">
+            <small class="text-muted">Elaspsed time: {{ elapsedMs }}ms</small>
+          </p>
+          <div>
+            <!-- FIXME probably get rid of these (and add a flag to opt-out of them) -->
+            <img :src="farmRaster" />
+            <img :src="revegRaster" />
+          </div>
+          <!-- FIXME add data table -->
         </v-card-text>
       </v-card>
     </v-flex>
+    <div id="bottom"></div>
   </v-layout>
 </template>
 
 <script>
+import VueScrollTo from 'vue-scrollto'
 import {mapState} from 'vuex'
 import {pageTitle} from '~/util/helpers'
 import P8Logging from '~/mixins/P8Logging'
 import P8Map from '~/components/P8Map'
+import P8LineChart from '~/components/P8LineChart'
+
 
 export default {
   head: pageTitle('Run simulation'),
-  components: {P8Map},
+  components: {P8Map, P8LineChart},
   data() {
     return {
       cropTypes: [
@@ -181,6 +210,8 @@ export default {
       // FIXME add validation that reveg is close enough to farm (almost touching)
       // FIXME add validation that zoom isn't too far out
       // FIXME limit drawing to the area of SA that we have a raster for
+      // FIXME validate that reveg doesn't overlap farm (or can it? It works
+      // and will steamroll the farm - like you'd expect)
       return (
         this.years &&
         this.cropType &&
@@ -188,13 +219,62 @@ export default {
         this.revegFeatureCount
       )
     },
+    springChartData() {
+      if (!this.lastRunResult) {
+        return {}
+      }
+      const springRecords = this.lastRunResult.records.filter(
+        (e) => e.season === 'spring',
+      )
+      return {
+        labels: springRecords.map((e) => e.year),
+        datasets: [
+          // FIXME handle multiple features
+          buildDataset(
+            'Total yield',
+            springRecords.map((e) => e.y_tot),
+            '#FC2525',
+          ),
+          buildDataset(
+            'Wild yield',
+            springRecords.map((e) => e.y_wild),
+            '#05CBE1',
+          ),
+          buildDataset(
+            'Pollinator abundance',
+            springRecords.map((e) => e.p_abund),
+            '#E15D05',
+          ),
+          buildDataset(
+            'pdep_y_w',
+            springRecords.map((e) => e.pdep_y_w),
+            '#3105E1',
+          ),
+        ],
+      }
+    },
+    isShowChart() {
+      return this.$store.state.simulationState === 'success'
+    },
+    isShowLoading() {
+      return this.$store.state.simulationState === 'processing'
+    },
+    isShowError() {
+      return this.$store.state.simulationState === 'failed'
+    },
+    isShowResultSection() {
+      return this.isShowChart || this.isShowLoading || this.isShowError
+    },
   },
   mixins: [P8Logging],
   methods: {
     async doRun() {
       try {
-        await this.$store.dispatch('runSimulation')
+        this.$store.dispatch('runSimulation')
         this.$toast.destroy() // clear existing toasts
+        setTimeout(() => {
+          VueScrollTo.scrollTo('#bottom', 1000)
+        }, 1000)
       } catch (err) {
         const msg = 'Failed to run simulation'
         this.consoleError(msg, err)
@@ -210,6 +290,17 @@ export default {
       this.$store.commit('updateReveg', theGeojson)
     },
   },
+}
+
+function buildDataset(label, data, colour) {
+  return {
+    label,
+    data,
+    borderWidth: 1,
+    borderColor: colour,
+    pointBackgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0,0)',
+  }
 }
 </script>
 

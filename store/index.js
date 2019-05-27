@@ -1,3 +1,5 @@
+import {consoleError} from '~/mixins/P8Logging'
+
 export const state = () => ({
   isProd: false,
   lastRunResult: null,
@@ -5,6 +7,7 @@ export const state = () => ({
   cropType: 'apple',
   farmFeatureCollection: null,
   revegFeatureCollection: null,
+  simulationState: 'initial',
 })
 
 export const mutations = {
@@ -26,6 +29,9 @@ export const mutations = {
   updateYears: function(state, data) {
     state.years = data
   },
+  updateSimState: function(state, data) {
+    state.simulationState = data
+  },
 }
 
 export const actions = {
@@ -36,15 +42,26 @@ export const actions = {
   },
 
   async runSimulation({commit, state}) {
+    commit('updateSimState', 'processing')
     const postBody = {
       crop_type: state.cropType,
       years: state.years,
       farm: state.farmFeatureCollection,
       reveg: state.revegFeatureCollection,
     }
-    commit('updateRunResult', null)
-    const {data} = await this.$axios.post(`pollination`, postBody)
-    commit('updateRunResult', data)
-    // FIXME loading bar doesn't stay visible for whole time
+    try {
+      commit('updateRunResult', null)
+      const {data} = await this.$axios.post(`pollination`, postBody)
+      commit('updateRunResult', data)
+      commit('updateSimState', 'success')
+      // FIXME loading bar doesn't stay visible for whole time
+    } catch (err) {
+      commit('updateSimState', 'failed')
+      consoleError(
+        this.rollbar,
+        `Failed to run simulation with model=${JSON.stringify(postBody)}`,
+        err,
+      )
+    }
   },
 }

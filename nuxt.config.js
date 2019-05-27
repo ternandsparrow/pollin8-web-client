@@ -61,6 +61,7 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
     'nuxt-leaflet',
+    'vue-scrollto/nuxt',
     [
       'nuxt-env',
       {
