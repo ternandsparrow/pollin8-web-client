@@ -104,9 +104,13 @@
               large
               color="primary"
               @click="doRun"
-              :disabled="!isInputValid"
-              >Run the simulation</v-btn
-            >
+              :disabled="!isInputValid">
+              Run the simulation
+            </v-btn>
+            <div v-if="!isInputValid">
+              <small class="text-danger">Enter at least one shape for the farm
+                and one for the reveg before running the simulation</small>
+            </div>
           </div>
         </v-card-text>
       </v-card>
@@ -134,7 +138,6 @@
           <p class="text-muted"><small @click="isShowRaster = true"
               v-if="!isShowRaster">Show clipped raster</small></p>
           <div v-if="isShowRaster">
-            <!-- FIXME probably get rid of these (and add a flag to opt-out of them) -->
             <img :src="farmRaster" />
             <img :src="revegRaster" />
           </div>
@@ -165,7 +168,6 @@ export default {
         {code: 'canola', label: 'Canola'},
         {code: 'lucerne', label: 'Lucerne'},
       ],
-      // FIXME make map show features from store
       mapCenter: [-34.970635, 138.638178], // FIXME get dynamically
       farmColour: '#ff6100',
       revegColour: '#00ff9d',
@@ -233,8 +235,6 @@ export default {
       // FIXME add validation that reveg is close enough to farm (almost touching)
       // FIXME add validation that zoom isn't too far out
       // FIXME limit drawing to the area of SA that we have a raster for
-      // FIXME validate that reveg doesn't overlap farm (or can it? It works
-      // and will steamroll the farm - like you'd expect)
       return (
         this.years &&
         this.cropType &&
