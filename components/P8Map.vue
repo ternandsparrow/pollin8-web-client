@@ -15,7 +15,11 @@
           :optionsStyle="geojsonGuideStyle"
         ></l-geo-json>
         <l-feature-group>
-          <l-control-draw :options="drawOptions" @change="onDrawChange" />
+          <l-control-draw
+            :options="drawOptions"
+            @change="onDrawChange"
+            :initialGeojson="initialDrawValue"
+          />
         </l-feature-group>
       </l-map>
     </no-ssr>
@@ -47,6 +51,9 @@ export default {
     guideLayerColour: {
       type: String,
       default: '#ff7800',
+    },
+    initialDrawValue: {
+      type: Object,
     },
   },
   data() {

@@ -4,13 +4,19 @@
       <v-card>
         <v-card-title class="display-2">Run simulation</v-card-title>
         <v-card-text>
-          <p>TODO add instructions</p>
+          <p>Here you can run a simulation to see the effect pollinator
+            friendly revegtation will have on your crop. Fill in the required
+            data at each step and press the run button at the end of this
+            page.</p>
+          <p>Feel free to tweak the inputs and re-run the simulation as many
+            times as needed.</p>
           <hr class="my-3" />
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
         <v-card-title class="headline">Step 1: crop type</v-card-title>
         <v-card-text>
+          <p>What type of crop are you growing?</p>
           <v-radio-group v-model="cropType" :mandatory="true">
             <v-radio
               v-for="curr in cropTypes"
@@ -25,12 +31,18 @@
       <v-card class="mt-4">
         <v-card-title class="headline">Step 2: farm location</v-card-title>
         <v-card-text>
-          <p>TODO add instructions</p>
-          <p>Feature count = {{ farmFeatureCount }}</p>
+          <p>We need to know where you farm is located.</p>
+          <p>Move the map until you can see your farm. Then use the drawing
+            tools (rectangle or polygon) in the top left of the map window to
+            draw around the border of your farm on the map.</p>
+          <p>If you farm is not one continuous shape, you can draw multiple
+            shapes to capture the whole property.<br /><br />
+            There are also controls to edit or delete existing shapes.</p>
           <p8-map
             @change="onFarmChange"
             :center="mapCenter"
             :drawLayerColour="farmColour"
+            :initialDrawValue="farmFeatureCollection"
           ></p8-map>
         </v-card-text>
       </v-card>
@@ -39,12 +51,17 @@
           >Step 3: revegtation location</v-card-title
         >
         <v-card-text>
-          <p>TODO add instructions</p>
-          <p>Feature count = {{ revegFeatureCount }}</p>
+          <p>This step is very similar to the previous but the difference is
+            that you're drawing <strong>where you will be planting the
+              revegetation area</strong>. You'll be able to see where you drew
+            the farm in the previous step as a guide for drawing the reveg.</p>
+          <p>Note: you cannot edit the farm here. If you need to make a change
+          to the farm shape, go back to the previous step and edit it there.</p>
           <p8-map
             @change="onRevegChange"
             :center="mapCenter"
             :geojsonGuide="farmFeatureCollection"
+            :initialDrawValue="revegFeatureCollection"
             :drawLayerColour="revegColour"
             :guideLayerColour="farmColour"
           ></p8-map>
@@ -54,8 +71,9 @@
         <v-card-title class="headline">Run it!</v-card-title>
         <v-card-text>
           <p>
-            Lastly, set how many years you would like to run the simulation for.
-            Running for more years will take longer.
+            Lastly, set how many years you would like to run the simulation for
+            (how many years to predict into the future). Running for more
+            years will take longer.
           </p>
           <v-container fluid grid-list-lg class="year-container">
             <v-layout row>
@@ -94,7 +112,7 @@
       </v-card>
       <!-- TODO create some sort of separator here for results -->
       <v-card class="mt-4" v-if="isShowResultSection">
-        <v-card-title class="headline">Results</v-card-title>
+        <v-card-title class="display-2 text-center">Results</v-card-title>
         <v-card-text v-if="isShowLoading">
           <v-progress-linear :indeterminate="true"></v-progress-linear>
         </v-card-text>
@@ -105,12 +123,19 @@
           </b-alert>
         </v-card-text>
         <v-card-text v-if="isShowChart">
+          <div class="headline">Season: spring</div>
           <p8-line-chart :chartdata="springChartData"></p8-line-chart>
-          <!-- FIXME add summer chart -->
+          <div class="headline mt-3">Season: summer</div>
+          <p8-line-chart :chartdata="summerChartData"></p8-line-chart>
           <p class="text-right">
             <small class="text-muted">Elaspsed time: {{ elapsedMs }}ms</small>
           </p>
-          <div>
+          <p>Further reading on interpreting these results <a
+            href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
+            target="_blank">in the NatCap InVEST documentation</a>.</p>
+          <p class="text-muted"><small @click="isShowRaster = true"
+              v-if="!isShowRaster">Show clipped raster</small></p>
+          <div v-if="isShowRaster">
             <!-- FIXME probably get rid of these (and add a flag to opt-out of them) -->
             <img :src="farmRaster" />
             <img :src="revegRaster" />
@@ -137,6 +162,7 @@ export default {
   components: {P8Map, P8LineChart},
   data() {
     return {
+      isShowRaster: false,
       cropTypes: [
         {code: 'apple', label: 'Apples'},
         {code: 'canola', label: 'Canola'},
@@ -223,35 +249,13 @@ export default {
       if (!this.lastRunResult) {
         return {}
       }
-      const springRecords = this.lastRunResult.records.filter(
-        (e) => e.season === 'spring',
-      )
-      return {
-        labels: springRecords.map((e) => e.year),
-        datasets: [
-          // FIXME handle multiple features
-          buildDataset(
-            'Total yield',
-            springRecords.map((e) => e.y_tot),
-            '#FC2525',
-          ),
-          buildDataset(
-            'Wild yield',
-            springRecords.map((e) => e.y_wild),
-            '#05CBE1',
-          ),
-          buildDataset(
-            'Pollinator abundance',
-            springRecords.map((e) => e.p_abund),
-            '#E15D05',
-          ),
-          buildDataset(
-            'pdep_y_w',
-            springRecords.map((e) => e.pdep_y_w),
-            '#3105E1',
-          ),
-        ],
+      return buildSeasonChartData('spring', this.lastRunResult.records)
+    },
+    summerChartData() {
+      if (!this.lastRunResult) {
+        return {}
       }
+      return buildSeasonChartData('summer', this.lastRunResult.records)
     },
     isShowChart() {
       return this.$store.state.simulationState === 'success'
@@ -300,6 +304,38 @@ function buildDataset(label, data, colour) {
     borderColor: colour,
     pointBackgroundColor: 'white',
     backgroundColor: 'rgba(0,0,0,0)',
+  }
+}
+
+function buildSeasonChartData(season, records) {
+  const recordsForThisSeason = records.filter(
+    (e) => e.season === season,
+  )
+  return {
+    labels: recordsForThisSeason.map((e) => e.year),
+    datasets: [
+      // FIXME handle multiple features
+      buildDataset(
+        'Total yield index (y_tot)',
+        recordsForThisSeason.map((e) => e.y_tot),
+        '#FC2525',
+      ),
+      buildDataset(
+        'Index of total yield attributable to wild pollinators (y_wild)',
+        recordsForThisSeason.map((e) => e.y_wild),
+        '#05CBE1',
+      ),
+      buildDataset(
+        'Average pollinator abundance on farm (p_abund)',
+        recordsForThisSeason.map((e) => e.p_abund),
+        '#E15D05',
+      ),
+      buildDataset(
+        'Index of potential pollination dependent yield attributable to wild pollinators (pdep_y_w)',
+        recordsForThisSeason.map((e) => e.pdep_y_w),
+        '#3105E1',
+      ),
+    ],
   }
 }
 </script>
