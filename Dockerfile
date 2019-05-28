@@ -7,12 +7,14 @@ ENV NUXT_PORT 3000
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN \
+  apk add --no-cache --virtual .build-deps git && \
   NODE_ENV=notprod yarn install && \
   export API_BASE_URL='%%API_BASE_URL%%' && \
   export ROLLBAR_SERVER_TOKEN='%%ROLLBAR_SERVER_TOKEN%%' && \
   export ROLLBAR_CLIENT_TOKEN='%%ROLLBAR_CLIENT_TOKEN%%' && \
   export DEPLOYED_TO_ENV='%%DEPLOYED_TO_ENV%%' && \
-  yarn build
+  yarn build && \
+  apk del .build-deps
 
 RUN yarn cache clean
 

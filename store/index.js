@@ -54,7 +54,6 @@ export const actions = {
       const {data} = await this.$axios.post(`pollination`, postBody)
       commit('updateRunResult', data)
       commit('updateSimState', 'success')
-      // FIXME loading bar doesn't stay visible for whole time
     } catch (err) {
       commit('updateSimState', 'failed')
       consoleError(
