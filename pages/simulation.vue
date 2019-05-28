@@ -123,13 +123,11 @@
           </b-alert>
         </v-card-text>
         <v-card-text v-if="isShowChart">
-          <div class="headline">Season: spring</div>
-          <p8-line-chart :chartdata="springChartData"></p8-line-chart>
-          <div class="headline mt-3">Season: summer</div>
-          <p8-line-chart :chartdata="summerChartData"></p8-line-chart>
           <p class="text-right">
             <small class="text-muted">Elaspsed time: {{ elapsedMs }}ms</small>
           </p>
+          <p8-result-block season="spring" :records="lastRunResultRecords" />
+          <p8-result-block season="summer" :records="lastRunResultRecords" />
           <p>Further reading on interpreting these results <a
             href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
             target="_blank">in the NatCap InVEST documentation</a>.</p>
@@ -140,7 +138,6 @@
             <img :src="farmRaster" />
             <img :src="revegRaster" />
           </div>
-          <!-- FIXME add data table -->
         </v-card-text>
       </v-card>
     </v-flex>
@@ -154,12 +151,12 @@ import {mapState} from 'vuex'
 import {pageTitle} from '~/util/helpers'
 import P8Logging from '~/mixins/P8Logging'
 import P8Map from '~/components/P8Map'
-import P8LineChart from '~/components/P8LineChart'
+import P8ResultBlock from '~/components/P8ResultBlock'
 
 
 export default {
   head: pageTitle('Run simulation'),
-  components: {P8Map, P8LineChart},
+  components: {P8Map, P8ResultBlock},
   data() {
     return {
       isShowRaster: false,
@@ -245,17 +242,11 @@ export default {
         this.revegFeatureCount
       )
     },
-    springChartData() {
+    lastRunResultRecords() {
       if (!this.lastRunResult) {
-        return {}
+        return []
       }
-      return buildSeasonChartData('spring', this.lastRunResult.records)
-    },
-    summerChartData() {
-      if (!this.lastRunResult) {
-        return {}
-      }
-      return buildSeasonChartData('summer', this.lastRunResult.records)
+      return this.lastRunResult.records
     },
     isShowChart() {
       return this.$store.state.simulationState === 'success'
@@ -294,49 +285,6 @@ export default {
       this.$store.commit('updateReveg', theGeojson)
     },
   },
-}
-
-function buildDataset(label, data, colour) {
-  return {
-    label,
-    data,
-    borderWidth: 1,
-    borderColor: colour,
-    pointBackgroundColor: 'white',
-    backgroundColor: 'rgba(0,0,0,0)',
-  }
-}
-
-function buildSeasonChartData(season, records) {
-  const recordsForThisSeason = records.filter(
-    (e) => e.season === season,
-  )
-  return {
-    labels: recordsForThisSeason.map((e) => e.year),
-    datasets: [
-      // FIXME handle multiple features
-      buildDataset(
-        'Total yield index (y_tot)',
-        recordsForThisSeason.map((e) => e.y_tot),
-        '#FC2525',
-      ),
-      buildDataset(
-        'Index of total yield attributable to wild pollinators (y_wild)',
-        recordsForThisSeason.map((e) => e.y_wild),
-        '#05CBE1',
-      ),
-      buildDataset(
-        'Average pollinator abundance on farm (p_abund)',
-        recordsForThisSeason.map((e) => e.p_abund),
-        '#E15D05',
-      ),
-      buildDataset(
-        'Index of potential pollination dependent yield attributable to wild pollinators (pdep_y_w)',
-        recordsForThisSeason.map((e) => e.pdep_y_w),
-        '#3105E1',
-      ),
-    ],
-  }
 }
 </script>
 
