@@ -100,6 +100,10 @@ module.exports = {
       target: getRequiredEnvVar('API_BASE_URL'),
       pathRewrite: {'^/api/': ''},
     },
+    '/socket.io': {
+      target: getRequiredEnvVar('API_BASE_URL'),
+      ws: true,
+    },
   },
 
   bootstrapVue: {

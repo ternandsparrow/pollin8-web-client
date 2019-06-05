@@ -2,11 +2,12 @@
   <div id="map-wrap">
     <no-ssr>
       <l-map
-        :zoom="zoom"
-        :center="center"
-        ref="map"
+        :bounds="bounds"
         id="the-map"
+        :max-bounds="maxMapBounds"
+        :min-zoom="minZoom"
         :options="mapOptions"
+        @update:bounds="onBoundsUpdate"
       >
         <l-tile-layer :url="hereMapsUrl()"></l-tile-layer>
         <l-geo-json
@@ -34,10 +35,17 @@ export default {
     LControlDraw,
   },
   props: {
-    center: {
-      // [lat, lon]
-      type: Array,
+    bounds: {
+      type: Object,
       required: true,
+    },
+    maxMapBounds: {
+      type: Object,
+      required: true,
+    },
+    minZoom: {
+      type: Number,
+      default: 13,
     },
     geojsonGuide: {
       // geojson to draw on the map as a guide, it will *not* be interactive
@@ -58,7 +66,7 @@ export default {
   },
   data() {
     return {
-      zoom: 13,
+      // zoom: 13, FIXME
       mapOptions: {
         sleep: true,
         wakeTime: 1500,
@@ -121,6 +129,9 @@ export default {
     },
     onDrawChange(geojson) {
       this.$emit('change', geojson)
+    },
+    onBoundsUpdate(latLngBounds) {
+      this.$emit('moved', latLngBounds)
     },
   },
 }

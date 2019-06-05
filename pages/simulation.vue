@@ -4,12 +4,15 @@
       <v-card>
         <v-card-title class="display-2">Run simulation</v-card-title>
         <v-card-text>
-          <p>Here you can run a simulation to see the effect pollinator
-            friendly revegtation will have on your crop. Fill in the required
-            data at each step and press the run button at the end of this
-            page.</p>
-          <p>Feel free to tweak the inputs and re-run the simulation as many
-            times as needed.</p>
+          <p>
+            Here you can run a simulation to see the effect pollinator friendly
+            revegtation will have on your crop. Fill in the required data at
+            each step and press the run button at the end of this page.
+          </p>
+          <p>
+            Feel free to tweak the inputs and re-run the simulation as many
+            times as needed.
+          </p>
           <hr class="my-3" />
         </v-card-text>
       </v-card>
@@ -32,17 +35,27 @@
         <v-card-title class="headline">Step 2: farm location</v-card-title>
         <v-card-text>
           <p>We need to know where you farm is located.</p>
-          <p>Move the map until you can see your farm. Then use the drawing
-            tools (rectangle or polygon) in the top left of the map window to
-            draw around the border of your farm on the map.</p>
-          <p>If you farm is not one continuous shape, you can draw multiple
-            shapes to capture the whole property.<br /><br />
-            There are also controls to edit or delete existing shapes.</p>
+          <p>Currently we only support farms in a subset of South Australia. The map will stop you from scroll outside the supported area.</p>
+          <p>
+            Move the map until you can see your farm. Then use the drawing tools
+            (rectangle or polygon) in the top left of the map window to draw
+            around the border of your farm on the map.
+          </p>
+          <p>
+            If you farm is not one continuous shape, you can draw multiple
+            shapes to capture the whole property.</p>
+          <p>
+            There are also controls to edit or delete existing shapes.
+          </p>
+            <!-- :max-bounds="maxMapBounds" -->
           <p8-map
             @change="onFarmChange"
-            :center="mapCenter"
+            :bounds="mapBounds"
+            :maxMapBounds="maxMapBounds"
+            :minZoom="minZoom"
             :drawLayerColour="farmColour"
             :initialDrawValue="farmFeatureCollection"
+            @moved="onMapMove"
           ></p8-map>
         </v-card-text>
       </v-card>
@@ -51,15 +64,22 @@
           >Step 3: revegtation location</v-card-title
         >
         <v-card-text>
-          <p>This step is very similar to the previous but the difference is
-            that you're drawing <strong>where you will be planting the
-              revegetation area</strong>. You'll be able to see where you drew
-            the farm in the previous step as a guide for drawing the reveg.</p>
-          <p>Note: you cannot edit the farm here. If you need to make a change
-          to the farm shape, go back to the previous step and edit it there.</p>
+          <p>
+            This step is very similar to the previous but the difference is that
+            you're drawing
+            <strong>where you will be planting the revegetation area</strong>.
+            You'll be able to see where you drew the farm in the previous step
+            as a guide for drawing the reveg.
+          </p>
+          <p>
+            Note: you cannot edit the farm here. If you need to make a change to
+            the farm shape, go back to the previous step and edit it there.
+          </p>
           <p8-map
             @change="onRevegChange"
-            :center="mapCenter"
+            :bounds="mapBounds"
+            :maxMapBounds="maxMapBounds"
+            :minZoom="minZoom"
             :geojsonGuide="farmFeatureCollection"
             :initialDrawValue="revegFeatureCollection"
             :drawLayerColour="revegColour"
@@ -72,8 +92,8 @@
         <v-card-text>
           <p>
             Lastly, set how many years you would like to run the simulation for
-            (how many years to predict into the future). Running for more
-            years will take longer.
+            (how many years to predict into the future). Running for more years
+            will take longer.
           </p>
           <v-container fluid grid-list-lg class="year-container">
             <v-layout row>
@@ -104,12 +124,15 @@
               large
               color="primary"
               @click="doRun"
-              :disabled="!isInputValid">
+              :disabled="!isInputValid"
+            >
               Run the simulation
             </v-btn>
             <div v-if="!isInputValid">
-              <small class="text-danger">Enter at least one shape for the farm
-                and one for the reveg before running the simulation</small>
+              <small class="text-danger"
+                >Enter at least one shape for the farm and one for the reveg
+                before running the simulation</small
+              >
             </div>
           </div>
         </v-card-text>
@@ -118,7 +141,14 @@
       <v-card class="mt-4" v-if="isShowResultSection">
         <v-card-title class="display-2 text-center">Results</v-card-title>
         <v-card-text v-if="isShowLoading">
-          <v-progress-linear :indeterminate="true"></v-progress-linear>
+          <p class="text-center">
+            Processed {{ processedYearsCount }} of
+            {{ totalYearsToProcess }} simulations
+            <span v-if="isGatheringProcesingResults">(gathering results...)</span>
+          </p>
+          <v-progress-linear
+            v-model="processedYearsPercent"
+          ></v-progress-linear>
         </v-card-text>
         <v-card-text v-if="isShowError" class="text-center">
           <b-alert show variant="danger">
@@ -132,11 +162,19 @@
           </p>
           <p8-result-block season="spring" :records="lastRunResultRecords" />
           <p8-result-block season="summer" :records="lastRunResultRecords" />
-          <p>Further reading on interpreting these results <a
-            href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
-            target="_blank">in the NatCap InVEST documentation</a>.</p>
-          <p class="text-muted"><small @click="isShowRaster = true"
-              v-if="!isShowRaster">Show clipped raster</small></p>
+          <p>
+            Further reading on interpreting these results
+            <a
+              href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
+              target="_blank"
+              >in the NatCap InVEST documentation</a
+            >.
+          </p>
+          <p class="text-muted">
+            <small @click="isShowRaster = true" v-if="!isShowRaster"
+              >Show clipped raster</small
+            >
+          </p>
           <div v-if="isShowRaster">
             <img :src="farmRaster" />
             <img :src="revegRaster" />
@@ -149,143 +187,8 @@
 </template>
 
 <script>
-import VueScrollTo from 'vue-scrollto'
-import {mapState} from 'vuex'
-import {pageTitle} from '~/util/helpers'
-import P8Logging from '~/mixins/P8Logging'
-import P8Map from '~/components/P8Map'
-import P8ResultBlock from '~/components/P8ResultBlock'
-
-
-export default {
-  head: pageTitle('Run simulation'),
-  components: {P8Map, P8ResultBlock},
-  data() {
-    return {
-      isShowRaster: false,
-      cropTypes: [
-        {code: 'apple', label: 'Apples'},
-        {code: 'canola', label: 'Canola'},
-        {code: 'lucerne', label: 'Lucerne'},
-      ],
-      mapCenter: [-34.970635, 138.638178], // FIXME get dynamically
-      farmColour: '#ff6100',
-      revegColour: '#00ff9d',
-    }
-  },
-  computed: {
-    ...mapState([
-      'lastRunResult',
-      'farmFeatureCollection',
-      'revegFeatureCollection',
-    ]),
-    years: {
-      get() {
-        return this.$store.state.years
-      },
-      set(v) {
-        this.$store.commit('updateYears', v)
-      },
-    },
-    cropType: {
-      get() {
-        return this.$store.state.cropType
-      },
-      set(v) {
-        this.$store.commit('updateCropType', v)
-      },
-    },
-    elapsedMs() {
-      const lrr = this.lastRunResult
-      if (!lrr) {
-        return 0
-      }
-      return lrr.elapsed_ms
-    },
-    farmRaster() {
-      const lrr = this.lastRunResult
-      if (!lrr) {
-        return ''
-      }
-      return 'data:image/png;base64,' + lrr.images.base
-    },
-    revegRaster() {
-      const lrr = this.lastRunResult
-      if (!lrr) {
-        return ''
-      }
-      return 'data:image/png;base64,' + lrr.images.reveg
-    },
-    farmFeatureCount() {
-      if (!this.farmFeatureCollection || !this.farmFeatureCollection.features) {
-        return 0
-      }
-      return this.farmFeatureCollection.features.length
-    },
-    revegFeatureCount() {
-      if (
-        !this.revegFeatureCollection ||
-        !this.revegFeatureCollection.features
-      ) {
-        return 0
-      }
-      return this.revegFeatureCollection.features.length
-    },
-    isInputValid() {
-      // FIXME add validation that reveg is close enough to farm (almost touching)
-      // FIXME add validation that zoom isn't too far out
-      // FIXME limit drawing to the area of SA that we have a raster for
-      return (
-        this.years &&
-        this.cropType &&
-        this.farmFeatureCount &&
-        this.revegFeatureCount
-      )
-    },
-    lastRunResultRecords() {
-      if (!this.lastRunResult) {
-        return []
-      }
-      return this.lastRunResult.records
-    },
-    isShowChart() {
-      return this.$store.state.simulationState === 'success'
-    },
-    isShowLoading() {
-      return this.$store.state.simulationState === 'processing'
-    },
-    isShowError() {
-      return this.$store.state.simulationState === 'failed'
-    },
-    isShowResultSection() {
-      return this.isShowChart || this.isShowLoading || this.isShowError
-    },
-  },
-  mixins: [P8Logging],
-  methods: {
-    async doRun() {
-      try {
-        this.$store.dispatch('runSimulation')
-        this.$toast.destroy() // clear existing toasts
-        setTimeout(() => {
-          VueScrollTo.scrollTo('#bottom', 1000)
-        }, 1000)
-      } catch (err) {
-        const msg = 'Failed to run simulation'
-        this.consoleError(msg, err)
-        this.$toast.destroy() // clear existing toasts
-        this.$toast.error(msg, 'Error', {timeout: 0})
-      }
-    },
-    onFarmChange(theGeojson) {
-      this.$store.commit('updateFarm', theGeojson)
-      // FIXME move the reveg map to focus the farm
-    },
-    onRevegChange(theGeojson) {
-      this.$store.commit('updateReveg', theGeojson)
-    },
-  },
-}
+import SimulationComponent from './simulation.js'
+export default SimulationComponent
 </script>
 
 <style scoped>

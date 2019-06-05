@@ -8,6 +8,8 @@ export const state = () => ({
   farmFeatureCollection: null,
   revegFeatureCollection: null,
   simulationState: 'initial',
+  socketioSid: null,
+  processedYearsCount: 0,
 })
 
 export const mutations = {
@@ -32,6 +34,15 @@ export const mutations = {
   updateSimState: function(state, data) {
     state.simulationState = data
   },
+  updateSocketioSid: function(state, data) {
+    state.socketioSid = data
+  },
+  incrementProcessedYearsCount: function(state) {
+    state.processedYearsCount += 1
+  },
+  resetProcessedYearsCount: function(state) {
+    state.processedYearsCount = 0
+  },
 }
 
 export const actions = {
@@ -48,6 +59,7 @@ export const actions = {
       years: state.years,
       farm: state.farmFeatureCollection,
       reveg: state.revegFeatureCollection,
+      socketio_sid: state.socketioSid,
     }
     try {
       commit('updateRunResult', null)

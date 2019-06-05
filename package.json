@@ -26,6 +26,7 @@
     "nuxt-env": "^0.1.0",
     "nuxt-leaflet": "^0.0.18",
     "nuxt-rollbar-module": "^1.0.1",
+    "socket.io-client": "^2.2.0",
     "vue-chartjs": "^3.4.2",
     "vue-izitoast": "^1.1.2",
     "vue-scrollto": "^2.15.0",
