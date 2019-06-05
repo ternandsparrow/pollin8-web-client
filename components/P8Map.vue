@@ -66,7 +66,6 @@ export default {
   },
   data() {
     return {
-      // zoom: 13, FIXME
       mapOptions: {
         sleep: true,
         wakeTime: 1500,

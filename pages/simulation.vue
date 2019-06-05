@@ -47,7 +47,6 @@
           <p>
             There are also controls to edit or delete existing shapes.
           </p>
-            <!-- :max-bounds="maxMapBounds" -->
           <p8-map
             @change="onFarmChange"
             :bounds="mapBounds"
@@ -137,7 +136,6 @@
           </div>
         </v-card-text>
       </v-card>
-      <!-- TODO create some sort of separator here for results -->
       <v-card class="mt-4" v-if="isShowResultSection">
         <v-card-title class="display-2 text-center">Results</v-card-title>
         <v-card-text v-if="isShowLoading">

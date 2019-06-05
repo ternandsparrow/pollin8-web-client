@@ -62,7 +62,6 @@ export default {
   return {
     labels: this.relevantRecords.map((e) => e.year),
     datasets: [
-      // FIXME handle multiple features
       buildDataset(
         'Total yield index (y_tot)',
         this.relevantRecords.map((e) => e.y_tot),

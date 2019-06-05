@@ -1,5 +1,6 @@
 const pkg = require('./package')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const buildProxyMiddleware = require('./util/socketio-proxy')
 
 const isRollbarEnabled = process.env.NODE_ENV === 'production'
 if (!isRollbarEnabled) {
@@ -100,11 +101,20 @@ module.exports = {
       target: getRequiredEnvVar('API_BASE_URL'),
       pathRewrite: {'^/api/': ''},
     },
-    '/socket.io': {
+    // we should be able to proxy /socket.io/ here but I couldn't
+    // get it to work without seeing "Invalid frame header" errors
+    // in the client. So we register our own serverMiddleware below.
+    '/reveg-curve.png': {
       target: getRequiredEnvVar('API_BASE_URL'),
-      ws: true,
     },
   },
+
+  serverMiddleware: [
+    {
+      path: '/socket.io/',
+      handler: buildProxyMiddleware(getRequiredEnvVar('API_BASE_URL')),
+    },
+  ],
 
   bootstrapVue: {
     bootstrapCSS: true,

@@ -11,7 +11,6 @@ export default {
   components: {P8Map, P8ResultBlock},
   data() {
     return {
-      // processedYearsCount: 0,
       isShowRaster: false,
       cropTypes: [
         {code: 'apple', label: 'Apples'},
@@ -19,25 +18,26 @@ export default {
         {code: 'lucerne', label: 'Lucerne'},
       ],
       minZoom: 8,
-      mapBounds: this.$L.latLngBounds(
+      mapBounds: buildLatLngBounds(
+        this.$L,
         // FIXME set based on user location?
-        this.$L.latLng(-34.958, 138.574),
-        this.$L.latLng(-35.012, 138.735),
+        {lat: -34.958, lng: 138.574},
+        {lat: -35.012, lng: 138.735},
       ),
       // These bounds are manually copied from the Landcover raster on the
       // server. Ideally we would read these dyanmically from the server.
       // Let's call that a TODO item.
-      maxMapBounds: this.$L.latLngBounds(
-        this.$L.latLng(-38.1693392, 134.6313833),
-        this.$L.latLng(-32.2179644, 140.626525),
+      maxMapBounds: buildLatLngBounds(
+        this.$L,
+        {lat: -38.1693392, lng: 134.6313833},
+        {lat: -32.2179644, lng: 140.626525},
       ),
       farmColour: '#ff6100',
       revegColour: '#00ff9d',
     }
   },
   mounted() {
-    // FIXME don't connect for SSR
-    const socket = io('http://localhost:5000') // FIXME try to get nuxt-proxy working
+    const socket = io()
     socket.on('connect', () => {
       const sid = socket.id
       console.debug(`socket connected! SID='${sid}'`)
@@ -45,7 +45,6 @@ export default {
     })
     socket.on('year-complete', (payload) => {
       console.log('Marking another year as done', payload)
-      // this.processedYearsCount += 1
       this.$store.commit('incrementProcessedYearsCount', {})
     })
   },
@@ -119,8 +118,7 @@ export default {
     },
     isInputValid() {
       // FIXME add validation that reveg is close enough to farm (almost touching)
-      // FIXME add validation that zoom isn't too far out
-      // FIXME limit drawing to the area of SA that we have a raster for
+      // FIXME add validation that zoom isn't too far out (i.e. shape is too large)
       return (
         this.years &&
         this.cropType &&
@@ -151,7 +149,6 @@ export default {
   methods: {
     async doRun() {
       try {
-        // this.processedYearsCount = 0
         this.$store.commit('resetProcessedYearsCount', {})
         this.$store.dispatch('runSimulation')
         this.$toast.destroy() // clear existing toasts
@@ -175,4 +172,16 @@ export default {
       this.mapBounds = latLngBounds
     },
   },
+}
+
+function buildLatLngBounds(L, sw, ne) {
+  if (L) {
+    // there's a race condition here, L isn't always defined
+    return L.latLngBounds(L.latLng(sw.lat, sw.lng), L.latLng(ne.lat, ne.lng))
+  }
+  console.debug("this.$L let us down. It's hard to find good help")
+  return {
+    _southWest: {lat: sw.lat, lng: sw.lng},
+    _northEast: {lat: ne.lat, lng: ne.lng},
+  }
 }

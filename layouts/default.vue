@@ -79,6 +79,10 @@ export default {
           icon: 'memory',
           title: 'Run simulation',
           to: '/simulation'
+        }, {
+          icon: 'school',
+          title: 'About the science',
+          to: '/science'
         }
       ]
       return result
