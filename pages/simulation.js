@@ -44,7 +44,7 @@ export default {
       this.$store.commit('updateSocketioSid', sid)
     })
     socket.on('year-complete', (payload) => {
-      console.log('Marking another year as done', payload)
+      console.debug('Marking another year as done', payload)
       this.$store.commit('incrementProcessedYearsCount', {})
     })
   },
