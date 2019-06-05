@@ -21,6 +21,9 @@ export ROLLBAR_CLIENT_TOKEN=63f11edc2d494beeefffff11112222b1  # TODO change me
 # Name of the environment that we're deploying to
 export DEPLOYED_TO_ENV=staging # TODO change to 'production' when appropriate
 
+# Secret that Socket.IO uses under the covers. We just generate something random-ish
+export SOCKETIO_SECRET=`uuidgen`
+
 echo "[INFO] $(date) - starting stack"
 docker-compose up -d $@
 echo '[INFO] stack started'

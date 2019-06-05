@@ -21,6 +21,7 @@ services:
     container_name: p8_api
     environment:
       NIDF_ENV: production
+      SOCKETIO_SECRET: ${SOCKETIO_SECRET}
     restart: unless-stopped
 
   # FIXME add nginx and LE
