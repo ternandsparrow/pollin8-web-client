@@ -6,7 +6,7 @@
         <v-card-text>
           <p>
             Here you can run a simulation to see the effect pollinator friendly
-            revegtation will have on your crop. Fill in the required data at
+            revegetation will have on your crop. Fill in the required data at
             each step and press the run button at the end of this page.
           </p>
           <p>
@@ -35,7 +35,10 @@
         <v-card-title class="headline">Step 2: farm location</v-card-title>
         <v-card-text>
           <p>We need to know where you farm is located.</p>
-          <p>Currently we only support farms in a subset of South Australia. The map will stop you from scroll outside the supported area.</p>
+          <p>
+            Currently we only support farms in a subset of South Australia. The
+            map will stop you from scroll outside the supported area.
+          </p>
           <p>
             Move the map until you can see your farm. Then use the drawing tools
             (rectangle or polygon) in the top left of the map window to draw
@@ -43,7 +46,8 @@
           </p>
           <p>
             If you farm is not one continuous shape, you can draw multiple
-            shapes to capture the whole property.</p>
+            shapes to capture the whole property.
+          </p>
           <p>
             There are also controls to edit or delete existing shapes.
           </p>
@@ -142,7 +146,9 @@
           <p class="text-center">
             Processed {{ processedYearsCount }} of
             {{ totalYearsToProcess }} simulations
-            <span v-if="isGatheringProcesingResults">(gathering results...)</span>
+            <span v-if="isGatheringProcesingResults"
+              >(gathering results...)</span
+            >
           </p>
           <v-progress-linear
             v-model="processedYearsPercent"
