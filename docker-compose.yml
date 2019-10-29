@@ -15,6 +15,10 @@ services:
     restart: unless-stopped
     ports:
       - ${P8_WEB_PORT:-3000}:3000 # only used when we aren't running behind nginx
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 100m
 
   p8_api:
     image: ternandsparrow/natcap-invest-docker-flask:${API_IMAGE_TAG}
@@ -23,5 +27,9 @@ services:
       NIDF_ENV: production
       SOCKETIO_SECRET: ${SOCKETIO_SECRET}
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 100m
 
   # FIXME add nginx and LE
