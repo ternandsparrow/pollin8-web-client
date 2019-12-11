@@ -12,6 +12,11 @@
         <v-card-title class="headline">Food for Native bees in the Adelaide and Mount Lofty Ranges Region</v-card-title>
         <v-card-text>
           <p>Developed by Katja Hogendoorn<p/>
+          <pdf src="plants.pdf" :page="1">
+              <template slot="loading">
+                loading content here...
+              </template>
+          </pdf>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -20,9 +25,13 @@
 
 <script>
 import { pageTitle } from '~/util/helpers'
+import pdf from 'pdfvuer'
 
 export default {
   head: pageTitle('Planting Guide'),
+  components: {
+    pdf
+  },
 }
 </script>
 
