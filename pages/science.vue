@@ -7,7 +7,7 @@
           <p>Built on the <a
             href="https://naturalcapitalproject.stanford.edu/invest/">NatCap
             InVEST</a> software.</p>
-          <p>TODO - write some more</p>
+          <p>TODO - write some more.  This is more..</p>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">

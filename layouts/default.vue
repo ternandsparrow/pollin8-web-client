@@ -83,6 +83,14 @@ export default {
           icon: 'school',
           title: 'About the science',
           to: '/science'
+        }, {
+          icon: 'mdi-flower',
+          title: 'Planting Guide',
+          to: '/planting'
+        }, {
+          icon: 'mdi-folder',
+          title: 'The Secure Pollination Project',
+          to: '/project'
         }
       ]
       return result

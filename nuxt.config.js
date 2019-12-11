@@ -52,6 +52,7 @@ module.exports = {
     '~/plugins/GlobalErrorHandler',
     {src: '~/plugins/VueNotifications.client', mode: 'client'},
     {src: '~/plugins/VueNotifications.server', mode: 'server'},
+    { src: `~plugins/vimeo-player`, ssr: false },
   ],
 
   /*
@@ -137,6 +138,9 @@ module.exports = {
         config.devtool = '#source-map'
       }
     },
+    vendor: [
+      'vue-vimeo-player'
+    ],
   },
 }
 
