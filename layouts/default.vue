@@ -84,9 +84,13 @@ export default {
           title: 'About the science',
           to: '/science'
         }, {
-          icon: 'mdi-flower',
-          title: 'Planting Guide',
+          icon: 'mdi-tree-outline',
+          title: 'Re-vegetation Planting Guide',
           to: '/planting'
+        }, {
+          icon: 'mdi-bee-flower',
+          title: 'Native Bee Food Calendar',
+          to: '/flowering'
         }, {
           icon: 'mdi-folder',
           title: 'The Secure Pollination Project',
