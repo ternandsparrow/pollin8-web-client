@@ -77,12 +77,6 @@
       </v-card>
       <v-card class="mt-4" v-if="isShowResultSection">
         <v-card-title class="display-2 text-center">Planting Advice</v-card-title>
-
-        <div id="app">
-          <ul>
-            <li v-for="(v, key) in plantData" :key="key" v-text="v"></li>
-          </ul>
-        </div>
         <div id="results">
           <v-data-table
             :headers="headers"
@@ -162,8 +156,8 @@ export default {
           value: 'FAMILY',
           width: '20%',
         },
-        { text: 'Genus', align: 'right', value: 'FAMILY', width: '16%' },
-        { text: 'Species', align: 'right', value: 'GENUS', width: '16%' },
+        { text: 'Genus', align: 'right', value: 'GENUS', width: '16%' },
+        { text: 'Species', align: 'right', value: 'SPECIES', width: '16%' },
         { text: 'Common Name', align: 'right', value: 'carbs', width: '16%' },
         { text: 'ES Rank', align: 'right', value: 'protein', width: '16%' },
         { text: '<TBD>', align: 'right', value: 'iron', width: '16%' },
@@ -264,9 +258,8 @@ export default {
   },
   mounted() {
     d3.csv('Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
-      console.log('mounted loaded an item: ' + JSON.stringify(data))
+      //console.log('mounted loaded an item: ' + JSON.stringify(data))
       this.plantData.push(data)
-      console.log('this.plantData is: ' + JSON.stringify(this.plantData))
     }),
       this.src.then(pdf => {
         this.numPages = pdf.numPages
