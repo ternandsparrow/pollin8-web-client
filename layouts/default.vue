@@ -1,20 +1,8 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app>
       <v-list>
-        <v-list-tile
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+        <v-list-tile v-for="(item, i) in items" :key="i" :to="item.to" router exact>
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -24,16 +12,9 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
+    <v-toolbar :clipped-left="clipped" fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
+      <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>{{ `chevron_${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-toolbar-title>{{title}}</v-toolbar-title>
@@ -62,46 +43,50 @@ export default {
       drawer: true,
       fixed: true,
       miniVariant: false,
-      title: 'Pollin8'
+      title: 'Pollin8',
     }
   },
   computed: {
-    isProd () {
+    isProd() {
       return this.$store.state.isProd
     },
-    items () {
+    items() {
       const result = [
         {
           icon: 'home',
           title: 'Welcome',
-          to: '/'
-        }, {
+          to: '/',
+        },
+        {
           icon: 'memory',
           title: 'Run simulation',
-          to: '/simulation'
-        }, {
+          to: '/simulation',
+        },
+        {
           icon: 'school',
           title: 'About the science',
-          to: '/science'
-        }, {
+          to: '/science',
+        },
+        {
           icon: 'mdi-tree-outline',
-          title: 'Re-vegetation Planting Guide',
-          to: '/planting'
-        }, {
+          title: 'Revegetation Planting Guide',
+          to: '/planting',
+        },
+        {
           icon: 'mdi-bee-flower',
           title: 'Native Bee Food Calendar',
-          to: '/flowering'
-        }, {
+          to: '/flowering',
+        },
+        {
           icon: 'mdi-folder',
           title: 'The Secure Pollination Project',
-          to: '/project'
-        }
+          to: '/project',
+        },
       ]
       return result
     },
   },
-  methods: {
-  }
+  methods: {},
 }
 </script>
 

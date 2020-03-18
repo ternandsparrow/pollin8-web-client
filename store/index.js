@@ -10,6 +10,11 @@ export const state = () => ({
   simulationState: 'initial',
   socketioSid: null,
   processedYearsCount: 0,
+  // Nick's Planting Selector
+  agSettingType: 'SL',
+  applicationType: 'LT2HA',
+  ecosystemServiceType: 'DR',
+  plantingAdviceResult: null,
 })
 
 export const mutations = {
@@ -43,6 +48,20 @@ export const mutations = {
   resetProcessedYearsCount: function(state) {
     state.processedYearsCount = 0
   },
+  // Nick's Plant Selector
+  updateAgSettingType: function(state, data) {
+    state.agSettingType = data
+  },
+  updateApplicationType: function(state, data) {
+    state.applicationType = data
+  },
+  updateEcosystemServiceType: function(state, data) {
+    state.ecosystemServiceType = data
+  },
+  plantingAdviceResult: function(state, data) {
+    state.plantingAdviceResult = data
+  },
+  
 }
 
 export const actions = {
@@ -75,4 +94,5 @@ export const actions = {
       )
     }
   },
+
 }
