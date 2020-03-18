@@ -122,14 +122,6 @@ export default {
   components: {
     pdf,
   },
-  asyncData(context) {
-    d3.csv('Plant_selector_rareandrangeltd_removed_ver1.0.csv').then(function(
-      data,
-    ) {
-      console.log('asyncData loaded: ' + data[0])
-      return { plantData: data }
-    })
-  },
   data() {
     return {
       src: loadingTask,
@@ -162,11 +154,12 @@ export default {
       pagination: {
         sortBy: 'name',
       },
+      plantData: [],
       headers: [
         {
           text: 'Family',
           align: 'left',
-          value: 'name',
+          value: 'FAMILY',
           width: '20%',
         },
         { text: 'Genus', align: 'right', value: 'FAMILY', width: '16%' },
@@ -270,9 +263,14 @@ export default {
     }
   },
   mounted() {
-    this.src.then(pdf => {
-      this.numPages = pdf.numPages
-    })
+    d3.csv('Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
+      console.log('mounted loaded an item: ' + JSON.stringify(data))
+      this.plantData.push(data)
+      console.log('this.plantData is: ' + JSON.stringify(this.plantData))
+    }),
+      this.src.then(pdf => {
+        this.numPages = pdf.numPages
+      })
   },
   computed: {
     agSettingType: {
