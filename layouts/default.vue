@@ -30,6 +30,14 @@
         <nuxt />
       </v-container>
     </v-content>
+    <v-footer height="auto" absolute="true">
+      <v-layout justify-center row wrap>
+        <v-flex py-3 text-xs-center xs12>Brought to you by Agrifutures..</v-flex>
+        <div>
+          <v-img src="agrifutures-logo-300x68.png" width="200px"></v-img>
+        </div>
+      </v-layout>
+    </v-footer>
   </v-app>
 </template>
 
