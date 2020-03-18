@@ -82,16 +82,16 @@
             :headers="headers"
             :items="plantData"
             :pagination.sync="pagination"
-            item-key="name"
+            item-key="FAMILY"
             class="elevation-1"
           >
             <template slot="items" slot-scope="props">
               <tr @click="rowClick(props.item.name)">
-                <td>{{ props.item.name }}</td>
-                <td class="text-xs-right">{{ props.item.calories }}</td>
-                <td class="text-xs-right">{{ props.item.fat }}</td>
-                <td class="text-xs-right">{{ props.item.carbs }}</td>
-                <td class="text-xs-right">{{ props.item.protein }}</td>
+                <td>{{ props.item.FAMILY }}</td>
+                <td class="text-xs-right">{{ props.item.GENUS }}</td>
+                <td class="text-xs-right">{{ props.item.SPECIES }}</td>
+                <td class="text-xs-right">{{ props.item.common_name }}</td>
+                <td class="text-xs-right">{{ props.item.ES_rank }}</td>
                 <td class="text-xs-right">{{ props.item.iron }}</td>
               </tr>
             </template>
@@ -115,6 +115,13 @@ export default {
   head: pageTitle('Planting Guide'),
   components: {
     pdf,
+  },
+  async asyncData(context) {
+    const data = await d3.csv(
+      'Plant_selector_rareandrangeltd_removed_ver1.0.csv',
+    )
+    console.log('asyncData loaded, row count: ' + data.length)
+    return { plantData: data }
   },
   data() {
     return {
@@ -257,13 +264,9 @@ export default {
     }
   },
   mounted() {
-    d3.csv('Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
-      //console.log('mounted loaded an item: ' + JSON.stringify(data))
-      this.plantData.push(data)
-    }),
-      this.src.then(pdf => {
-        this.numPages = pdf.numPages
-      })
+    this.src.then(pdf => {
+      this.numPages = pdf.numPages
+    })
   },
   computed: {
     agSettingType: {
