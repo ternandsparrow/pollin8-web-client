@@ -30,7 +30,7 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer height="auto" absolute="true">
+    <v-footer absolute inset app height="120" width="auto" class="py-12">
       <v-layout justify-center row wrap>
         <v-flex py-3 text-xs-center xs12>Brought to you by Agrifutures..</v-flex>
         <div>

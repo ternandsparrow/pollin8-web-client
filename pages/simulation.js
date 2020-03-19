@@ -61,7 +61,7 @@ export default {
     processedYearsPercent() {
       return (this.processedYearsCount / this.totalYearsToProcess) * 100
     },
-    isGatheringProcesingResults() {
+    isGatheringProcessingResults() {
       return this.processedYearsCount === this.totalYearsToProcess
     },
     years: {

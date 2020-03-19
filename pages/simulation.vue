@@ -26,8 +26,7 @@
               :key="curr.code"
               :label="curr.label"
               :value="curr.code"
-            >
-            </v-radio>
+            ></v-radio>
           </v-radio-group>
         </v-card-text>
       </v-card>
@@ -48,9 +47,7 @@
             If you farm is not one continuous shape, you can draw multiple
             shapes to capture the whole property.
           </p>
-          <p>
-            There are also controls to edit or delete existing shapes.
-          </p>
+          <p>There are also controls to edit or delete existing shapes.</p>
           <p8-map
             @change="onFarmChange"
             :bounds="mapBounds"
@@ -63,9 +60,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
-        <v-card-title class="headline"
-          >Step 3: revegtation location</v-card-title
-        >
+        <v-card-title class="headline">Step 3: revegtation location</v-card-title>
         <v-card-text>
           <p>
             This step is very similar to the previous but the difference is that
@@ -113,29 +108,17 @@
 
               <v-flex xs1>
                 <!-- FIXME add min/max validation -->
-                <v-text-field
-                  v-model="years"
-                  class="mt-0"
-                  type="number"
-                  max="15"
-                ></v-text-field>
+                <v-text-field v-model="years" class="mt-0" type="number" max="15"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
           <div class="text-center">
-            <v-btn
-              large
-              color="primary"
-              @click="doRun"
-              :disabled="!isInputValid"
-            >
-              Run the simulation
-            </v-btn>
+            <v-btn large color="primary" @click="doRun" :disabled="!isInputValid">Run the simulation</v-btn>
             <div v-if="!isInputValid">
-              <small class="text-danger"
-                >Enter at least one shape for the farm and one for the reveg
-                before running the simulation</small
-              >
+              <small class="text-danger">
+                Enter at least one shape for the farm and one for the reveg
+                before running the simulation
+              </small>
             </div>
           </div>
         </v-card-text>
@@ -146,13 +129,11 @@
           <p class="text-center">
             Processed {{ processedYearsCount }} of
             {{ totalYearsToProcess }} simulations
-            <span v-if="isGatheringProcesingResults"
-              >(gathering results...)</span
-            >
+            <span
+              v-if="isGatheringProcessingResults"
+            >(gathering results...)</span>
           </p>
-          <v-progress-linear
-            v-model="processedYearsPercent"
-          ></v-progress-linear>
+          <v-progress-linear v-model="processedYearsPercent"></v-progress-linear>
         </v-card-text>
         <v-card-text v-if="isShowError" class="text-center">
           <b-alert show variant="danger">
@@ -171,13 +152,10 @@
             <a
               href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
               target="_blank"
-              >in the NatCap InVEST documentation</a
-            >.
+            >in the NatCap InVEST documentation</a>.
           </p>
           <p class="text-muted">
-            <small @click="isShowRaster = true" v-if="!isShowRaster"
-              >Show clipped raster</small
-            >
+            <small @click="isShowRaster = true" v-if="!isShowRaster">Show clipped raster</small>
           </p>
           <div v-if="isShowRaster">
             <img :src="farmRaster" />
