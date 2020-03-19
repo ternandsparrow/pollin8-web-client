@@ -140,7 +140,7 @@ module.exports = {
       }
     },
     vendor: [
-      'vue-vimeo-player'
+      'vue-pdf', 'vue-vimeo-player'
     ],
   },
 }

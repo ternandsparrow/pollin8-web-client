@@ -1,6 +1,6 @@
 <template>
   <div id="map-wrap">
-    <no-ssr>
+    <client-only>
       <l-map
         :bounds="bounds"
         id="the-map"
@@ -10,11 +10,7 @@
         @update:bounds="onBoundsUpdate"
       >
         <l-tile-layer :url="hereMapsUrl()"></l-tile-layer>
-        <l-geo-json
-          v-if="geojsonGuide"
-          :geojson="geojsonGuide"
-          :optionsStyle="geojsonGuideStyle"
-        ></l-geo-json>
+        <l-geo-json v-if="geojsonGuide" :geojson="geojsonGuide" :optionsStyle="geojsonGuideStyle"></l-geo-json>
         <l-feature-group>
           <l-control-draw
             :options="drawOptions"
@@ -23,7 +19,7 @@
           />
         </l-feature-group>
       </l-map>
-    </no-ssr>
+    </client-only>
   </div>
 </template>
 

@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title class="display-2">Revegetation Planting Guide</v-card-title>
         <v-card-text>
-          <p>Here you can ... Nick to supply text</p>
+          <p>Here you can ... Nick to supply text..</p>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
@@ -106,26 +106,12 @@
 
 <script>
 import { pageTitle } from '~/util/helpers'
-import pdf from 'vue-pdf'
 import * as d3 from 'd3'
-
-var loadingTask = pdf.createLoadingTask('./planting/SL_TSBF.pdf')
 
 export default {
   head: pageTitle('Planting Guide'),
-  components: {
-    pdf,
-  },
-  // async asyncData(context) {
-  //   const data = await d3.csv(
-  //     'Plant_selector_rareandrangeltd_removed_ver1.0.csv',
-  //   )
-  //   console.log('asyncData loaded, row count: ' + data.length)
-  //   return { plantData: data }
-  // },
   data() {
     return {
-      src: loadingTask,
       currentPage: 0,
       pageCount: 0,
       numPages: undefined,
@@ -174,10 +160,7 @@ export default {
   mounted() {
     d3.csv('Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
       this.plantData.push(data)
-    }),
-      this.src.then(pdf => {
-        this.numPages = pdf.numPages
-      })
+    })
   },
   computed: {
     agSettingType: {
