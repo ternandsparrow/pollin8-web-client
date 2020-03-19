@@ -158,7 +158,7 @@ export default {
     }
   },
   mounted() {
-    d3.csv('Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
+    d3.csv('/Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
       this.plantData.push(data)
     })
   },
