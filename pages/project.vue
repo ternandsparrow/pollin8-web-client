@@ -12,7 +12,9 @@
         <v-card-text>
           <p>Blurb of the project. Talk on it more. AP - Get from Katja.</p>
         </v-card-text>
-        <vimeo-player ref="player" :video-id="videoID" @ready="onReady" :player-height="height"></vimeo-player>
+        <no-ssr>
+          <vimeo-player ref="player" :video-id="videoID" @ready="onReady" :player-height="height"></vimeo-player>
+        </no-ssr>
       </v-card>
     </v-flex>
   </v-layout>
