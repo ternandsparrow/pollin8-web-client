@@ -1,4 +1,4 @@
-FAMILY,GENUS,SPECIES,common_name,Unique_identifier,Rainfall,Standard_tube,Direct_seed,Existing_overstorey,Nectar,Pollen,NP_rank,Sand,Loam,Clay,Calcareous,Soil-rank,SL,SE ,SYP, NYP,EP,Summer,Autumn,Winter ,Spring,Season_rank,Under 2m,Mid 2-5m,Over over 5m,Meadow_DS,Hedge_TS,Shelter_TS,Drought_tolerant,Salt_tolerant,Erosion_control,Fire_resistance,Fire_promotion,ES_rank
+FAMILY,GENUS,SPECIES,common_name,Unique_identifier,Rainfall,Standard_tube,Direct_seed,Existing_overstorey,Nectar,Pollen,NP_rank,Sand,Loam,Clay,Calcareous,Soil-rank,SL,SE,SYP,NYP,EP,Summer,Autumn,Winter ,Spring,Season_rank,Under 2m,Mid 2-5m,Over over 5m,Meadow_DS,Hedge_TS,Shelter_TS,Drought_tolerant,Salt_tolerant,Erosion_control,Fire_resistance,Fire_promotion,ES_rank
 Pittosporaceae,Bursaria,spinosa ssp spinosa,christmas bush,PSsp110,350,1,1,1,2,2,4,0,1,1,1,3,1,1,1,1,1,1,0,0,1,2,0,1,0,0,1,0,1,1,1,1,0,14
 Myrtaceae,Callistemon,rugulosus,scarlet bottlebrush,PSsp80,400,1,1,1,2,2,4,1,1,1,1,4,1,1,1,1,1,1,0,0,1,2,0,1,0,0,1,0,1,1,1,0,0,14
 Myrtaceae,Melaleuca,halmaturorum,salt paper bark,PSsp104,350,1,1,1,2,2,4,1,1,1,1,4,0,1,1,0,1,1,0,0,1,2,0,1,0,0,1,0,1,2,1,0,1,14

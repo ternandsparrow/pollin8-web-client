@@ -11,9 +11,10 @@ export const state = () => ({
   socketioSid: null,
   processedYearsCount: 0,
   // Nick's Planting Selector
+  // FIXME - get these defaults from a managed datastructure
   agSettingType: 'SL',
-  applicationType: 'LT2HA',
-  ecosystemServiceType: 'DR',
+  applicationType: 'Standard_tube',
+  ecosystemServiceType: 'Drought_tolerant',
   plantingAdviceResult: null,
 })
 
