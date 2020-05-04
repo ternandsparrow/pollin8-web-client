@@ -224,15 +224,31 @@ export default {
         const settingMatches = this.plantData.filter(
           plant => plant[settingTypeVar] === '1',
         )
-        return settingMatches
-        // const applicationMatches = this.settingMatches.filter(
-        //   plant => plant[applicationTypeVar] === '1',
-        // )
-        // return applicationMatches
-        // var ecosystemServicesMatches = applicationMatches.filter(
-        //   plant => plant[ecosystemServicesTypeVar] === '1',
-        // )
-        // return ecosystemServicesMatches
+        const applicationMatches = settingMatches.filter(
+          plant => plant[applicationTypeVar] === '1',
+        )
+        var ecosystemServicesMatches = undefined
+        if (ecosystemServicesTypeVar == 'ALL') {
+          // Apply all filters
+          ecosystemServicesMatches = applicationMatches.filter(
+            plant => plant['Drought_tolerant'] === '1',
+          )
+          ecosystemServicesMatches = ecosystemServicesMatches.filter(
+            plant => plant['Salt_tolerant'] === '1',
+          )
+          ecosystemServicesMatches = ecosystemServicesMatches.filter(
+            plant => plant['Erosion_control'] === '1',
+          )
+          ecosystemServicesMatches = ecosystemServicesMatches.filter(
+            plant => plant['Fire_resistance'] === '1',
+          )
+        } else {
+          // Apply the specified filter
+          ecosystemServicesMatches = applicationMatches.filter(
+            plant => plant[ecosystemServicesTypeVar] === '1',
+          )
+        }
+        return ecosystemServicesMatches
       } else {
         return []
       }
