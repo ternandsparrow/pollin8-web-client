@@ -54,7 +54,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title v-if="isInputValid" class="headline">Run it!</v-card-title>
+        <v-card-title v-if="isInputValid" class="headline">Your selections</v-card-title>
         <v-card-text class="card-text">
           <div v-if="isInputValid">
             Agricultural Setting = {{ agSettingType }}
@@ -63,7 +63,7 @@
             <br />
             Ecosystem Service Type Setting = {{ ecosystemServiceType }}
           </div>
-          <p></p>
+          <!-- p></p>
           <div class="text-center">
             <v-btn
               large
@@ -76,7 +76,7 @@
                 class="text-danger"
               >Please make sure you have selected an option for all three of the criteria.</small>
             </div>
-          </div>
+          </div-->
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background" v-if="isShowResultSection">
@@ -96,7 +96,8 @@
                 <td class="text-xs-right">{{ props.item.SPECIES }}</td>
                 <td class="text-xs-right">{{ props.item.common_name }}</td>
                 <td class="text-xs-right">{{ props.item.Rainfall }}</td>
-                <td class="text-xs-right">{{ props.item.iron }}</td>
+                <td class="text-xs-right">{{ props.item.Standard_tube }}</td>
+                <td class="text-xs-right">{{ props.item.Direct_seed }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -155,14 +156,30 @@ export default {
         },
         { text: 'Genus', align: 'right', value: 'GENUS', width: '16%' },
         { text: 'Species', align: 'right', value: 'SPECIES', width: '16%' },
-        { text: 'Common Name', align: 'right', value: 'carbs', width: '16%' },
+        {
+          text: 'Common Name',
+          align: 'right',
+          value: 'common_name',
+          width: '16%',
+        },
         {
           text: 'Rainfall (mm)',
           align: 'right',
-          value: 'protein',
+          value: 'rainfall',
           width: '16%',
         },
-        { text: '<TBD>', align: 'right', value: 'iron', width: '16%' },
+        {
+          text: 'Is standard tube stock?',
+          align: 'right',
+          value: 'Standard_tube',
+          width: '16%',
+        },
+        {
+          text: 'Is direct seeding?',
+          align: 'right',
+          value: 'Direct_seed',
+          width: '16%',
+        },
       ],
     }
   },
