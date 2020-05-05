@@ -26,7 +26,7 @@
       <v-card class="mt-4 card-background">
         <v-card-title class="headline">Step 2: Site-specific application</v-card-title>
         <v-card-text class="card-text">
-          <p>Available land area, site access and existing vegetation will impact on species selection and how they are applied. For example unless careful planning and appropriate resources are available it would be ill advised to attempt tube-stock planting in areas more than 2ha. Though for areas greater than 2 hectares meadows and hedges the use of direct seeding of species that propagate easily is more appropriate.</p>
+          <p>Available land area, site access and existing vegetation will impact on species selection and how they are applied. For example unless careful planning and appropriate resources are available it would be ill advised to attempt tube-stock planting in areas more than 2ha. Tubestock is also recommended for areas that have existing over-story and linear shelterbelt plantings. In areas greater than 2 hectares, sown meadows and linear hedges the use of direct seeding of species that propagate easily is more appropriate.</p>
           <p>What is your application?</p>
           <v-radio-group v-model="applicationType" :mandatory="true">
             <v-radio
@@ -42,7 +42,7 @@
         <v-card-title class="headline">Step 3: Refining Ecosystem Service</v-card-title>
         <v-card-text class="card-text">
           <p>Along with the pollination benefits to agriculture, ecological restoration can conserve biodiversity and provide essential ecosystem services. Ecosystem services reflect the ecological, social and economic dimensions of natural resources. By refining the plant selection by choosing specific ecosystem services, not only can you prioritise pollination services to the focal crop (by providing resources and habitat to pollinators throughout the year), you can also gain additional benefits. For example, these may include drought tolerance, salt tolerance, erosion control and fire mitigation.</p>
-          <p>Which Ecosystem Service is most important?</p>
+          <p>Along with pollination services, what other ecosystem services are important at your site?</p>
           <v-radio-group v-model="ecosystemServiceType" :mandatory="true">
             <v-radio
               v-for="curr in ecosystemServiceTypes"
@@ -95,7 +95,7 @@
                 <td class="text-xs-right">{{ props.item.GENUS }}</td>
                 <td class="text-xs-right">{{ props.item.SPECIES }}</td>
                 <td class="text-xs-right">{{ props.item.common_name }}</td>
-                <td class="text-xs-right">{{ props.item.ES_rank }}</td>
+                <td class="text-xs-right">{{ props.item.Rainfall }}</td>
                 <td class="text-xs-right">{{ props.item.iron }}</td>
               </tr>
             </template>
@@ -156,7 +156,12 @@ export default {
         { text: 'Genus', align: 'right', value: 'GENUS', width: '16%' },
         { text: 'Species', align: 'right', value: 'SPECIES', width: '16%' },
         { text: 'Common Name', align: 'right', value: 'carbs', width: '16%' },
-        { text: 'ES Rank', align: 'right', value: 'protein', width: '16%' },
+        {
+          text: 'Rainfall (mm)',
+          align: 'right',
+          value: 'protein',
+          width: '16%',
+        },
         { text: '<TBD>', align: 'right', value: 'iron', width: '16%' },
       ],
     }
@@ -277,6 +282,9 @@ export default {
         ],
       }
       this.$store.commit('plantingAdviceResult', result)
+    },
+    rowClick() {
+      console.log('TODO - handle the click')
     },
   },
 }
