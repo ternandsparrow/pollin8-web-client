@@ -91,12 +91,20 @@
           >
             <template slot="items" slot-scope="props">
               <tr @click="rowClick(props.item.name)">
-                <td>{{ props.item.FAMILY }}</td>
-                <td class="text-xs-right">{{ props.item.GENUS }}</td>
+                <td v-on="on">{{ props.item.FAMILY }}</td>
+
+                <!-- <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
+                  </template>
+                  <span>Tooltip</span>
+                </v-tooltip>-->
+                <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
                 <td class="text-xs-right">{{ props.item.SPECIES }}</td>
                 <td class="text-xs-right">{{ props.item.common_name }}</td>
                 <td class="text-xs-right">{{ props.item.Rainfall }}</td>
                 <td class="text-xs-right">{{ props.item.Standard_tube }}</td>
+                <td class="text-xs-right">{{ props.item.Direct_seed }}</td>
                 <td class="text-xs-right">{{ props.item.Direct_seed }}</td>
               </tr>
             </template>
@@ -140,6 +148,7 @@ export default {
         { code: 'Salt_tolerant', label: 'Salt tolerance' },
         { code: 'Erosion_control', label: 'Erosion' },
         { code: 'Fire_resistance', label: 'Fire tolerance' },
+        { code: 'None', label: 'None' },
         { code: 'ALL', label: 'All' },
       ],
       // Nick Planting advice table
@@ -221,6 +230,7 @@ export default {
     isShowResultSection() {
       return this.$store.plantingAdviceResult !== null
     },
+
     filteredPlants: function() {
       const settingTypeVar = this.agSettingType
       const applicationTypeVar = this.applicationType
@@ -264,6 +274,8 @@ export default {
           ecosystemServicesMatches = ecosystemServicesMatches.filter(
             plant => plant['Fire_resistance'] === '1',
           )
+        } else if (ecosystemServicesTypeVar == 'None') {
+          ecosystemServicesMatches = applicationMatches
         } else {
           // Apply the specified filter
           ecosystemServicesMatches = applicationMatches.filter(

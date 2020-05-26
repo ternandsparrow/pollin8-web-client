@@ -4,16 +4,25 @@
       <v-card>
         <v-card-title class="display-2">Secure pollination for More Productive Agriculture</v-card-title>
         <v-card-text>
-          <p>The project will realize significant productivity and profitability gains for producers by improving yield and rates of pollination. The project will assess the contribution of pollinators to nine crops, will re-establish native vegetation to support pollinator food and nesting resources and use new technology to communicate the findings to primary producers.</p>
+          <p>The project will realise significant productivity and yield gains for producers through improved rates of pollination. The project will assess the contribution of pollinators to nine crops, will re-establish native vegetation to support pollinator food and nesting resources and use new technology to communicate the findings to primary producers.</p>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
         <v-card-title class="headline">Project Overview</v-card-title>
         <v-card-text>
-          <p>Blurb of the project. Talk on it more. AP - Get from Katja.</p>
+          <p>A video that presents the project.</p>
         </v-card-text>
         <client-only>
-          <vimeo-player ref="player" :video-id="videoID" @ready="onReady" :player-height="height"></vimeo-player>
+          <vimeo-player ref="player" :video-id="videoID1" @ready="onReady" :player-height="height"></vimeo-player>
+        </client-only>
+      </v-card>
+      <v-card class="mt-4">
+        <v-card-title class="headline">Project Animation</v-card-title>
+        <v-card-text>
+          <p>An animation on the project.</p>
+        </v-card-text>
+        <client-only>
+          <vimeo-player ref="player" :video-id="videoID2" @ready="onReady" :player-height="height"></vimeo-player>
         </client-only>
       </v-card>
     </v-flex>
@@ -29,7 +38,8 @@ export default {
   components: { vueVimeoPlayer },
   data() {
     return {
-      videoID: '271022981',
+      videoID1: '271022981',
+      videoID2: '422668869',
       height: 600,
       options: {},
       playerReady: false,
