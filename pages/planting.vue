@@ -81,6 +81,7 @@
       </v-card>
       <v-card class="mt-4 card-background" v-if="isShowResultSection">
         <v-card-title class="display-2 text-center">Planting Advice</v-card-title>
+        <v-card-title class="headline">Overstorey</v-card-title>
         <div id="results">
           <v-data-table
             :headers="headers"
@@ -92,25 +93,28 @@
             show-expand
             class="elevation-1"
           >
-            <!-- <template v-slot:item.species="{ item }">
-              <v-chip :color="red" dark>{{ item.species }}</v-chip>
-            </template> -->
-
-            <!-- <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
-              </template>
-              <span>Tooltip 123</span>
-            </v-tooltip> -->
-
-            <template v-slot:expanded-item="{ headers, item }">
-              <td :colspan="headers.length">More info about {{ item.common_name }}</td>
-            </template>
-
+            <!-- Why does this need to be here? Other examples auto-work -->
             <template slot="items" slot-scope="props">
               <tr @click="rowClick(props.item.name)">
                 <td class="text-xs-right">{{ props.item.FAMILY }}</td>
-                <td class="text-xs-right">{{ props.item.GENUS }}</td>
+                <td class="text-xs-right">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <span v-bind="attrs" v-on="on">{{ props.item.GENUS }}</span>
+                    </template>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing
+                      elit. Aliquam suscipit erat nibh, vel faucibus risus
+                      pretium varius. Mauris ut erat et nulla commodo posuere.
+                      Sed pulvinar elit ante, id venenatis sem vestibulum vel.
+                      Aliquam luctus ligula sed vulputate dignissim.<br />
+                      Cras sodales auctor risus, nec bibendum nunc vestibulum at.
+                      Sed aliquam, massa ut scelerisque faucibus, ligula dolor
+                      vulputate ipsum, in fermentum lectus lorem in nunc.
+                      Pellentesque mauris nisl, eleifend vitae maximus eget, gravida
+                      molestie tellus. Nam lobortis sed purus sed dictum.
+                    </span>
+                  </v-tooltip>
+                </td>
                 <td class="text-xs-right">{{ props.item.SPECIES }}</td>
                 <td class="text-xs-right">{{ props.item.common_name }}</td>
                 <td class="text-xs-right">{{ props.item.Rainfall }}</td>
@@ -126,61 +130,14 @@
                 <td class="text-xs-right">{{ props.item.Spring }}</td>
               </tr>
             </template>
-          </v-data-table>
-        </div>
-      </v-card>
-
-
-      <v-card class="mt-4 card-background" v-if="isShowResultSection">
-        <v-card-title class="display-2 text-center">Mid-Storey</v-card-title>
-        <div id="results">
-          <v-data-table
-            :headers="headers"
-            :items="filteredPlants"
-            :pagination.sync="pagination"
-            :single-expand="singleExpand"
-            :expanded.sync="expanded"
-            item-key="common_name"
-            show-expand
-            class="elevation-1"
-          >
-            <!-- <template v-slot:item.species="{ item }">
-              <v-chip :color="red" dark>{{ item.species }}</v-chip>
-            </template> -->
-
-            <!-- <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
-              </template>
-              <span>Tooltip 123</span>
-            </v-tooltip> -->
-
             <template v-slot:expanded-item="{ headers, item }">
-              <td :colspan="headers.length">More info about {{ item.common_name }}</td>
-            </template>
-
-            <template slot="items" slot-scope="props">
-              <tr @click="rowClick(props.item.name)">
-                <td class="text-xs-right">{{ props.item.FAMILY }}</td>
-                <td class="text-xs-right">{{ props.item.GENUS }}</td>
-                <td class="text-xs-right">{{ props.item.SPECIES }}</td>
-                <td class="text-xs-right">{{ props.item.common_name }}</td>
-                <td class="text-xs-right">{{ props.item.Rainfall }}</td>
-                <td class="text-xs-right">{{ props.item.Standard_tube }}</td>
-                <td class="text-xs-right">{{ props.item.Direct_seed }}</td>
-                <td class="text-xs-right">{{ props.item.Sand}}</td>
-                <td class="text-xs-right">{{ props.item.Loam }}</td>
-                <td class="text-xs-right">{{ props.item.Clay }}</td>
-                <td class="text-xs-right">{{ props.item.Calcareous }}</td>
-                <td class="text-xs-right">{{ props.item.Summer }}</td>
-                <td class="text-xs-right">{{ props.item.Autumn }}</td>
-                <td class="text-xs-right">{{ props.item.Winter }}</td>
-                <td class="text-xs-right">{{ props.item.Spring }}</td>
-              </tr>
+              <td :colspan="headers.length">More info about {{ item.SPECIES }}</td>
             </template>
           </v-data-table>
         </div>
       </v-card>
+
+
     </v-flex>
     <div id="bottom"></div>
   </v-layout>
@@ -310,6 +267,7 @@ export default {
           value: 'Spring',
           width: '5%',
         },      
+        { text: '', value: 'data-table-expand' },
         ],
     }
   },
@@ -409,6 +367,8 @@ export default {
         return []
       }
     },
+    filteredOverstoreyPlants: function() {
+    }
   },
   methods: {
     async doPlantingGuideSearch() {
