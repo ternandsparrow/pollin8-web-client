@@ -87,34 +87,23 @@
             :headers="headers"
             :items="filteredPlants"
             :pagination.sync="pagination"
-            :single-expand="singleExpand"
-            :expanded.sync="expanded"
             item-key="common_name"
-            show-expand
             class="elevation-1"
           >
             <!-- Why does this need to be here? Other examples auto-work -->
             <template slot="items" slot-scope="props">
-              <tr @click="rowClick(props.item.name)">
-                <td class="text-xs-right">{{ props.item.FAMILY }}</td>
+              <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-right">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <span v-bind="attrs" v-on="on">{{ props.item.GENUS }}</span>
+                      <span v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</span>
                     </template>
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit. Aliquam suscipit erat nibh, vel faucibus risus
-                      pretium varius. Mauris ut erat et nulla commodo posuere.
-                      Sed pulvinar elit ante, id venenatis sem vestibulum vel.
-                      Aliquam luctus ligula sed vulputate dignissim.<br />
-                      Cras sodales auctor risus, nec bibendum nunc vestibulum at.
-                      Sed aliquam, massa ut scelerisque faucibus, ligula dolor
-                      vulputate ipsum, in fermentum lectus lorem in nunc.
-                      Pellentesque mauris nisl, eleifend vitae maximus eget, gravida
-                      molestie tellus. Nam lobortis sed purus sed dictum.
+                    <span>          
+                      {{ familyComment(props.item.FAMILY) }}
                     </span>
                   </v-tooltip>
                 </td>
+                <td class="text-xs-right">{{ props.item.GENUS }}</td>
                 <td class="text-xs-right">{{ props.item.SPECIES }}</td>
                 <td class="text-xs-right">{{ props.item.common_name }}</td>
                 <td class="text-xs-right">{{ props.item.Rainfall }}</td>
@@ -124,14 +113,26 @@
                 <td class="text-xs-right">{{ props.item.Loam }}</td>
                 <td class="text-xs-right">{{ props.item.Clay }}</td>
                 <td class="text-xs-right">{{ props.item.Calcareous }}</td>
-                <td class="text-xs-right">{{ props.item.Summer }}</td>
-                <td class="text-xs-right">{{ props.item.Autumn }}</td>
-                <td class="text-xs-right">{{ props.item.Winter }}</td>
-                <td class="text-xs-right">{{ props.item.Spring }}</td>
               </tr>
             </template>
-            <template v-slot:expanded-item="{ headers, item }">
-              <td :colspan="headers.length">More info about {{ item.SPECIES }}</td>
+            <template v-slot:expand="props">
+              <v-card flat>
+                <v-card-text>
+                  <div>
+                    Flowers in Summer? {{ props.item.Summer == '1' }}
+                  </div>
+                  <div>
+                    Flowers in Autumn? {{ props.item.Autumn == '1' }}
+                  </div>
+                  <div>
+                    Flowers in Winter? {{ props.item.Winter == '1' }}
+                  </div>
+                  <div>
+                    Flowers in Spring? {{ props.item.Spring == '1' }}
+                  </div>
+                </v-card-text>
+
+              </v-card>
             </template>
           </v-data-table>
         </div>
@@ -243,31 +244,6 @@ export default {
           value: 'Calcareous',
           width: '16%',
         },
-        {
-          text: 'Flowers in Summer?',
-          align: 'right',
-          value: 'Summer',
-          width: '5%',
-        },
-        {
-          text: 'Flowers in Autumn?',
-          align: 'right',
-          value: 'Autumn',
-          width: '5%',
-        },      
-        {
-          text: 'Flowers in Winter?',
-          align: 'right',
-          value: 'Winter ', // Note the extra white-space
-          width: '5%',
-        },      
-        {
-          text: 'Flowers in Spring?',
-          align: 'right',
-          value: 'Spring',
-          width: '5%',
-        },      
-        { text: '', value: 'data-table-expand' },
         ],
     }
   },
@@ -367,8 +343,6 @@ export default {
         return []
       }
     },
-    filteredOverstoreyPlants: function() {
-    }
   },
   methods: {
     async doPlantingGuideSearch() {
@@ -397,6 +371,23 @@ export default {
     rowClick() {
       console.log('TODO - handle the click')
     },
+    familyComment(family) {
+      var comment = 'placeholder comment'
+      if (family == 'Asteraceae' || family == 'Compositae') {
+        comment = 'Asteraceae and Compositae (Daisies and Asters). Native daisies such as Chrysocephalum and Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators. Some daisies such as Brachycomes also have long flowering periods, are widely available in nurseries and are compact and hardy. These families are generally well suited to complimentary understory planting but may require intensive weed management (mulch, herbicides) and herbivore management (fencing, guarding) during their establishment.'
+      } else if (family == 'Dilleniaceae') {
+        comment = 'The Hibbertias (Guinea flowers) come from this family and they can deal with a wide variety of soil types that occur across the focal agricultural regions. The hibbertia flower requires buzz pollination that excludes honey bees for pollination. Flowering is short, turnover is high and they only produce pollen so planting hibbertias will need to be supplemented with nectar producing species for native bees.'
+      }
+
+      else if (family == 'Leguminosae' || family == 'Fabaceae') {
+
+        comment = 'Leguminoceae and Fabaceae (Legumes and peas). Along with providing additional soil benefits like being efficient nitrogen fixers (e.g. the legumes) this family include many core restoration plants that are very important for pollinators. A wide variety of plants from these families such as Acacia, Eutaxia, Daviesia, Dilwynia, Hardenbergia, Kennedia, Pultanaea and Templetonia species are all attractive to native pollinators. The wide diversity of growth forms and soil associations makes many plants from this family drought and/or salinity tolerant.'
+      }
+      else if (family == 'Melaleuca') {
+        comment = 'Melaleuca (Myrtle). The abundant brush-like flowers of the Melaleuca attract numerous native bees as well as birds. Varieties suit a broad range of soil types and are often drought and salinity tolerant. The species present in the agricultural districts of South Australia grow from small shrubs to small trees. They are also generally easily propagated for use in direct seeding of broad-acre restoration (>2ha).'
+      }
+      return(comment)
+    }
   },
 }
 </script>
