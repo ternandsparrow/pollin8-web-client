@@ -32,9 +32,12 @@
     </v-content>
     <v-footer absolute inset app height="120" width="auto" class="py-12">
       <v-layout justify-center row wrap>
-        <v-flex py-3 text-xs-center xs12>Brought to you by Agrifutures..</v-flex>
-        <div>
-          <v-img src="/agrifutures-logo-300x68.png" width="200px"></v-img>
+        <v-flex py-3 text-xs-center xs12>This project is supported by funding from the Australian Government Department of Agriculture, Water and the Environment as part of its Rural R&D for Profit program..</v-flex>
+        <div class="logo">
+          <v-img src="/Agrifutures-Securing.png" width="200px"></v-img>
+        </div>
+        <div class="logo">
+          <v-img src="/dawelogo.png" width="200px"></v-img>
         </div>
       </v-layout>
     </v-footer>
@@ -145,5 +148,9 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+.logo {
+  padding: 10px 10px 1px 10px;
 }
 </style>

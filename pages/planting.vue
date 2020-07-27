@@ -86,26 +86,96 @@
             :headers="headers"
             :items="filteredPlants"
             :pagination.sync="pagination"
-            item-key="FAMILY"
+            :single-expand="singleExpand"
+            :expanded.sync="expanded"
+            item-key="common_name"
+            show-expand
             class="elevation-1"
           >
+            <!-- <template v-slot:item.species="{ item }">
+              <v-chip :color="red" dark>{{ item.species }}</v-chip>
+            </template> -->
+
+            <!-- <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
+              </template>
+              <span>Tooltip 123</span>
+            </v-tooltip> -->
+
+            <template v-slot:expanded-item="{ headers, item }">
+              <td :colspan="headers.length">More info about {{ item.common_name }}</td>
+            </template>
+
             <template slot="items" slot-scope="props">
               <tr @click="rowClick(props.item.name)">
-                <td v-on="on">{{ props.item.FAMILY }}</td>
-
-                <!-- <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
-                  </template>
-                  <span>Tooltip</span>
-                </v-tooltip>-->
-                <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
+                <td class="text-xs-right">{{ props.item.FAMILY }}</td>
+                <td class="text-xs-right">{{ props.item.GENUS }}</td>
                 <td class="text-xs-right">{{ props.item.SPECIES }}</td>
                 <td class="text-xs-right">{{ props.item.common_name }}</td>
                 <td class="text-xs-right">{{ props.item.Rainfall }}</td>
                 <td class="text-xs-right">{{ props.item.Standard_tube }}</td>
                 <td class="text-xs-right">{{ props.item.Direct_seed }}</td>
+                <td class="text-xs-right">{{ props.item.Sand}}</td>
+                <td class="text-xs-right">{{ props.item.Loam }}</td>
+                <td class="text-xs-right">{{ props.item.Clay }}</td>
+                <td class="text-xs-right">{{ props.item.Calcareous }}</td>
+                <td class="text-xs-right">{{ props.item.Summer }}</td>
+                <td class="text-xs-right">{{ props.item.Autumn }}</td>
+                <td class="text-xs-right">{{ props.item.Winter }}</td>
+                <td class="text-xs-right">{{ props.item.Spring }}</td>
+              </tr>
+            </template>
+          </v-data-table>
+        </div>
+      </v-card>
+
+
+      <v-card class="mt-4 card-background" v-if="isShowResultSection">
+        <v-card-title class="display-2 text-center">Mid-Storey</v-card-title>
+        <div id="results">
+          <v-data-table
+            :headers="headers"
+            :items="filteredPlants"
+            :pagination.sync="pagination"
+            :single-expand="singleExpand"
+            :expanded.sync="expanded"
+            item-key="common_name"
+            show-expand
+            class="elevation-1"
+          >
+            <!-- <template v-slot:item.species="{ item }">
+              <v-chip :color="red" dark>{{ item.species }}</v-chip>
+            </template> -->
+
+            <!-- <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <td class="text-xs-right" v-on="on">{{ props.item.GENUS }}</td>
+              </template>
+              <span>Tooltip 123</span>
+            </v-tooltip> -->
+
+            <template v-slot:expanded-item="{ headers, item }">
+              <td :colspan="headers.length">More info about {{ item.common_name }}</td>
+            </template>
+
+            <template slot="items" slot-scope="props">
+              <tr @click="rowClick(props.item.name)">
+                <td class="text-xs-right">{{ props.item.FAMILY }}</td>
+                <td class="text-xs-right">{{ props.item.GENUS }}</td>
+                <td class="text-xs-right">{{ props.item.SPECIES }}</td>
+                <td class="text-xs-right">{{ props.item.common_name }}</td>
+                <td class="text-xs-right">{{ props.item.Rainfall }}</td>
+                <td class="text-xs-right">{{ props.item.Standard_tube }}</td>
                 <td class="text-xs-right">{{ props.item.Direct_seed }}</td>
+                <td class="text-xs-right">{{ props.item.Sand}}</td>
+                <td class="text-xs-right">{{ props.item.Loam }}</td>
+                <td class="text-xs-right">{{ props.item.Clay }}</td>
+                <td class="text-xs-right">{{ props.item.Calcareous }}</td>
+                <td class="text-xs-right">{{ props.item.Summer }}</td>
+                <td class="text-xs-right">{{ props.item.Autumn }}</td>
+                <td class="text-xs-right">{{ props.item.Winter }}</td>
+                <td class="text-xs-right">{{ props.item.Spring }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -125,6 +195,8 @@ export default {
   head: pageTitle('Planting Guide'),
   data() {
     return {
+      expanded: [],
+      singleExpand: true,
       currentPage: 0,
       pageCount: 0,
       numPages: undefined,
@@ -154,6 +226,7 @@ export default {
       // Nick Planting advice table
       pagination: {
         sortBy: 'name',
+        rowsPerPage: 15
       },
       plantData: [],
       headers: [
@@ -189,12 +262,61 @@ export default {
           value: 'Direct_seed',
           width: '16%',
         },
-      ],
+        {
+          text: 'Grows in Sandy soil?',
+          align: 'right',
+          value: 'Sand',
+          width: '16%',
+        },
+        {
+          text: 'Grows in Loamy soil?',
+          align: 'right',
+          value: 'Loam',
+          width: '16%',
+        },
+        {
+          text: 'Grows in Clayish soil?',
+          align: 'right',
+          value: 'Clay',
+          width: '16%',
+        },
+        {
+          text: 'Grows in Calcareous soil?',
+          align: 'right',
+          value: 'Calcareous',
+          width: '16%',
+        },
+        {
+          text: 'Flowers in Summer?',
+          align: 'right',
+          value: 'Summer',
+          width: '5%',
+        },
+        {
+          text: 'Flowers in Autumn?',
+          align: 'right',
+          value: 'Autumn',
+          width: '5%',
+        },      
+        {
+          text: 'Flowers in Winter?',
+          align: 'right',
+          value: 'Winter ', // Note the extra white-space
+          width: '5%',
+        },      
+        {
+          text: 'Flowers in Spring?',
+          align: 'right',
+          value: 'Spring',
+          width: '5%',
+        },      
+        ],
     }
   },
   mounted() {
-    d3.csv('/Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
+    d3.csv('/planting/Plant_selector_rareandrangeltd_removed_ver1.0.csv', data => {
       this.plantData.push(data)
+      console.log('this.plantData = ' + this.plantData)
     })
   },
   computed: {
