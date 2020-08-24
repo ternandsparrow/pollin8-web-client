@@ -149,7 +149,7 @@
                       </div>
                     </template>
                     <span>
-                      {{ familyComment(props.item.FAMILY) }}
+                      {{ familyCommentShort(props.item.FAMILY) }}
                     </span>
                   </v-tooltip>
                 </td>
@@ -160,26 +160,23 @@
                 <td class="text-xs-right">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon>
+                      <v-icon v-bind="attrs" v-on="on">
                         {{
                           props.item.Standard_tube == '1'
                             ? 'mdi-checkbox-marked'
                             : 'mdi-checkbox-blank-outline'
                         }}
                       </v-icon>
-                      <!-- span v-bind="attrs" v-on="on">{{
-                        props.item.Standard_tube
-                      }}</span -->
                     </template>
                     <span>
-                      {{ tubeStockComment(props.item.Standard_tube) }}
+                      {{ tubeStockStandardComment() }}
                     </span>
                   </v-tooltip>
                 </td>
                 <td class="text-xs-right">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon>
+                      <v-icon v-bind="attrs" v-on="on">
                         {{
                           props.item.Direct_seed == '1'
                             ? 'mdi-checkbox-marked'
@@ -191,7 +188,7 @@
                       }}</span -->
                     </template>
                     <span>
-                      {{ tubeStockComment(props.item.Direct_seed) }}
+                      {{ tubeStockDirectComment() }}
                     </span>
                   </v-tooltip>
                 </td>
@@ -200,7 +197,7 @@
             <template v-slot:expand="props">
               <v-container grid-list-md text-xs-center>
                 <span>
-                  {{ familyComment(props.item.FAMILY) }}
+                  {{ familyCommentLong(props.item.FAMILY) }}
                 </span>
 
                 <v-layout row>
@@ -465,7 +462,7 @@ export default {
     rowClick() {
       console.log('TODO - handle the click')
     },
-    familyComment(family) {
+    familyCommentLong(family) {
       var comment = 'No further Family information'
       if (family == 'Asteraceae' || family == 'Compositae') {
         comment =
@@ -497,8 +494,43 @@ export default {
       }
       return comment
     },
-    tubeStockComment() {
-      return 'For seedlings purchased commercially the rule of thumb is that seed that propagates easily will be sold as the cheapest tubestock (referred to as standard in guide) and available for approximately $2-$3 at a commercial nursery (50 tubes to a tray for transporting). Plants that don’t propagate easily from seed because they need to be grown from vegetative growth or produce low quantities of seed are more expensive $3-$4 per tube (referred to as non-standard).'
+    familyCommentShort(family) {
+      var comment = 'No further Family information'
+      if (family == 'Asteraceae' || family == 'Compositae') {
+        comment =
+          'Asteraceae and Compositae (Daisies and Asters). Native daisies such as Chrysocephalum and Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators.'
+      } else if (family == 'Dilleniaceae') {
+        comment =
+          'The Hibbertias (Guinea flowers) come from this family and they can deal with a wide variety of soil types that occur across the focal agricultural regions.'
+      } else if (family == 'Goodeniaceae') {
+        comment =
+          'Goodeniaceae includes many small herbaceous plants such as Scaevola, Dampiera and Goodenia. This family are often pioneer species that establish well but can have short generation times.'
+      } else if (family == 'Lilliaceae') {
+        comment =
+          'Lilliaceae includes a wide variety of plants. Generally this family is defined by herbaceous perennials which have evolved to be reasonably shade tolerant such as Arthropodium, Chamaescilla and Dianella.'
+      } else if (family == 'Leguminosae' || family == 'Fabaceae') {
+        comment =
+          'Leguminoceae and Fabaceae (Legumes and peas). Along with providing additional soil benefits like being efficient nitrogen fixers (e.g. the legumes) this family include many core restoration plants that are very important for pollinators.'
+      } else if (family == 'Myrtaceae') {
+        comment =
+          'Myrtaceae (Callistemon, Gums, Myrtles and Tea trees). Many species from this family propagate well and produce prolific seed that are suited well to broader scale areas (>2ha) via direct seeding.'
+      } else if (family == 'Melaleuca') {
+        comment =
+          'Melaleuca (Myrtle). The abundant brush-like flowers of the Melaleuca attract numerous native bees as well as birds. Varieties suit a broad range of soil types and are often drought and salinity tolerant. '
+      } else if (family == 'Leptospermum') {
+        comment =
+          'Leptospermum (Tea Tree) are attractive to native bees as well as many other wild pollinators that will flock to the cup-shaped flowers for the volumes of nectar available.'
+      } else if (family == 'Proteaceae') {
+        comment =
+          'Proteaceae (Hakeas, Proteas and Grevilleas). This family have some species in flower at most times of the year, although flowering between late winter and early summer is the most common.'
+      }
+      return comment
+    },
+    tubeStockStandardComment() {
+      return 'For seedlings purchased commercially the rule of thumb is that seed that propagates easily will be sold as the cheapest tubestock (referred to as standard in guide) and available for approximately $2-$3 at a commercial nursery (50 tubes to a tray for transporting).'
+    },
+    tubeStockDirectComment() {
+      return 'Plants that don’t propagate easily from seed because they need to be grown from vegetative growth or produce low quantities of seed are more expensive $3-$4 per tube (referred to as non-standard).'
     },
   },
 }
