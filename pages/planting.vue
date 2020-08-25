@@ -2,9 +2,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6 class="vw-100">
       <v-card class="card-background-header">
-        <v-card-title class="display-2"
-          >Revegetation Planting Guide</v-card-title
-        >
+        <v-card-title class="display-2">Revegetation Planting Guide</v-card-title>
         <v-card-text class="card-text">
           <p>
             The three focal crops for this plant selector are apple, canola and
@@ -19,9 +17,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title class="headline"
-          >Step 1: Agricultural Region</v-card-title
-        >
+        <v-card-title class="headline">Step 1: Agricultural Region</v-card-title>
         <v-card-text class="card-text">
           <p>
             The regional areas associated with this agriculture are the southern
@@ -41,9 +37,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title class="headline"
-          >Step 2: Site-specific application</v-card-title
-        >
+        <v-card-title class="headline">Step 2: Site-specific application</v-card-title>
         <v-card-text class="card-text">
           <p>
             Available land area, site access and existing vegetation will impact
@@ -67,9 +61,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title class="headline"
-          >Step 3: Refining Ecosystem Service</v-card-title
-        >
+        <v-card-title class="headline">Step 3: Refining Ecosystem Service</v-card-title>
         <v-card-text class="card-text">
           <p>
             Along with the pollination benefits to agriculture, ecological
@@ -98,9 +90,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title v-if="isInputValid" class="headline"
-          >Your selections</v-card-title
-        >
+        <v-card-title v-if="isInputValid" class="headline">Your selections</v-card-title>
         <v-card-text class="card-text">
           <div v-if="isInputValid">
             Agricultural Setting = {{ agSettingType }}
@@ -126,9 +116,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background" v-if="isShowResultSection">
-        <v-card-title class="display-2 text-center"
-          >Planting Advice</v-card-title
-        >
+        <v-card-title class="display-2 text-center">Planting Advice</v-card-title>
         <v-card-title class="headline">Overstorey</v-card-title>
         <div id="results">
           <v-data-table
@@ -144,13 +132,9 @@
                 <td class="text-xs-right">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <div v-bind="attrs" v-on="on">
-                        {{ props.item.FAMILY }}
-                      </div>
+                      <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
                     </template>
-                    <span>
-                      {{ familyCommentShort(props.item.FAMILY) }}
-                    </span>
+                    <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
                   </v-tooltip>
                 </td>
                 <td class="text-xs-right">{{ props.item.GENUS }}</td>
@@ -162,15 +146,13 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon v-bind="attrs" v-on="on">
                         {{
-                          props.item.Standard_tube == '1'
-                            ? 'mdi-checkbox-marked'
-                            : 'mdi-checkbox-blank-outline'
+                        props.item.Standard_tube == '1'
+                        ? 'mdi-checkbox-marked'
+                        : 'mdi-checkbox-blank-outline'
                         }}
                       </v-icon>
                     </template>
-                    <span>
-                      {{ tubeStockStandardComment() }}
-                    </span>
+                    <span>{{ tubeStockStandardComment() }}</span>
                   </v-tooltip>
                 </td>
                 <td class="text-xs-right">
@@ -178,71 +160,49 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon v-bind="attrs" v-on="on">
                         {{
-                          props.item.Direct_seed == '1'
-                            ? 'mdi-checkbox-marked'
-                            : 'mdi-checkbox-blank-outline'
+                        props.item.Direct_seed == '1'
+                        ? 'mdi-checkbox-marked'
+                        : 'mdi-checkbox-blank-outline'
                         }}
                       </v-icon>
                       <!-- span v-bind="attrs" v-on="on">{{
                         props.item.Standard_tube
-                      }}</span -->
+                      }}</span-->
                     </template>
-                    <span>
-                      {{ tubeStockDirectComment() }}
-                    </span>
+                    <span>{{ tubeStockDirectComment() }}</span>
                   </v-tooltip>
                 </td>
               </tr>
             </template>
             <template v-slot:expand="props">
               <v-container grid-list-md text-xs-center>
-                <span>
-                  {{ familyCommentLong(props.item.FAMILY) }}
-                </span>
+                <span>{{ familyCommentLong(props.item.FAMILY) }}</span>
 
-                <v-layout row>
-                  <v-flex xs4>
+                <v-layout row justify-space-around>
+                  <v-flex d-flex xs4>
                     <v-card dark color="primary">
                       <v-card-title class="h5">Floristics</v-card-title>
-                      <span class="grey--text subtitle-1"
-                        >This species flowers in:</span
-                      >
+                      <span class="grey--text subtitle-1">This species flowers in:</span>
                       <v-card-text>
-                        <div v-if="props.item.Summer == '1'">
-                          Summer
-                        </div>
-                        <div v-if="props.item.Autumn == '1'">
-                          Autumn
-                        </div>
-                        <div v-if="props.item.Winter == '1'">
-                          Winter
-                        </div>
-                        <div v-if="props.item.Spring == '1'">
-                          Spring
-                        </div>
+                        <div v-if="props.item.Summer == '1'">Summer</div>
+                        <div v-if="props.item.Autumn == '1'">Autumn</div>
+                        <div v-if="props.item.Winter == '1'">Winter</div>
+                        <div v-if="props.item.Spring == '1'">Spring</div>
                       </v-card-text>
                     </v-card>
                   </v-flex>
-                  <v-flex xs4>
+                  <v-flex d-flex xs4>
                     <v-card>
                       <v-card-title class="h5">Soils</v-card-title>
-                      <span class="grey--text subtitle-1"
-                        >This species will grow well in the following
-                        soils:</span
-                      >
+                      <span class="grey--text subtitle-1">
+                        This species will grow well in the following
+                        soils:
+                      </span>
                       <v-card-text>
-                        <div v-if="props.item.Sand == '1'">
-                          Sand
-                        </div>
-                        <div v-if="props.item.Loam == '1'">
-                          Loam
-                        </div>
-                        <div v-if="props.item.Clay == '1'">
-                          Clay
-                        </div>
-                        <div v-if="props.item.Calcareous == '1'">
-                          Calcareous soil
-                        </div>
+                        <div v-if="props.item.Sand == '1'">Sand</div>
+                        <div v-if="props.item.Loam == '1'">Loam</div>
+                        <div v-if="props.item.Clay == '1'">Clay</div>
+                        <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
                       </v-card-text>
                     </v-card>
                   </v-flex>
