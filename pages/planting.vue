@@ -61,23 +61,16 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title class="headline">Step 3: Refining Ecosystem Service</v-card-title>
+        <v-card-title class="headline">Step 3: Select additional plant attributes</v-card-title>
         <v-card-text class="card-text">
           <p>
-            Along with the pollination benefits to agriculture, ecological
-            restoration can conserve biodiversity and provide essential
-            ecosystem services. Ecosystem services reflect the ecological,
-            social and economic dimensions of natural resources. By refining the
-            plant selection by choosing specific ecosystem services, not only
-            can you prioritise pollination services to the focal crop (by
-            providing resources and habitat to pollinators throughout the year),
-            you can also gain additional benefits. For example, these may
-            include drought tolerance, salt tolerance, erosion control and fire
-            mitigation.
+            Along with the pollination benefits to agriculture, the plants used for ecological
+            restoration can provide additional benefits to the site.  For example, some plants 
+            are excellent at managing erosion, others are capable of thriving in dry/salty soils.
           </p>
           <p>
-            Along with pollination services, what other ecosystem services are
-            important at your site?
+            Along with pollination services, what other attributes of the ecological restoration are
+            important at your site?  These attributes guide which plants are most appropriate for your application.
           </p>
           <v-radio-group v-model="ecosystemServiceType" :mandatory="true">
             <v-radio
@@ -99,119 +92,286 @@
             <br />
             Ecosystem Service Type Setting = {{ ecosystemServiceType }}
           </div>
-          <!-- p></p>
-          <div class="text-center">
-            <v-btn
-              large
-              color="primary"
-              @click="doPlantingGuideSearch"
-              :disabled="!isInputValid"
-            >Search for planting advice</v-btn>
-            <div v-if="!isInputValid">
-              <small
-                class="text-danger"
-              >Please make sure you have selected an option for all three of the criteria.</small>
-            </div>
-          </div-->
         </v-card-text>
       </v-card>
-      <v-card class="mt-4 card-background" v-if="isShowResultSection">
-        <v-card-title class="display-2 text-center">Planting Advice</v-card-title>
-        <v-card-title class="headline">Overstorey</v-card-title>
-        <div id="results">
-          <v-data-table
-            :headers="headers"
-            :items="filteredPlants"
-            :pagination.sync="pagination"
-            item-key="common_name"
-            class="elevation-1"
-          >
-            <!-- Why does this need to be here? Other examples auto-work -->
-            <template slot="items" slot-scope="props">
-              <tr @click="props.expanded = !props.expanded">
-                <td class="text-xs-right">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
-                    </template>
-                    <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
-                  </v-tooltip>
-                </td>
-                <td class="text-xs-right">{{ props.item.GENUS }}</td>
-                <td class="text-xs-right">{{ props.item.SPECIES }}</td>
-                <td class="text-xs-right">{{ props.item.common_name }}</td>
-                <td class="text-xs-right">{{ props.item.Rainfall }}</td>
-                <td class="text-xs-right">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-bind="attrs" v-on="on">
-                        {{
-                        props.item.Standard_tube == '1'
-                        ? 'mdi-checkbox-marked'
-                        : 'mdi-checkbox-blank-outline'
-                        }}
-                      </v-icon>
-                    </template>
-                    <span>{{ tubeStockStandardComment() }}</span>
-                  </v-tooltip>
-                </td>
-                <td class="text-xs-right">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-bind="attrs" v-on="on">
-                        {{
-                        props.item.Direct_seed == '1'
-                        ? 'mdi-checkbox-marked'
-                        : 'mdi-checkbox-blank-outline'
-                        }}
-                      </v-icon>
-                      <!-- span v-bind="attrs" v-on="on">{{
-                        props.item.Standard_tube
-                      }}</span-->
-                    </template>
-                    <span>{{ tubeStockDirectComment() }}</span>
-                  </v-tooltip>
-                </td>
-              </tr>
-            </template>
-            <template v-slot:expand="props">
-              <v-container grid-list-md text-xs-center>
-                <span>{{ familyCommentLong(props.item.FAMILY) }}</span>
+      <v-container>
+        <div class="display-2 text-center">Planting Advice</div>
+        <v-card class="mt-4 card-background" v-if="isShowOverstoreyResultSection">
+          <v-card-title class="headline">Overstorey</v-card-title>
+          <div id="results">
+            <v-data-table
+              :headers="headers"
+              :items="filteredPlants(this.storeyCodes.upper)"
+              :pagination.sync="pagination"
+              item-key="common_name"
+              class="elevation-1"
+            >
 
-                <v-layout row justify-space-around>
-                  <v-flex d-flex xs4>
-                    <v-card dark color="primary">
-                      <v-card-title class="h5">Floristics</v-card-title>
-                      <span class="grey--text subtitle-1">This species flowers in:</span>
-                      <v-card-text>
-                        <div v-if="props.item.Summer == '1'">Summer</div>
-                        <div v-if="props.item.Autumn == '1'">Autumn</div>
-                        <div v-if="props.item.Winter == '1'">Winter</div>
-                        <div v-if="props.item.Spring == '1'">Spring</div>
-                      </v-card-text>
-                    </v-card>
-                  </v-flex>
-                  <v-flex d-flex xs4>
-                    <v-card>
-                      <v-card-title class="h5">Soils</v-card-title>
-                      <span class="grey--text subtitle-1">
-                        This species will grow well in the following
-                        soils:
-                      </span>
-                      <v-card-text>
-                        <div v-if="props.item.Sand == '1'">Sand</div>
-                        <div v-if="props.item.Loam == '1'">Loam</div>
-                        <div v-if="props.item.Clay == '1'">Clay</div>
-                        <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
-                      </v-card-text>
-                    </v-card>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </template>
-          </v-data-table>
-        </div>
-      </v-card>
+              <template slot="items" slot-scope="props">
+                <tr @click="props.expanded = !props.expanded">
+                  <td class="text-xs-right">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
+                      </template>
+                      <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
+                    </v-tooltip>
+                  </td>
+                  <td class="text-xs-right">{{ props.item.GENUS }}</td>
+                  <td class="text-xs-right">{{ props.item.SPECIES }}</td>
+                  <td class="text-xs-right">{{ props.item.common_name }}</td>
+                  <td class="text-xs-right">{{ props.item.Rainfall }}</td>
+                  <td class="text-xs-right">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon v-bind="attrs" v-on="on">
+                          {{
+                          props.item.Standard_tube == '1'
+                          ? 'mdi-checkbox-marked'
+                          : 'mdi-checkbox-blank-outline'
+                          }}
+                        </v-icon>
+                      </template>
+                      <span>{{ tubeStockStandardComment() }}</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </template>
+              <template v-slot:expand="props">
+                <v-container grid-list-md text-xs-center>
+                  <span>{{ familyCommentLong(props.item.FAMILY) }}</span>
+
+                  <v-layout row justify-space-around>
+                    <v-flex d-flex xs3>
+                      <v-card>
+                        <v-card-title class="h5">Floristics</v-card-title>
+                        <span class="grey--text subtitle-1">This species flowers in:</span>
+                        <v-card-text>
+                          <div v-if="props.item.Summer == '1'">Summer</div>
+                          <div v-if="props.item.Autumn == '1'">Autumn</div>
+                          <div v-if="props.item.Winter == '1'">Winter</div>
+                          <div v-if="props.item.Spring == '1'">Spring</div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs3>
+                      <v-card dark color="primary">
+                        <v-card-title class="h5">Soils</v-card-title>
+                        <span class="grey--text subtitle-1">
+                          This species will grow well in the following
+                          soils:
+                        </span>
+                        <v-card-text>
+                          <div v-if="props.item.Sand == '1'">Sand</div>
+                          <div v-if="props.item.Loam == '1'">Loam</div>
+                          <div v-if="props.item.Clay == '1'">Clay</div>
+                          <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs3>
+                      <v-card>
+                        <v-card-title class="h5">Where to obtain</v-card-title>
+                        <span class="grey--text subtitle-1">
+                          This species can be obtained from nurseries and service providers such as:
+                        </span>
+                        <v-card-text>
+                          <div><a href="https://treesforlife.org.au/order-seedlings" target="_blank">Trees For Life</a></div>
+                          <div><a href="https://www.stateflora.sa.gov.au/buy-plants/how-to-order" target="_blank">State Flora</a></div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </template>
+            </v-data-table>
+          </div>
+        </v-card>
+
+        <v-card class="mt-4 card-background" v-if="isShowMidstoreyResultSection">
+          <v-card-title class="headline">Midstorey</v-card-title>
+          <div id="results">
+            <v-data-table
+              :headers="headers"
+              :items="filteredPlants(this.storeyCodes.mid)"
+              :pagination.sync="pagination"
+              item-key="common_name"
+              class="elevation-1"
+            >
+
+              <template slot="items" slot-scope="props">
+                <tr @click="props.expanded = !props.expanded">
+                  <td class="text-xs-right">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
+                      </template>
+                      <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
+                    </v-tooltip>
+                  </td>
+                  <td class="text-xs-right">{{ props.item.GENUS }}</td>
+                  <td class="text-xs-right">{{ props.item.SPECIES }}</td>
+                  <td class="text-xs-right">{{ props.item.common_name }}</td>
+                  <td class="text-xs-right">{{ props.item.Rainfall }}</td>
+                  <td class="text-xs-right">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon v-bind="attrs" v-on="on">
+                          {{
+                          props.item.Standard_tube == '1'
+                          ? 'mdi-checkbox-marked'
+                          : 'mdi-checkbox-blank-outline'
+                          }}
+                        </v-icon>
+                      </template>
+                      <span>{{ tubeStockStandardComment() }}</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </template>
+              <template v-slot:expand="props">
+                <v-container grid-list-md text-xs-center>
+                  <span>{{ familyCommentLong(props.item.FAMILY) }}</span>
+
+                  <v-layout row justify-space-around>
+                    <v-flex d-flex xs3>
+                      <v-card>
+                        <v-card-title class="h5">Floristics</v-card-title>
+                        <span class="grey--text subtitle-1">This species flowers in:</span>
+                        <v-card-text>
+                          <div v-if="props.item.Summer == '1'">Summer</div>
+                          <div v-if="props.item.Autumn == '1'">Autumn</div>
+                          <div v-if="props.item.Winter == '1'">Winter</div>
+                          <div v-if="props.item.Spring == '1'">Spring</div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs3>
+                      <v-card dark color="primary">
+                        <v-card-title class="h5">Soils</v-card-title>
+                        <span class="grey--text subtitle-1">
+                          This species will grow well in the following
+                          soils:
+                        </span>
+                        <v-card-text>
+                          <div v-if="props.item.Sand == '1'">Sand</div>
+                          <div v-if="props.item.Loam == '1'">Loam</div>
+                          <div v-if="props.item.Clay == '1'">Clay</div>
+                          <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs3>
+                      <v-card>
+                        <v-card-title class="h5">Where to obtain</v-card-title>
+                        <span class="grey--text subtitle-1">
+                          This species can be obtained from nurseries and service providers such as:
+                        </span>
+                        <v-card-text>
+                          <div><a href="https://treesforlife.org.au/order-seedlings" target="_blank">Trees For Life</a></div>
+                          <div><a href="https://www.stateflora.sa.gov.au/buy-plants/how-to-order" target="_blank">State Flora</a></div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </template>
+            </v-data-table>
+          </div>
+        </v-card>
+        
+        <v-card class="mt-4 card-background" v-if="isShowUnderstoreyResultSection">
+          <v-card-title class="headline">Understorey</v-card-title>
+          <div id="results">
+            <v-data-table
+              :headers="headers"
+              :items="filteredPlants(this.storeyCodes.under)"
+              :pagination.sync="pagination"
+              item-key="common_name"
+              class="elevation-1"
+            >
+
+              <template slot="items" slot-scope="props">
+                <tr @click="props.expanded = !props.expanded">
+                  <td class="text-xs-right">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
+                      </template>
+                      <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
+                    </v-tooltip>
+                  </td>
+                  <td class="text-xs-right">{{ props.item.GENUS }}</td>
+                  <td class="text-xs-right">{{ props.item.SPECIES }}</td>
+                  <td class="text-xs-right">{{ props.item.common_name }}</td>
+                  <td class="text-xs-right">{{ props.item.Rainfall }}</td>
+                  <td class="text-xs-right">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon v-bind="attrs" v-on="on">
+                          {{
+                          props.item.Standard_tube == '1'
+                          ? 'mdi-checkbox-marked'
+                          : 'mdi-checkbox-blank-outline'
+                          }}
+                        </v-icon>
+                      </template>
+                      <span>{{ tubeStockStandardComment() }}</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </template>
+              <template v-slot:expand="props">
+                <v-container grid-list-md text-xs-center>
+                  <span>{{ familyCommentLong(props.item.FAMILY) }}</span>
+
+                  <v-layout row justify-space-around>
+                    <v-flex d-flex xs3>
+                      <v-card>
+                        <v-card-title class="h5">Floristics</v-card-title>
+                        <span class="grey--text subtitle-1">This species flowers in:</span>
+                        <v-card-text>
+                          <div v-if="props.item.Summer == '1'">Summer</div>
+                          <div v-if="props.item.Autumn == '1'">Autumn</div>
+                          <div v-if="props.item.Winter == '1'">Winter</div>
+                          <div v-if="props.item.Spring == '1'">Spring</div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs3>
+                      <v-card dark color="primary">
+                        <v-card-title class="h5">Soils</v-card-title>
+                        <span class="grey--text subtitle-1">
+                          This species will grow well in the following
+                          soils:
+                        </span>
+                        <v-card-text>
+                          <div v-if="props.item.Sand == '1'">Sand</div>
+                          <div v-if="props.item.Loam == '1'">Loam</div>
+                          <div v-if="props.item.Clay == '1'">Clay</div>
+                          <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs3>
+                      <v-card>
+                        <v-card-title class="h5">Where to obtain</v-card-title>
+                        <span class="grey--text subtitle-1">
+                          This species can be obtained from nurseries and service providers such as:
+                        </span>
+                        <v-card-text>
+                          <div><a href="https://treesforlife.org.au/order-seedlings" target="_blank">Trees For Life</a></div>
+                          <div><a href="https://www.stateflora.sa.gov.au/buy-plants/how-to-order" target="_blank">State Flora</a></div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </template>
+            </v-data-table>
+          </div>
+        </v-card>
+      </v-container>
     </v-flex>
     <div id="bottom"></div>
   </v-layout>
@@ -238,25 +398,30 @@ export default {
         { code: 'EP', label: 'Eyre Peninsula' },
       ],
       applicationTypes: [
-        { code: 'Standard_tube', label: 'Bare Field (less than 2ha)' },
-        { code: 'Standard_tube_MT', label: 'Bare Field (more than 2ha)' },
+        { code: 'Standard_tube_LT', label: 'Bare Field (less than 2ha)' },
+        { code: 'Standard_tube', label: 'Bare Field (more than 2ha)' },
         { code: 'Existing_overstorey', label: 'Existing over-story' },
         { code: 'Shelter_TS', label: 'Shelterbelt' },
         { code: 'Hedge_TS', label: 'Hedge' },
         { code: 'Meadow_DS', label: 'Meadow' },
       ],
       ecosystemServiceTypes: [
+        { code: 'ALL', label: 'All' },
         { code: 'Drought_tolerant', label: 'Drought tolerance' },
         { code: 'Salt_tolerant', label: 'Salt tolerance' },
-        { code: 'Erosion_control', label: 'Erosion' },
+        { code: 'Erosion_control', label: 'Erosion control' },
         { code: 'Fire_resistance', label: 'Fire tolerance' },
-        { code: 'None', label: 'None' },
-        { code: 'ALL', label: 'All' },
+        { code: 'None', label: 'No additional attributes (just Pollination)' },
       ],
+      storeyCodes: {
+        upper: 'Over over 5m',
+        mid: 'Mid 2-5m',
+        under: 'Under 2m'
+      },
       // Nick Planting advice table
       pagination: {
         sortBy: 'name',
-        rowsPerPage: 15,
+        rowsPerPage: 20,
       },
       plantData: [],
       headers: [
@@ -281,15 +446,9 @@ export default {
           width: '16%',
         },
         {
-          text: 'Is standard tube stock?',
+          text: 'Available as standard tube stock',
           align: 'right',
           value: 'Standard_tube',
-          width: '16%',
-        },
-        {
-          text: 'Is direct seeding?',
-          align: 'right',
-          value: 'Direct_seed',
           width: '16%',
         },
       ],
@@ -334,38 +493,84 @@ export default {
         this.agSettingType && true // this.applicationType && this.ecosystemServiceType
       )
     },
-    isShowResultSection() {
-      return this.$store.plantingAdviceResult !== null
+    isShowOverstoreyResultSection() {
+      //return this.$store.plantingAdviceResult.overStorey.length > 0
+      return true
     },
-
-    filteredPlants: function() {
+    isShowMidstoreyResultSection() {
+      //return this.$store.plantingAdviceResult.overStorey.length > 0
+      return true
+    },
+    isShowUnderstoreyResultSection() {
+      //return this.$store.plantingAdviceResult.overStorey.length > 0
+      return true
+    },
+   
+  },
+  methods: {
+    // async doPlantingGuideSearch() {
+    //   var result = {
+    //     species: [
+    //       {
+    //         family: 'Pittosporaceae',
+    //         genus: 'Bursaria',
+    //         species: 'spinosa ssp spinosa',
+    //         common_name: 'christmas bush',
+    //         uuid: 'PSsp110',
+    //         es_rank: '14',
+    //       },
+    //       {
+    //         family: 'Myrtaceae',
+    //         genus: 'Callistemon',
+    //         species: 'rugulosus',
+    //         common_name: 'scarlet bottlebrush',
+    //         uuid: 'PSsp80',
+    //         es_rank: '14',
+    //       },
+    //     ],
+    //   }
+    //   this.$store.commit('plantingAdviceResult', result)
+    // },
+    rowClick() {
+      console.log('TODO - handle the click')
+    },
+    filteredPlants: function(storey) {
       const settingTypeVar = this.agSettingType
       const applicationTypeVar = this.applicationType
       const ecosystemServicesTypeVar = this.ecosystemServiceType
 
+      console.log('storey = ' + storey)
       console.log('settingTypeVar = ' + settingTypeVar)
       console.log('applicationTypeVar = ' + applicationTypeVar)
       console.log('ecosystemServicesTypeVar = ' + ecosystemServicesTypeVar)
 
       if (this.plantData.length > 0) {
-        console.log('this.plantData[0] = ' + JSON.stringify(this.plantData[0]))
-        console.log(
-          'plantData[0][settingTypeVar] = ' + this.plantData[0][settingTypeVar],
-        )
-        console.log(
-          'plantData[0][applicationTypeVar] = ' +
-            this.plantData[0][applicationTypeVar],
-        )
-        console.log(
-          'plantData[0][ecosystemServicesTypeVar] = ' +
-            this.plantData[0][ecosystemServicesTypeVar],
-        )
+        //console.log('this.plantData[0] = ' + JSON.stringify(this.plantData[0]))
+        // console.log(
+        //   'plantData[0][settingTypeVar] = ' + this.plantData[0][settingTypeVar],
+        // )
+        // console.log(
+        //   'plantData[0][applicationTypeVar] = ' +
+        //     this.plantData[0][applicationTypeVar],
+        // )
+        // console.log(
+        //   'plantData[0][ecosystemServicesTypeVar] = ' +
+        //     this.plantData[0][ecosystemServicesTypeVar],
+        // )
         const settingMatches = this.plantData.filter(
           plant => plant[settingTypeVar] === '1',
         )
-        const applicationMatches = settingMatches.filter(
-          plant => plant[applicationTypeVar] === '1',
-        )
+
+        var applicationMatches = undefined;
+        if (applicationTypeVar == "Standard_tube_LT") {
+          console.log("Munging <2HA selection")
+          applicationMatches = settingMatches;
+        } else {
+          console.log("Applying application filters..")
+          applicationMatches = settingMatches.filter(
+            plant => plant[applicationTypeVar] === '1',
+          )
+        }
         var ecosystemServicesMatches = undefined
         if (ecosystemServicesTypeVar == 'ALL') {
           // Apply all filters
@@ -389,38 +594,14 @@ export default {
             plant => plant[ecosystemServicesTypeVar] === '1',
           )
         }
-        return ecosystemServicesMatches
+        // Apply storey match
+        var storeyMatches = ecosystemServicesMatches.filter(
+            plant => plant[storey] === '1',
+          )
+        return storeyMatches
       } else {
         return []
       }
-    },
-  },
-  methods: {
-    async doPlantingGuideSearch() {
-      var result = {
-        species: [
-          {
-            family: 'Pittosporaceae',
-            genus: 'Bursaria',
-            species: 'spinosa ssp spinosa',
-            common_name: 'christmas bush',
-            uuid: 'PSsp110',
-            es_rank: '14',
-          },
-          {
-            family: 'Myrtaceae',
-            genus: 'Callistemon',
-            species: 'rugulosus',
-            common_name: 'scarlet bottlebrush',
-            uuid: 'PSsp80',
-            es_rank: '14',
-          },
-        ],
-      }
-      this.$store.commit('plantingAdviceResult', result)
-    },
-    rowClick() {
-      console.log('TODO - handle the click')
     },
     familyCommentLong(family) {
       var comment = 'No further Family information'
@@ -487,10 +668,10 @@ export default {
       return comment
     },
     tubeStockStandardComment() {
-      return 'For seedlings purchased commercially the rule of thumb is that seed that propagates easily will be sold as the cheapest tubestock (referred to as standard in guide) and available for approximately $2-$3 at a commercial nursery (50 tubes to a tray for transporting).'
+      return 'For seedlings purchased commercially the rule of thumb is that seed that propagates easily will be sold as the cheapest tubestock (referred to as standard in guide) and available for approximately $2-$3 at a commercial nursery (50 tubes to a tray for transporting). Plants that don’t propagate easily from seed because they need to be grown from vegetative growth or produce low quantities of seed are more expensive $3-$4 per tube (referred to as non-standard).'
     },
     tubeStockDirectComment() {
-      return 'Plants that don’t propagate easily from seed because they need to be grown from vegetative growth or produce low quantities of seed are more expensive $3-$4 per tube (referred to as non-standard).'
+      return ''
     },
   },
 }
