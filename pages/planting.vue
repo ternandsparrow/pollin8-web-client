@@ -71,15 +71,22 @@
           <p>
             Along with pollination services, what other attributes of the ecological restoration are
             important at your site?  These attributes guide which plants are most appropriate for your application.
-          </p>
-          <v-radio-group v-model="ecosystemServiceType" :mandatory="true">
-            <v-radio
-              v-for="curr in ecosystemServiceTypes"
-              :key="curr.code"
-              :label="curr.label"
-              :value="curr.code"
-            ></v-radio>
-          </v-radio-group>
+          </p>              
+
+          <div v-for="({code, label}) in ecosystemServiceTypes" :key="code">
+            <input type="checkbox" :id="'est-' + code" :value="code" v-model="ecosystemServiceType">
+            <label :for="'est-' + code">{{ label }}</label>
+          </div>
+
+          <div>
+            <v-btn @click="checkboxAllClickHandler">All</v-btn>
+            <v-btn @click="checkboxNoneClickHandler">None</v-btn>
+          </div>
+          
+          <br>
+          <!-- span>Selected attributes: {{ ecosystemServiceType }} </span -->
+
+          
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
@@ -405,13 +412,10 @@ export default {
         { code: 'Hedge_TS', label: 'Hedge' },
         { code: 'Meadow_DS', label: 'Meadow' },
       ],
-      ecosystemServiceTypes: [
-        { code: 'ALL', label: 'All' },
-        { code: 'Drought_tolerant', label: 'Drought tolerance' },
+      ecosystemServiceTypes: [        { code: 'Drought_tolerant', label: 'Drought tolerance' },
         { code: 'Salt_tolerant', label: 'Salt tolerance' },
         { code: 'Erosion_control', label: 'Erosion control' },
         { code: 'Fire_resistance', label: 'Fire tolerance' },
-        { code: 'None', label: 'No additional attributes (just Pollination)' },
       ],
       storeyCodes: {
         upper: 'Over over 5m',
@@ -531,6 +535,14 @@ export default {
     //   }
     //   this.$store.commit('plantingAdviceResult', result)
     // },
+    checkboxNoneClickHandler(event) {
+      console.log('TODO - handle the NONE click')
+      this.ecosystemServiceType = []
+    },
+    checkboxAllClickHandler(event) {
+      console.log('TODO - handle the ALL click')
+      this.ecosystemServiceType = this.ecosystemServiceTypes.map(e=>e.code)
+    },
     rowClick() {
       console.log('TODO - handle the click')
     },
@@ -571,7 +583,8 @@ export default {
             plant => plant[applicationTypeVar] === '1',
           )
         }
-        var ecosystemServicesMatches = undefined
+        var ecosystemServicesMatches = applicationMatches
+        /*
         if (ecosystemServicesTypeVar == 'ALL') {
           // Apply all filters
           ecosystemServicesMatches = applicationMatches.filter(
@@ -588,12 +601,18 @@ export default {
           )
         } else if (ecosystemServicesTypeVar == 'None') {
           ecosystemServicesMatches = applicationMatches
-        } else {
-          // Apply the specified filter
-          ecosystemServicesMatches = applicationMatches.filter(
-            plant => plant[ecosystemServicesTypeVar] === '1',
-          )
+        } else 
+        */
+        if (ecosystemServicesTypeVar != []) {
+          for (const service of ecosystemServicesTypeVar) {
+              // Apply the specified filter
+              console.log(service);
+              ecosystemServicesMatches = applicationMatches.filter(
+                plant => plant[service] === '1',
+              )
+          }
         }
+
         // Apply storey match
         var storeyMatches = ecosystemServicesMatches.filter(
             plant => plant[storey] === '1',

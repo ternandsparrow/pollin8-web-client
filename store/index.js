@@ -14,7 +14,7 @@ export const state = () => ({
   // FIXME - get these defaults from a managed datastructure
   agSettingType: 'SL',
   applicationType: 'Standard_tube',
-  ecosystemServiceType: 'Drought_tolerant',
+  ecosystemServiceType: [],
   plantingAdviceResult: null,
 })
 
