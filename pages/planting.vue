@@ -7,12 +7,12 @@
           <p>
             The three focal crops for this plant selector are apple, canola and
             lucerne because of their pollinator dependency. By selecting the
-            agricultural region and then choosing the best type of pollination
-            planting for your site a list of plants will be generated that can
-            then be refined by additional ecosystem services that they will
-            provide. Though the selector is themed towards these agricultural
-            crops the fundamental logic behind this guide can suitably be used
-            for alternative agriculture within the same area.
+            agricultural region and choosing the best type of pollination
+            planting for your site, a list of plants will be generated which is 
+            refined by the additional ecosystem services they can
+            provide. Although the selector is themed towards the stated agricultural
+            crops, the fundamental logic behind this guide can suitably be used
+            for alternative agriculture/crops within the same locality.
           </p>
         </v-card-text>
       </v-card>
@@ -460,7 +460,7 @@ export default {
   },
   mounted() {
     d3.csv(
-      '/planting/Plant_selector_rareandrangeltd_removed_ver1.0.csv',
+      '/planting/Plant_selector_rareandrangeltd_removed_ver1.01.csv',
       data => {
         this.plantData.push(data)
         console.log('this.plantData = ' + this.plantData)
@@ -498,16 +498,13 @@ export default {
       )
     },
     isShowOverstoreyResultSection() {
-      //return this.$store.plantingAdviceResult.overStorey.length > 0
-      return true
+      return(this.filteredPlants(this.storeyCodes.upper).length > 0)
     },
     isShowMidstoreyResultSection() {
-      //return this.$store.plantingAdviceResult.overStorey.length > 0
-      return true
+      return(this.filteredPlants(this.storeyCodes.mid).length > 0)
     },
     isShowUnderstoreyResultSection() {
-      //return this.$store.plantingAdviceResult.overStorey.length > 0
-      return true
+      return(this.filteredPlants(this.storeyCodes.under).length > 0)
     },
    
   },
