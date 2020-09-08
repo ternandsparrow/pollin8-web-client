@@ -176,15 +176,31 @@
                         </v-card-text>
                       </v-card>
                     </v-flex>
-                    <v-flex d-flex xs3>
+                    <v-flex d-flex xs6>
                       <v-card>
                         <v-card-title class="h5">Where to obtain</v-card-title>
                         <span class="grey--text subtitle-1">
-                          This species can be obtained from nurseries and service providers such as:
+                          Metropolitan:
                         </span>
                         <v-card-text>
-                          <div><a href="https://treesforlife.org.au/order-seedlings" target="_blank">Trees For Life</a></div>
-                          <div><a href="https://www.stateflora.sa.gov.au/buy-plants/how-to-order" target="_blank">State Flora</a></div>
+                          <div><a href="https://treesforlife.org.au/westwood-nursery" target="_blank">Trees For Life</a></div>
+                          <div><a href="https://www.stateflora.sa.gov.au/home" target="_blank">State Flora</a></div>
+                          <div><a href="http://kersbrook.landcaregroup.org.au" target="_blank">Landcare</a></div>
+                        </v-card-text>
+                        <span class="grey--text subtitle-1">
+                          Regional:
+                        </span>
+                        <v-card-text>
+                          <div><a href="http://eyrenativeseeds.com.au/site/" target="_blank">Eyre Native seeds</a></div>
+                          <div><a href="https://nativeplantwholesalers.com.au" target="_blank">Native Plant Wholesalers (Mount Gambier)</a></div>
+                        </v-card-text>
+                        <span class="grey--text subtitle-1">
+                          Restoration Services:
+                        </span>
+                        <v-card-text>
+                          <div><a href="http://treesforlife.org.au/direct-seeding" target="_blank">Trees for Life</a></div>
+                          <div><a href="https://www.greeningaustralia.org.au/" target="_blank">Greening Australia</a></div>
+                          <div><a href="http://ebservices.com.au/restoration/restoration-overview" target="_blank">EBS</a></div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -268,15 +284,31 @@
                         </v-card-text>
                       </v-card>
                     </v-flex>
-                    <v-flex d-flex xs3>
+                    <v-flex d-flex xs6>
                       <v-card>
                         <v-card-title class="h5">Where to obtain</v-card-title>
                         <span class="grey--text subtitle-1">
-                          This species can be obtained from nurseries and service providers such as:
+                          Metropolitan:
                         </span>
                         <v-card-text>
-                          <div><a href="https://treesforlife.org.au/order-seedlings" target="_blank">Trees For Life</a></div>
-                          <div><a href="https://www.stateflora.sa.gov.au/buy-plants/how-to-order" target="_blank">State Flora</a></div>
+                          <div><a href="https://treesforlife.org.au/westwood-nursery" target="_blank">Trees For Life</a></div>
+                          <div><a href="https://www.stateflora.sa.gov.au/home" target="_blank">State Flora</a></div>
+                          <div><a href="http://kersbrook.landcaregroup.org.au" target="_blank">Landcare</a></div>
+                        </v-card-text>
+                        <span class="grey--text subtitle-1">
+                          Regional:
+                        </span>
+                        <v-card-text>
+                          <div><a href="http://eyrenativeseeds.com.au/site/" target="_blank">Eyre Native seeds</a></div>
+                          <div><a href="https://nativeplantwholesalers.com.au" target="_blank">Native Plant Wholesalers (Mount Gambier)</a></div>
+                        </v-card-text>
+                        <span class="grey--text subtitle-1">
+                          Restoration Services:
+                        </span>
+                        <v-card-text>
+                          <div><a href="http://treesforlife.org.au/direct-seeding" target="_blank">Trees for Life</a></div>
+                          <div><a href="https://www.greeningaustralia.org.au/" target="_blank">Greening Australia</a></div>
+                          <div><a href="http://ebservices.com.au/restoration/restoration-overview" target="_blank">EBS</a></div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -360,15 +392,31 @@
                         </v-card-text>
                       </v-card>
                     </v-flex>
-                    <v-flex d-flex xs3>
+                    <v-flex d-flex xs6>
                       <v-card>
                         <v-card-title class="h5">Where to obtain</v-card-title>
                         <span class="grey--text subtitle-1">
-                          This species can be obtained from nurseries and service providers such as:
+                          Metropolitan:
                         </span>
                         <v-card-text>
-                          <div><a href="https://treesforlife.org.au/order-seedlings" target="_blank">Trees For Life</a></div>
-                          <div><a href="https://www.stateflora.sa.gov.au/buy-plants/how-to-order" target="_blank">State Flora</a></div>
+                          <div><a href="https://treesforlife.org.au/westwood-nursery" target="_blank">Trees For Life</a></div>
+                          <div><a href="https://www.stateflora.sa.gov.au/home" target="_blank">State Flora</a></div>
+                          <div><a href="http://kersbrook.landcaregroup.org.au" target="_blank">Landcare</a></div>
+                        </v-card-text>
+                        <span class="grey--text subtitle-1">
+                          Regional:
+                        </span>
+                        <v-card-text>
+                          <div><a href="http://eyrenativeseeds.com.au/site/" target="_blank">Eyre Native seeds</a></div>
+                          <div><a href="https://nativeplantwholesalers.com.au" target="_blank">Native Plant Wholesalers (Mount Gambier)</a></div>
+                        </v-card-text>
+                        <span class="grey--text subtitle-1">
+                          Restoration Services:
+                        </span>
+                        <v-card-text>
+                          <div><a href="http://treesforlife.org.au/direct-seeding" target="_blank">Trees for Life</a></div>
+                          <div><a href="https://www.greeningaustralia.org.au/" target="_blank">Greening Australia</a></div>
+                          <div><a href="http://ebservices.com.au/restoration/restoration-overview" target="_blank">EBS</a></div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
