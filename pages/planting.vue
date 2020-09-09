@@ -798,10 +798,10 @@ export default {
       } else if (family == 'Proteaceae') {
         comment =
           'Proteaceae (Hakeas, Proteas and Grevilleas). This family have some species in flower at most times of the year, although flowering between late winter and early summer is the most common.'
-      } else if (family == 'Aizoaceae ') {
+      } else if (family == 'Aizoaceae') {
         comment =
           'Aizoaceae are a small family of mostly succulents that have a reasonably long flowering period. They are topically used for both soil stabilisation and as a fire buffer.'
-      } else if (family == 'Asparagaceae ') {
+      } else if (family == 'Asparagaceae') {
         comment =
           'Asparagaceae includes the genus Lomandra, Cordyline and Ophiopogon which have a reasonably long flowering time and are moderately drought tolerant.'
       } else if (family == 'Boraginaceae  ') {
