@@ -34,7 +34,7 @@
     "socket.io-client": "^2.2.0",
     "vue-chartjs": "^3.4.2",
     "vue-izitoast": "^1.1.2",
-    "vue-pdf": "4.0.8",
+    "vue-pdf": "^4.0.8",
     "vue-scrollto": "^2.15.0",
     "vue-vimeo-player": "^0.1.0",
     "vuetify": "^1.5.24",
