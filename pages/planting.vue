@@ -668,9 +668,9 @@ export default {
     },
     familyCommentLong(family) {
       var comment = 'No further Family information'
-      if (family == 'Asteraceae') {
+      if ( (family == 'Asteraceae') || (family == 'Compositae') ) {
         comment =
-          'Asteraceae (Daisies). Native daisies such as Chrysocephalum and Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators.  . Some daisies such as Brachycomes also have long flowering periods and are widely available in nurseries. These families are generally compact and hardy and are therefore well suited to complimentary understory planting but may require intensive weed management (mulch, herbicides) and herbivore management (fencing, guarding) during their establishment.'
+          'Asteraceae / Compositae (Asters and daisies). Native daisies such as Chrysocephalum or Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators. Some daisies such as Brachycome also have long flowering periods and are widely available in nurseries. These families are generally compact and hardy and are therefore well suited to complimentary understory planting but may require intensive weed management (mulch, herbicides) and herbivore management (fencing, guarding) during their establishment.'
       } else if (family == 'Dilleniaceae') {
         comment =
           'The Hibbertias (Guinea flowers) come from this family and they can deal with a wide variety of soil types that occur across the focal agricultural regions. The hibbertia flower requires buzz pollination that excludes honey bees for pollination. Flowering is short, turnover is high and they only produce pollen so planting hibbertias will need to be supplemented with nectar producing species for native bees.'
@@ -679,13 +679,10 @@ export default {
           'Goodeniaceae includes many small herbaceous plants such as Scaevola, Dampiera and Goodenia. This family are often pioneer species that establish well but can have short generation times. They are suited well to a broad variety of soil types, including disturbed sites. They are generally non-standard tubestock (e.g. striking’s from vegetative growth) because of a physical dormancy of seeds and therefore are not suitable for direct seeding.'
       } else if (family == 'Lilliaceae') {
         comment =
-          'Lilliaceae includes a wide variety of plants. Generally this family is defined by herbaceous perennials which have evolved to be reasonably shade tolerant such as Arthropodium, Chamaescilla and Dianella. Pollen and nectar rewards are common in the family especially in spring and they are reasonably ubiquitous to many soil types throughout the focal agricultural regions of South Australia. Best applied at a site where some overstorey is present or as a follow up planting as the over story becomes established. '
-      } else if (family == 'Leguminosae') {
+          'Lilliaceae includes a wide variety of plants. Generally this family is defined by herbaceous perennials which have evolved to be reasonably shade tolerant such as Arthropodium, Chamaescilla and Dianella. Pollen and nectar rewards are common in the family especially in spring and they are reasonably ubiquitous to many soil types throughout the focal agricultural regions of South Australia. Best applied at a site where some overstorey is present or as a follow up planting as the over story becomes established.'
+      } else if ( (family == 'Leguminosae') || (family == 'Fabaceae') ) {
         comment =
-          'Leguminoceae....'
-      } else if (family == 'Fabaceae') {
-        comment =
-          'Fabaceae (Legumes and peas). Along with providing additional soil benefits like being efficient nitrogen fixers (e.g. the legumes) this family include many core restoration plants that are very important for pollinators. A wide variety of Acacia, Eutaxia, Daviesia, Dilwynia, Hardenbergia, Pultanaea and Templetonia species are all attractive to native pollinators. The wide diversity of growth forms and soil associations makes many plants from this family drought and/or salinity tolerant.'
+          'Leguminosae / Fabaceae (Legumes and peas). Along with providing additional soil benefits like being efficient nitrogen fixers (e.g. the legumes) this family include many core restoration plants that are very important for pollinators. A wide variety of Acacia, Eutaxia, Daviesia, Dilwynia, Hardenbergia, Pultanaea and Templetonia species are all attractive to native pollinators. The wide diversity of growth forms and soil associations makes many plants from this family drought and/or salinity tolerant.'
       } else if (family == 'Myrtaceae') {
         comment =
           'Myrtaceae (Callistemon, Gums, Myrtles and Tea trees). Many species from this family propagate well and produce prolific seed that are suited well to broader scale areas (>2ha) via direct seeding. Myrtaceaeous species also include many tight compact forms that flower profusely (e.g. tea trees and myrtles) and are ideally suited for screening or hedgerow or soil stabilisation applications in an agricultural setting.'
@@ -697,7 +694,7 @@ export default {
           'Leptospermum (Tea Tree) are attractive to native bees as well as many other wild pollinators that will flock to the cup-shaped flowers for the volumes of nectar available. With papery layered bark, tea trees range in size from small trees to prostrate shrubs and generally occur on nutrient poor skeletal soils and higher rainfall areas of the Adelaide hills and south-east agricultural districts.'
       } else if (family == 'Proteaceae') {
         comment =
-          'Proteaceae (Hakeas, Proteas and Grevilleas). This family have some species in flower at most times of the year, although flowering between late winter and early summer is the most common. Grevilleas in particular attract a wide range of native bees, along with nectar-feeding birds. The family ranges in size from tall shrubs to prostrate varieties that are readily available at nurseries, are hardy and low maintenance and can help to stabilise soil for degraded land in an agricultural setting. '
+          'Proteaceae (Hakeas, Proteas and Grevilleas). This family have some species in flower at most times of the year, although flowering between late winter and early summer is the most common. Grevilleas in particular attract a wide range of native bees, along with nectar-feeding birds. The family ranges in size from tall shrubs to prostrate varieties that are readily available at nurseries, are hardy and low maintenance and can help to stabilise soil for degraded land in an agricultural setting.'
       } else if (family == 'Aizoaceae ') {
         comment =
           'Aizoaceae are a small family of mostly succulents that have a reasonably long flowering period. They are topically used for both soil stabilisation and as a fire buffer.'
@@ -716,9 +713,6 @@ export default {
       } else if (family == 'Colchicaceae') {
         comment =
           'Colchicaceae includes the genus Buchardia which is an herbaceous understory plant that produces pollen and grows on most soils.'
-      } else if (family == 'Compositae') {
-        comment =
-          'Compositae is a large family of flowering herbaceous plants that includes the daisies and asters. They generally produce pollen and nectar and are well suited to mass plantings.'
       } else if (family == 'Convolvulaceae') {
         comment =
           'Convolvulaceae is family of flowering herbaceous plants that includes the genus Convolvulus. They produce pollen and nectar and are well suited to mass plantings.'
@@ -734,9 +728,6 @@ export default {
       } else if (family == 'Lamiaceae') {
         comment =
           'Lamiaceae is family of flowering herbaceous/shrubby plants which generally produces good pollen and nectar is drought tolerant and flowers for long periods.'
-      } else if (family == 'Lilliaceae') {
-        comment =
-          'Lilliaceae is a diverse family of flowering plants that includes Dianella and Xanthorrhoea which generally produce pollen and nectar are drought tolerant and grow in most soils.'
       } else if (family == 'Malvaceae') {
         comment =
           'Malvaceae is family of flowering herbaceous/shrubby plants which generally produce good pollen are drought tolerant.'
@@ -745,7 +736,7 @@ export default {
           'Myoporaceae is family of flowering herbaceous/shrubby plants that includes the genus Boobialla and Eremophila. They produce pollen and nectar and are suitable to a range of soils and applications.'
       } else if (family == 'Pittosporaceae') {
         comment =
-          'Pittosporaceae is a family of flowering plants which generally produce pollen and nectar are drought tolerant and grow in most soils .'
+          'Pittosporaceae is a family of flowering plants which generally produce pollen and nectar are drought tolerant and grow in most soils.'
       } else if (family == 'Polygalaceae') {
         comment =
           'Polygalaceae is a family of flowering plants which includes the genus Comesperma generally produce pollen and nectar and is drought tolerant.'
@@ -780,9 +771,9 @@ export default {
     familyCommentShort(family) {
       var comment = 'No further Family information'
       
-      if (family == 'Asteraceae') {
+      if ( (family == 'Asteraceae') | (family == 'Compositae') ) {
         comment =
-          'Asteraceae (Daisies). Native daisies such as Chrysocephalum and Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators.'
+          'Asteraceae / Compositae (Asters and daisies). Native daisies such as Chrysocephalum and Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators.'
       } else if (family == 'Dilleniaceae') {
         comment =
           'The Hibbertias (Guinea flowers) come from this family and they can deal with a wide variety of soil types that occur across the focal agricultural regions.'
@@ -792,12 +783,9 @@ export default {
       } else if (family == 'Lilliaceae') {
         comment =
           'Lilliaceae includes a wide variety of plants. Generally this family is defined by herbaceous perennials which have evolved to be reasonably shade tolerant such as Arthropodium, Chamaescilla and Dianella.'
-      } else if (family == 'Leguminosae') {
+      } else if ( (family == 'Leguminosae') || (family == 'Fabaceae') ) {
         comment =
-          'Leguminoceae....'
-      } else if (family == 'Fabaceae') {
-        comment =
-          'Fabaceae (Legumes and peas). This family include many core restoration plants that are very important for pollinators.'
+          'Leguminosae / Fabaceae (Legumes and peas). Along with providing additional soil benefits like being efficient nitrogen fixers (e.g. the legumes) this family include many core restoration plants that are very important for pollinators.'
       } else if (family == 'Myrtaceae') {
         comment =
           'Myrtaceae (Callistemon, Gums, Myrtles and Tea trees). Many species from this family propagate well and produce prolific seed that are suited well to broader scale areas (>2ha) via direct seeding.'
@@ -828,9 +816,6 @@ export default {
       } else if (family == 'Colchicaceae') {
         comment =
           'Colchicaceae includes the genus Buchardia which is an herbaceous understory plant that produces pollen and grows on most soils.'
-      } else if (family == 'Compositae') {
-        comment =
-          'Compositae is a large family of flowering herbaceous plants that includes the daisies and asters. They generally produce pollen and nectar and are well suited to mass plantings.'
       } else if (family == 'Convolvulaceae') {
         comment =
           'Convolvulaceae is family of flowering herbaceous plants that includes the genus Convolvulus. They produce pollen and nectar and are well suited to mass plantings.'
@@ -846,9 +831,6 @@ export default {
       } else if (family == 'Lamiaceae') {
         comment =
           'Lamiaceae is family of flowering herbaceous/shrubby plants which generally produces good pollen and nectar is drought tolerant and flowers for long periods.'
-      } else if (family == 'Lilliaceae') {
-        comment =
-          'Lilliaceae is a diverse family of flowering plants that includes Dianella and Xanthorrhoea which generally produce pollen and nectar are drought tolerant and grow in most soils.'
       } else if (family == 'Malvaceae') {
         comment =
           'Malvaceae is family of flowering herbaceous/shrubby plants which generally produce good pollen are drought tolerant.'
@@ -857,7 +839,7 @@ export default {
           'Myoporaceae is family of flowering herbaceous/shrubby plants that includes the genus Boobialla and Eremophila. They produce pollen and nectar and are suitable to a range of soils and applications.'
       } else if (family == 'Pittosporaceae') {
         comment =
-          'Pittosporaceae is a family of flowering plants which generally produce pollen and nectar are drought tolerant and grow in most soils .'
+          'Pittosporaceae is a family of flowering plants which generally produce pollen and nectar are drought tolerant and grow in most soils.'
       } else if (family == 'Polygalaceae') {
         comment =
           'Polygalaceae is a family of flowering plants which includes the genus Comesperma generally produce pollen and nectar and is drought tolerant.'
