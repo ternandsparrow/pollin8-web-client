@@ -36,9 +36,12 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
-        <v-card-title class="headline">Revegetation curve</v-card-title>
+        <v-card-title class="headline">Revegetation resource accumulation curve</v-card-title>
         <v-card-text>
-          <p>This is the curve that we use to model how revegetation progresses over the years.</p>
+          <p>Plant form (e.g. understorey, midstorey and overstorey), flowering onset and flowing abundance are important factors for the provision of pollinator resources so understanding the trade-offs between these factors is important for planning the best mix of species for a site.  
+          <p/>  For example, overstorey species will produce the greatest amount of habitat and flowering per plant and will therefore have the greatest effect on crop pollinators however, overstorey plants may not be reproductive (e.g. producing flowers) for 6-10 years and possibly won’t produce nesting cavities for 20 years. 
+          <p/>   Mid story shrub layers will establish nesting and flowering resources within 1-2 years although planting them too closely will cause competition between plants reducing the overall fitness along with decreasing available ground nesting bee habitat. 
+          <p/>   Understory species have the ability to produce resources very quickly however they are small, and due to their often short lifespans might require seasonal replanting. Selecting a diverse  mix of plant species and forms that are suited to the site is the most likely way of ensuring a sustainable revegetation project.</p>
           <img src="/reveg-curve.png?years=25" />
         </v-card-text>
       </v-card>
