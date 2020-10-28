@@ -60,7 +60,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
-        <v-card-title class="headline">Step 3: revegtation location</v-card-title>
+        <v-card-title class="headline">Step 3: revegetation location</v-card-title>
         <v-card-text>
           <p>
             This step is very similar to the previous but the difference is that

@@ -13,7 +13,7 @@
           <p>A video that presents the project.</p>
         </v-card-text>
         <client-only>
-          <vimeo-player ref="player" :video-id="videoID1" @ready="onReady" :player-height="height"></vimeo-player>
+          <vimeo-player ref="player" :video-id="videoID1" :options="video1Options" @ready="onReady" :player-height="height"></vimeo-player>
         </client-only>
       </v-card>
       <v-card class="mt-4">
@@ -22,7 +22,7 @@
           <p>An animation on the project.</p>
         </v-card-text>
         <client-only>
-          <vimeo-player ref="player" :video-id="videoID2" @ready="onReady" :player-height="height"></vimeo-player>
+          <vimeo-player ref="player" :video-id="videoID2" :options="video2Options" @ready="onReady" :player-height="height"></vimeo-player>
         </client-only>
       </v-card>
     </v-flex>
@@ -39,9 +39,20 @@ export default {
   data() {
     return {
       videoID1: '271022981',
-      videoID2: '422668869',
+      videoID2: '472471214',
       height: 600,
-      options: {},
+      video1Options: {
+        title: true,
+        autopause: true,
+        portrait: true,
+        byline: true
+      },
+      video2Options: {
+        title: false,
+        autopause: true,
+        portrait: false,
+        byline: false
+      },
       playerReady: false,
     }
   },
