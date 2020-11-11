@@ -8,37 +8,37 @@
   1. clone the repo
   1. install the dependencies
 
-        yarn install
+         yarn install
 
   1. copy the runner script (a thin wrapper that sets some env vars) and make
      changes to the vars if needed
 
-        cp local-dev.sh.example local-dev.sh
-        chmod +x local-dev.sh
-        vim local-dev.sh
+         cp local-dev.sh.example local-dev.sh
+         chmod +x local-dev.sh
+         vim local-dev.sh
 
   1. serve with hot reload at localhost:3000
 
-        ./local-dev.sh
+         ./local-dev.sh
 
 ## Running with Docker in production
 
   1. clone the repo
   1. copy the runner script
 
-        cp start-or-restart-stack.sh.example start-or-restart-stack.sh
-        chmod +x start-or-restart-stack.sh
+         cp start-or-restart-stack.sh.example start-or-restart-stack.sh
+         chmod +x start-or-restart-stack.sh
 
   1. edit the runner script `start-or-restart-stack.sh` to define the needed
      sensitive environmental variables
 
-        vim start-or-restart-stack.sh
+         vim start-or-restart-stack.sh
 
   1. start the stack
 
-        ./start-or-restart-stack.sh
-        # or if you need to force a rebuild of the app
-        ./start-or-restart-stack.sh --build
+         ./start-or-restart-stack.sh
+         # or if you need to force a rebuild of the app
+         ./start-or-restart-stack.sh --build
 
 
 ## Debugging
