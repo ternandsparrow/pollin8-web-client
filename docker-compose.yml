@@ -11,9 +11,11 @@ services:
       DEPLOYED_TO_ENV: ${DEPLOYED_TO_ENV}
       VIRTUAL_HOST: ${WEBAPP_PUBLIC_DNS}
       LETSENCRYPT_HOST: ${WEBAPP_PUBLIC_DNS}
-      LETSENCRYPT_EMAIL: ${SYSOPS_EMAIL:-}
     restart: unless-stopped
-    ports:
+    labels:
+      caddy: ${WEBAPP_PUBLIC_DNS}
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+    ports: # FIXME
       - ${P8_WEB_PORT:-3000}:3000 # only used when we aren't running behind nginx
     logging:
       driver: "json-file"
@@ -21,7 +23,7 @@ services:
         max-size: 100m
 
   p8_api:
-    image: ternandsparrow/natcap-invest-docker-flask:${API_IMAGE_TAG}
+    image: ternandsparrow/natcap-invest-docker-flask:1.2.3_3.8.9
     container_name: p8_api
     environment:
       NIDF_ENV: production
@@ -32,4 +34,22 @@ services:
       options:
         max-size: 100m
 
-  # FIXME add nginx and LE
+  rev_proxy:
+    image: lucaslorentz/caddy-docker-proxy:2.3-alpine
+    container_name: p8_rev_proxy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - p8-caddy:/data
+    labels:
+      caddy.email: ${LETSENCRYPT_EMAIL}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 100m
+
+volumes:
+  p8-caddy:
