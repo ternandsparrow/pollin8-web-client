@@ -1,20 +1,12 @@
-FROM node:10-alpine
+FROM node:12-alpine
 
-ENV NODE_ENV production
-ENV NUXT_HOST 0.0.0.0
-ENV NUXT_PORT 3000
+ENV NODE_ENV=production \
+    NUXT_HOST=0.0.0.0 \
+    NUXT_PORT=3000
 
 COPY . /usr/src/app
 WORKDIR /usr/src/app
-RUN \
-  apk add --no-cache --virtual .build-deps git && \
-  NODE_ENV=notprod yarn install && \
-  export API_BASE_URL='%%API_BASE_URL%%' && \
-  export ROLLBAR_SERVER_TOKEN='%%ROLLBAR_SERVER_TOKEN%%' && \
-  export ROLLBAR_CLIENT_TOKEN='%%ROLLBAR_CLIENT_TOKEN%%' && \
-  export DEPLOYED_TO_ENV='%%DEPLOYED_TO_ENV%%' && \
-  yarn build && \
-  apk del .build-deps
+RUN sh docker/setup.sh
 
 RUN yarn cache clean
 

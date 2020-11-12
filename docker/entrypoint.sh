@@ -1,16 +1,23 @@
 #!/bin/sh
 # entrypoint for the Docker container
+set -euxo pipefail
 cd `dirname "$0"`/..
-mainDir=`pwd`
 
-# Nuxt doesn't support runtime env vars in the nuxt.config.js so we'll do it ourselves (yep, it's a little hacky but it
-# works)
+envName=${DEPLOYED_TO_ENV:?}
+echo "[INFO] deployed env name: $envName"
+
+sentryDsn=${SENTRY_DSN:-}
+echo "[INFO] Sentry DSN: ${sentryDsn:-(nothing)}"
+
+# Nuxt doesn't support runtime env vars in the nuxt.config.js so we'll do it
+# ourselves
 find .nuxt/ \
   -type f \
   -name '*.js' \
-  -exec sed -i "s+%%API_BASE_URL%%+${API_BASE_URL:?}+g" '{}' \; \
-  -exec sed -i "s+%%ROLLBAR_SERVER_TOKEN%%+${ROLLBAR_SERVER_TOKEN:?}+g" '{}' \; \
-  -exec sed -i "s+%%ROLLBAR_CLIENT_TOKEN%%+${ROLLBAR_CLIENT_TOKEN:?}+g" '{}' \; \
-  -exec sed -i "s+%%DEPLOYED_TO_ENV%%+${DEPLOYED_TO_ENV:?}+g" '{}' \;
+  -exec sed -i \
+    -e "s+%%API_BASE_URL%%+${API_BASE_URL:?}+g" \
+    -e "s+http://11SENTRY_DSN@o1/1+$sentryDsn+g" \
+    -e "s+%%DEPLOYED_TO_ENV%%+$envName+g" \
+    '{}' \;
 
 exec yarn start

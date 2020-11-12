@@ -2,43 +2,32 @@ const pkg = require('./package')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const buildProxyMiddleware = require('./util/socketio-proxy')
 
-const isRollbarEnabled = process.env.NODE_ENV === 'production'
-if (!isRollbarEnabled) {
-  console.log(
-    `[INFO] Rollbar is disabled because process.env.NODE_ENV=${
-      process.env.NODE_ENV
-    } (not 'production')`,
-  )
-}
-
 module.exports = {
-  mode: 'universal',
-
   /*
    ** Headers of the page
    */
   head: {
     title: pkg.name,
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: pkg.description},
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: pkg.description },
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
       },
     ],
-    debug: true
+    debug: true,
   },
 
   /*
    ** Customize the progress-bar color
    */
-  loading: {color: '#333'},
+  loading: { color: '#333' },
 
   /*
    ** Global CSS
@@ -50,9 +39,8 @@ module.exports = {
    */
   plugins: [
     '~/plugins/vuetify',
-    '~/plugins/GlobalErrorHandler',
-    {src: '~/plugins/VueNotifications.client', mode: 'client'},
-    {src: '~/plugins/VueNotifications.server', mode: 'server'},
+    { src: '~/plugins/VueNotifications.client', mode: 'client' },
+    { src: '~/plugins/VueNotifications.server', mode: 'server' },
     { src: `~plugins/vimeo-player`, ssr: false },
   ],
 
@@ -63,35 +51,42 @@ module.exports = {
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    '@nuxtjs/sentry',
     'nuxt-leaflet',
     'vue-scrollto/nuxt',
     [
       'nuxt-env',
       {
         keys: [
-          {key: 'API_BASE_URL', default: getRequiredEnvVar('API_BASE_URL')},
-          {key: 'DEPLOYED_TO_ENV', default: getDeployedToEnv()},
+          { key: 'API_BASE_URL', default: getRequiredEnvVar('API_BASE_URL') },
+          { key: 'DEPLOYED_TO_ENV', default: getDeployedToEnv() },
         ],
       },
     ],
-    [
-      'nuxt-rollbar-module',
-      {
-        serverAccessToken: isRollbarEnabled
-          ? getRequiredEnvVar('ROLLBAR_SERVER_TOKEN')
-          : '(not set)', // uses post_server_item token
-        clientAccessToken: isRollbarEnabled
-          ? getRequiredEnvVar('ROLLBAR_CLIENT_TOKEN')
-          : '(not set)', // uses post_client_item token
-        config: {
-          environment: getDeployedToEnv(),
-          captureUncaught: true,
-          captureUnhandledRejections: true,
-          enabled: isRollbarEnabled,
-        },
-      },
-    ],
   ],
+
+  sentry: {
+    dsn: (() => {
+      const dsn = process.env.SENTRY_DSN
+      console.log(`Using Sentry DSN: ${dsn}`)
+      return dsn
+    })(),
+    config: {
+      environment: process.env.DEPLOYED_TO_ENV,
+    },
+    disabled: (() => {
+      if (!process.env.SENTRY_DSN) {
+        console.log('Not init-ing Sentry as no DSN provided')
+        return true
+      }
+      if (['dev', 'development'].includes(process.env.DEPLOYED_TO_ENV)) {
+        console.log('Not init-ing Sentry in dev env')
+        return true
+      }
+      console.log('Init-ing Sentry!')
+      return false
+    })(),
+  },
 
   axios: {
     proxy: true,
@@ -101,7 +96,7 @@ module.exports = {
   proxy: {
     '/api/': {
       target: getRequiredEnvVar('API_BASE_URL'),
-      pathRewrite: {'^/api/': ''},
+      pathRewrite: { '^/api/': '' },
     },
     // we should be able to proxy /socket.io/ here but I couldn't
     // get it to work without seeing "Invalid frame header" errors
@@ -139,9 +134,7 @@ module.exports = {
         config.devtool = '#source-map'
       }
     },
-    vendor: [
-      'vue-pdf', 'vue-vimeo-player'
-    ],
+    vendor: ['vue-pdf', 'vue-vimeo-player'],
   },
 }
 

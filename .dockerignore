@@ -1,8 +1,10 @@
-.nuxt
-node_modules/
-.git
-Dockerfile
-start-or-restart.sh*
-docker-compose.yml
-todo
 .circleci/
+.dockerignore
+.git
+.nuxt
+Dockerfile
+docker-compose.*
+local-dev.sh*
+node_modules/
+start-or-restart-stack.sh*
+todo

@@ -1,4 +1,4 @@
-import {consoleError} from '~/mixins/P8Logging'
+import { consoleError } from '~/mixins/P8Logging'
 
 export const state = () => ({
   isProd: false,
@@ -62,17 +62,16 @@ export const mutations = {
   plantingAdviceResult: function(state, data) {
     state.plantingAdviceResult = data
   },
-  
 }
 
 export const actions = {
   // nuxtServerInit is called by Nuxt.js before server-rendering every page
-  nuxtServerInit({commit}, {}) {
+  nuxtServerInit({ commit }, {}) {
     const isProd = this.$env.DEPLOYED_TO_ENV === 'production'
     commit('updateIsProd', isProd)
   },
 
-  async runSimulation({commit, state}) {
+  async runSimulation({ commit, state }) {
     commit('updateSimState', 'processing')
     const postBody = {
       crop_type: state.cropType,
@@ -83,17 +82,16 @@ export const actions = {
     }
     try {
       commit('updateRunResult', null)
-      const {data} = await this.$axios.post(`pollination`, postBody)
+      const { data } = await this.$axios.post(`pollination`, postBody)
       commit('updateRunResult', data)
       commit('updateSimState', 'success')
     } catch (err) {
       commit('updateSimState', 'failed')
       consoleError(
-        this.rollbar,
+        this.$sentry,
         `Failed to run simulation with model=${JSON.stringify(postBody)}`,
         err,
       )
     }
   },
-
 }

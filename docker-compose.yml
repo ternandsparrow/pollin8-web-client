@@ -4,19 +4,15 @@ services:
     build: .
     image: ternandsparrow/pollin8-web-client:${P8_IMAGE_TAG:-dev}
     container_name: p8_web
+    init: true
     environment:
       API_BASE_URL: 'http://p8_api:5000'
-      ROLLBAR_SERVER_TOKEN: ${ROLLBAR_SERVER_TOKEN}
-      ROLLBAR_CLIENT_TOKEN: ${ROLLBAR_CLIENT_TOKEN}
+      SENTRY_DSN: ${SENTRY_DSN:-}
       DEPLOYED_TO_ENV: ${DEPLOYED_TO_ENV}
-      VIRTUAL_HOST: ${WEBAPP_PUBLIC_DNS}
-      LETSENCRYPT_HOST: ${WEBAPP_PUBLIC_DNS}
     restart: unless-stopped
     labels:
       caddy: ${WEBAPP_PUBLIC_DNS}
       caddy.reverse_proxy: "{{upstreams 3000}}"
-    ports: # FIXME
-      - ${P8_WEB_PORT:-3000}:3000 # only used when we aren't running behind nginx
     logging:
       driver: "json-file"
       options:
@@ -24,7 +20,9 @@ services:
 
   p8_api:
     image: ternandsparrow/natcap-invest-docker-flask:1.2.3_3.8.9
+    # TODO integrate Sentry into the API
     container_name: p8_api
+    init: true
     environment:
       NIDF_ENV: production
       SOCKETIO_SECRET: ${SOCKETIO_SECRET}
