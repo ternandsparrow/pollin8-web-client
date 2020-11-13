@@ -18,8 +18,8 @@
               href="http://releases.naturalcapitalproject.org/invest-userguide/latest/croppollination.html"
               >official documentation</a
             >.
-            </p>
-            <p>
+          </p>
+          <p>
             In essence, the model uses estimates of habitat and nesting
             resources for a set of wild bee species, which are key animal
             pollinators for crops. These two factors are used to calculate an
@@ -31,11 +31,11 @@
             affected as revegetation is added to farms. The addition of food and
             nesting resources allows bees to increase crop pollination, with an
             associated impact on yield.
-            </p>
-            <p>
-            Typically, the yield impact is crop and location-specific.
-            As of November 2020, the Pollin8 Simulation Tool is running v3.8.9
-            of the INVEST Crop Pollination software. Within the project, we have
+          </p>
+          <p>
+            Typically, the yield impact is crop and location-specific. As of
+            November 2020, the Pollin8 Simulation Tool is running v3.8.9 of the
+            INVEST Crop Pollination software. Within the project, we have
             created a network-accessible service from the INVEST Crop
             Pollination model, which is feely available for re-use. The source
             for this service is available on
