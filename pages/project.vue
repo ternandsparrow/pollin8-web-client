@@ -19,7 +19,10 @@
       <v-card class="mt-4">
         <v-card-title class="headline">Project Overview</v-card-title>
         <v-card-text>
-          <p>A video that presents the project.</p>
+          <p>
+            A video that presents the project's goals, outlining some of the
+            research activities and expected outcomes.
+          </p>
         </v-card-text>
         <client-only>
           <vimeo-player
@@ -34,7 +37,10 @@
       <v-card class="mt-4">
         <v-card-title class="headline">Project Animation</v-card-title>
         <v-card-text>
-          <p>An animation on the project.</p>
+          <p>
+            An animation on the project which offers insight into why the
+            project is of relevance for growers.
+          </p>
         </v-card-text>
         <client-only>
           <vimeo-player
@@ -64,12 +70,14 @@ export default {
         autopause: true,
         portrait: true,
         byline: true,
+        responsive: true,
       },
       video2Options: {
         title: false,
         autopause: true,
         portrait: false,
         byline: false,
+        responsive: true,
       },
       playerReady: false,
     }

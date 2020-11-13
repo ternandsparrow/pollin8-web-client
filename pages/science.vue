@@ -3,14 +3,46 @@
     <v-flex xs12 sm8 md6 class="vw-100">
       <h1 class="display-2">About the science</h1>
       <v-card>
-        <v-card-title class="headline">Simulation model</v-card-title>
+        <v-card-title class="headline">Simulation Tool</v-card-title>
         <v-card-text>
           <p>
-            The simulation model is built on the
+            The Simulation Tool is built upon the
             <a href="https://naturalcapitalproject.stanford.edu/invest/"
               >NatCap InVEST</a
             >
-            software. Specifically the pollination module.
+            software and, specifically, software's the Crop Pollination module.
+            <br />
+            For detailed information on the Crop Pollination model, please refer
+            to the module's
+            <a
+              href="http://releases.naturalcapitalproject.org/invest-userguide/latest/croppollination.html"
+              >official documentation</a
+            >.
+            </p>
+            <p>
+            In essence, the model uses estimates of habitat and nesting
+            resources for a set of wild bee species, which are key animal
+            pollinators for crops. These two factors are used to calculate an
+            index of wild pollinator abundance for each of the pixels within the
+            space of the farm drawn on the map. The model then calculates an
+            index of the contribution wild pollinators make to the scpecified
+            crop, based upon bee abundance and the dependence of the crop on
+            pollination. The overall result is an indication of how yield can be
+            affected as revegetation is added to farms. The addition of food and
+            nesting resources allows bees to increase crop pollination, with an
+            associated impact on yield.
+            </p>
+            <p>
+            Typically, the yield impact is crop and location-specific.
+            As of November 2020, the Pollin8 Simulation Tool is running v3.8.9
+            of the INVEST Crop Pollination software. Within the project, we have
+            created a network-accessible service from the INVEST Crop
+            Pollination model, which is feely available for re-use. The source
+            for this service is available on
+            <a
+              href="https://github.com/ternandsparrow/natcap-invest-docker-flask"
+              >github</a
+            >
           </p>
         </v-card-text>
       </v-card>
