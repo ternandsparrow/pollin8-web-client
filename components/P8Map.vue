@@ -118,9 +118,8 @@ export default {
   },
   methods: {
     hereMapsUrl() {
-      // FIXME inject keys from env
-      const appId = 'zM6cic4akir1Yp2L2eXF'
-      const appCode = 'aEbtMxj4GbBX-3pvDgOMkQ'
+      const appId = process.env.HEREMAPS_APP_ID
+      const appCode = process.env.HEREMAPS_APP_CODE
       const template =
         'https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8' +
         '?app_id={app_id}&app_code={app_code}&lg=eng'

@@ -7,9 +7,11 @@
           Region</v-card-title
         >
         <v-card-text>
-          <p>Developed by Katja Hogendoorn..</p>
+          <p>Developed by Katja Hogendoorn.</p>
           <p />
-          <vuePdf src="./flowering/plants.pdf"></vuePdf>
+          <client-only>
+            <vuePdf src="/flowering/plants.pdf"></vuePdf>
+          </client-only>
         </v-card-text>
       </v-card>
     </v-flex>

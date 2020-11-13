@@ -9,6 +9,8 @@ services:
       API_BASE_URL: 'http://p8_api:5000'
       SENTRY_DSN: ${SENTRY_DSN:-}
       DEPLOYED_TO_ENV: ${DEPLOYED_TO_ENV}
+      HEREMAPS_APP_ID: ${HEREMAPS_APP_ID}
+      HEREMAPS_APP_CODE: ${HEREMAPS_APP_CODE}
     restart: unless-stopped
     labels:
       caddy: ${WEBAPP_PUBLIC_DNS}

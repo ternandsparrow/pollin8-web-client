@@ -13,6 +13,10 @@ export LETSENCRYPT_EMAIL=you@whatever.blah
 # the stack reported to Sentry.
 # export SENTRY_DSN=https://11111111111111111111111111111111@o222222.ingest.sentry.io/3333333
 
+# credentials for the Here Maps API https://developer.here.com/products/maps
+export HEREMAPS_APP_ID=zM6cic4akir1Yp2L2eXF
+export HEREMAPS_APP_CODE=aEbtMxj4GbBX-3pvDgOMkQ
+
 # Name of the environment that we're deploying to
 export DEPLOYED_TO_ENV=staging # TODO change to 'production' when appropriate
 

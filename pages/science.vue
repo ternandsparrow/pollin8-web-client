@@ -1,17 +1,17 @@
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6 class="vw-100">
+      <h1 class="display-2">About the science</h1>
       <v-card>
-        <v-card-title class="display-2">About the science</v-card-title>
+        <v-card-title class="headline">Simulation model</v-card-title>
         <v-card-text>
           <p>
-            Built on the
+            The simulation model is built on the
             <a href="https://naturalcapitalproject.stanford.edu/invest/"
               >NatCap InVEST</a
             >
-            software.
+            software. Specifically the pollination module.
           </p>
-          <p>TODO - write some more. This is more..</p>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">

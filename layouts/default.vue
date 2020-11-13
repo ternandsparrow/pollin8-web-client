@@ -44,12 +44,12 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer absolute inset app height="120" width="auto" class="py-12">
-      <v-layout justify-center row wrap>
+    <v-footer absolute inset app height="120" class="py-12">
+      <v-layout justify-center wrap>
         <v-flex py-3 text-xs-center xs12
           >This project is supported by funding from the Australian Government
           Department of Agriculture, Water and the Environment as part of its
-          Rural R&D for Profit program..</v-flex
+          Rural R&amp;D for Profit program.</v-flex
         >
         <div class="logo">
           <v-img src="/Agrifutures-Securing.png" width="200px"></v-img>
