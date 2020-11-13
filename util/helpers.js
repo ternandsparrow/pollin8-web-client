@@ -1,5 +1,5 @@
-export function pageTitle (title) {
+export function pageTitle(title) {
   return {
-    title: title + ' - Pollin8'
+    title: title + ' - Pollin8',
   }
 }

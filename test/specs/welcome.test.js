@@ -10,7 +10,7 @@ let nuxt = null
 test.before(async () => {
   const config = {
     dev: false,
-    rootDir: resolve(__dirname, '../..')
+    rootDir: resolve(__dirname, '../..'),
   }
   nuxt = new Nuxt(config)
   await nuxt.ready()
@@ -21,18 +21,18 @@ test.before(async () => {
 // FIXME test hangs forever, possible fix
 // https://github.com/nuxt/nuxt.js/issues/4144
 //test('Route / exits and render HTML', async (t) => {
-  //const context = {}
-  //debugger
-  ////const { html } = await nuxt.server.renderRoute('/', context)
-  //const resp = await nuxt.renderRoute('/', context)
-  //t.true(html.includes('Welcome to Pollin8'))
+//const context = {}
+//debugger
+////const { html } = await nuxt.server.renderRoute('/', context)
+//const resp = await nuxt.renderRoute('/', context)
+//t.true(html.includes('Welcome to Pollin8'))
 //})
 
-test('simple test', async (t) => {
+test('simple test', async t => {
   t.true(2 > 1)
 })
 
 // Close server and ask nuxt to stop listening to file changes
-test.after('Closing server and nuxt.js', (t) => {
+test.after('Closing server and nuxt.js', () => {
   nuxt.close()
 })

@@ -2,20 +2,24 @@
   <div id="map-wrap">
     <client-only>
       <l-map
-        :bounds="bounds"
         id="the-map"
+        :bounds="bounds"
         :max-bounds="maxMapBounds"
         :min-zoom="minZoom"
         :options="mapOptions"
         @update:bounds="onBoundsUpdate"
       >
         <l-tile-layer :url="hereMapsUrl()"></l-tile-layer>
-        <l-geo-json v-if="geojsonGuide" :geojson="geojsonGuide" :optionsStyle="geojsonGuideStyle"></l-geo-json>
+        <l-geo-json
+          v-if="geojsonGuide"
+          :geojson="geojsonGuide"
+          :options-style="geojsonGuideStyle"
+        ></l-geo-json>
         <l-feature-group>
           <l-control-draw
             :options="drawOptions"
+            :initial-geojson="initialDrawValue"
             @change="onDrawChange"
-            :initialGeojson="initialDrawValue"
           />
         </l-feature-group>
       </l-map>
@@ -77,9 +81,6 @@ export default {
       },
     }
   },
-  mounted() {
-    require('leaflet-sleep')
-  },
   computed: {
     drawOptions() {
       return {
@@ -111,6 +112,9 @@ export default {
         },
       }
     },
+  },
+  mounted() {
+    require('leaflet-sleep')
   },
   methods: {
     hereMapsUrl() {

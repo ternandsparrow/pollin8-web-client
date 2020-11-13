@@ -8,16 +8,16 @@ export default {
     },
     consoleLog(msg) {
       console.log(msg)
-      $sentry.withScope(scope => {
+      this.$sentry.withScope(scope => {
         scope.setLevel('info')
-        $sentry.captureException(chainedError(msg, err))
+        this.$sentry.captureException(msg)
       })
     },
     consoleWarn(msg) {
       console.warn(msg)
-      $sentry.withScope(scope => {
+      this.$sentry.withScope(scope => {
         scope.setLevel('warning')
-        $sentry.captureException(chainedError(msg, err))
+        this.$sentry.captureException(msg)
       })
     },
     chainedError,

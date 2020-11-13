@@ -32,11 +32,11 @@ export default {
         curr.addTo(editableLayers)
       }
     }
-    map.on(this.$L.Draw.Event.CREATED, (e) => {
+    map.on(this.$L.Draw.Event.CREATED, e => {
       editableLayers.addLayer(e.layer)
       this.$emit('change', editableLayers.toGeoJSON())
     })
-    map.on(this.$L.Draw.Event.EDITED, (e) => {
+    map.on(this.$L.Draw.Event.EDITED, e => {
       const layers = e.layers
       layers.eachLayer(function(layer) {
         editableLayers.removeLayer(layer)
@@ -44,7 +44,7 @@ export default {
       })
       this.$emit('change', editableLayers.toGeoJSON())
     })
-    map.on(this.$L.Draw.Event.DELETED, (e) => {
+    map.on(this.$L.Draw.Event.DELETED, e => {
       editableLayers.removeLayer(e.layer)
       this.$emit('change', editableLayers.toGeoJSON())
     })

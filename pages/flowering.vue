@@ -2,9 +2,10 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6 class="vw-100">
       <v-card>
-        <v-card-title
-          class="display-2"
-        >Food for Native bees in the Adelaide and Mount Lofty Ranges Region</v-card-title>
+        <v-card-title class="display-2"
+          >Food for Native bees in the Adelaide and Mount Lofty Ranges
+          Region</v-card-title
+        >
         <v-card-text>
           <p>Developed by Katja Hogendoorn..</p>
           <p />
@@ -15,20 +16,18 @@
   </v-layout>
 </template>
 
-
 <script>
 import { pageTitle } from '~/util/helpers'
-var vuePdf
+let vuePdf
 if (process.browser) {
   vuePdf = require('vue-pdf').default
 }
 export default {
-  head: pageTitle('Planting Guide'),
   components: {
     vuePdf,
   },
+  head: pageTitle('Planting Guide'),
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

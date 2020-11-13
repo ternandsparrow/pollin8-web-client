@@ -1,36 +1,36 @@
 import VueScrollTo from 'vue-scrollto'
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 import io from 'socket.io-client'
-import {pageTitle} from '~/util/helpers'
+import { pageTitle } from '~/util/helpers'
 import P8Logging from '~/mixins/P8Logging'
 import P8Map from '~/components/P8Map'
 import P8ResultBlock from '~/components/P8ResultBlock'
 
 export default {
   head: pageTitle('Run simulation'),
-  components: {P8Map, P8ResultBlock},
+  components: { P8Map, P8ResultBlock },
   data() {
     return {
       isShowRaster: false,
       cropTypes: [
-        {code: 'apple', label: 'Apples'},
-        {code: 'canola', label: 'Canola'},
-        {code: 'lucerne', label: 'Lucerne'},
+        { code: 'apple', label: 'Apples' },
+        { code: 'canola', label: 'Canola' },
+        { code: 'lucerne', label: 'Lucerne' },
       ],
       minZoom: 8,
       mapBounds: buildLatLngBounds(
         this.$L,
         // FIXME set based on user location?
-        {lat: -34.958, lng: 138.574},
-        {lat: -35.012, lng: 138.735},
+        { lat: -34.958, lng: 138.574 },
+        { lat: -35.012, lng: 138.735 },
       ),
       // These bounds are manually copied from the Landcover raster on the
       // server. Ideally we would read these dyanmically from the server.
       // Let's call that a TODO item.
       maxMapBounds: buildLatLngBounds(
         this.$L,
-        {lat: -38.1693392, lng: 134.6313833},
-        {lat: -32.2179644, lng: 140.626525},
+        { lat: -38.1693392, lng: 134.6313833 },
+        { lat: -32.2179644, lng: 140.626525 },
       ),
       farmColour: '#ff6100',
       revegColour: '#00ff9d',
@@ -43,7 +43,7 @@ export default {
       console.debug(`socket connected! SID='${sid}'`)
       this.$store.commit('updateSocketioSid', sid)
     })
-    socket.on('year-complete', (payload) => {
+    socket.on('year-complete', payload => {
       console.debug('Marking another year as done', payload)
       this.$store.commit('incrementProcessedYearsCount', {})
     })
@@ -159,7 +159,7 @@ export default {
         const msg = 'Failed to run simulation'
         this.consoleError(msg, err)
         this.$toast.destroy() // clear existing toasts
-        this.$toast.error(msg, 'Error', {timeout: 0})
+        this.$toast.error(msg, 'Error', { timeout: 0 })
       }
     },
     onFarmChange(theGeojson) {
@@ -181,7 +181,7 @@ function buildLatLngBounds(L, sw, ne) {
   }
   console.debug("this.$L let us down. It's hard to find good help")
   return {
-    _southWest: {lat: sw.lat, lng: sw.lng},
-    _northEast: {lat: ne.lat, lng: ne.lng},
+    _southWest: { lat: sw.lat, lng: sw.lng },
+    _northEast: { lat: ne.lat, lng: ne.lng },
   }
 }

@@ -2,22 +2,26 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6 class="vw-100">
       <v-card class="card-background-header">
-        <v-card-title class="display-2">Revegetation Planting Guide</v-card-title>
+        <v-card-title class="display-2"
+          >Revegetation Planting Guide</v-card-title
+        >
         <v-card-text class="card-text">
           <p>
             The three focal crops for this plant selector are apple, canola and
             lucerne because of their pollinator dependency. By selecting the
             agricultural region and choosing the best type of pollination
-            planting for your site, a list of plants will be generated which is 
-            refined by the additional ecosystem services they can
-            provide. Although the selector is themed towards the stated agricultural
+            planting for your site, a list of plants will be generated which is
+            refined by the additional ecosystem services they can provide.
+            Although the selector is themed towards the stated agricultural
             crops, the fundamental logic behind this guide can suitably be used
             for alternative agriculture/crops within the same locality.
           </p>
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title class="headline">Step 1: Agricultural Region</v-card-title>
+        <v-card-title class="headline"
+          >Step 1: Agricultural Region</v-card-title
+        >
         <v-card-text class="card-text">
           <p>
             The regional areas associated with this agriculture are the southern
@@ -37,7 +41,9 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title class="headline">Step 2: Site-specific application</v-card-title>
+        <v-card-title class="headline"
+          >Step 2: Site-specific application</v-card-title
+        >
         <v-card-text class="card-text">
           <p>
             Available land area, site access and existing vegetation will impact
@@ -61,20 +67,29 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title class="headline">Step 3: Select additional plant attributes</v-card-title>
+        <v-card-title class="headline"
+          >Step 3: Select additional plant attributes</v-card-title
+        >
         <v-card-text class="card-text">
           <p>
-            Along with the pollination benefits to agriculture, the plants used for ecological
-            restoration can provide additional benefits to the site.  For example, some plants 
-            are excellent at managing erosion, others are capable of thriving in dry/salty soils.
+            Along with the pollination benefits to agriculture, the plants used
+            for ecological restoration can provide additional benefits to the
+            site. For example, some plants are excellent at managing erosion,
+            others are capable of thriving in dry/salty soils.
           </p>
           <p>
-            Along with pollination services, what other attributes of the ecological restoration are
-            important at your site?  These attributes guide which plants are most appropriate for your application.
-          </p>              
+            Along with pollination services, what other attributes of the
+            ecological restoration are important at your site? These attributes
+            guide which plants are most appropriate for your application.
+          </p>
 
-          <div v-for="({code, label}) in ecosystemServiceTypes" :key="code">
-            <input type="checkbox" :id="'est-' + code" :value="code" v-model="ecosystemServiceType">
+          <div v-for="{ code, label } in ecosystemServiceTypes" :key="code">
+            <input
+              :id="'est-' + code"
+              v-model="ecosystemServiceType"
+              type="checkbox"
+              :value="code"
+            />
             <label :for="'est-' + code">{{ label }}</label>
           </div>
 
@@ -82,15 +97,15 @@
             <v-btn @click="checkboxAllClickHandler">All</v-btn>
             <v-btn @click="checkboxNoneClickHandler">None</v-btn>
           </div>
-          
-          <br>
-          <!-- span>Selected attributes: {{ ecosystemServiceType }} </span -->
 
-          
+          <br />
+          <!-- span>Selected attributes: {{ ecosystemServiceType }} </span -->
         </v-card-text>
       </v-card>
       <v-card class="mt-4 card-background">
-        <v-card-title v-if="isInputValid" class="headline">Your selections</v-card-title>
+        <v-card-title v-if="isInputValid" class="headline"
+          >Your selections</v-card-title
+        >
         <v-card-text class="card-text">
           <div v-if="isInputValid">
             Agricultural Setting = {{ agSettingType }}
@@ -103,23 +118,27 @@
       </v-card>
       <v-container>
         <div class="display-2 text-center">Planting Advice</div>
-        <v-card class="mt-4 card-background" v-if="isShowOverstoreyResultSection">
+        <v-card
+          v-if="isShowOverstoreyResultSection"
+          class="mt-4 card-background"
+        >
           <v-card-title class="headline">Overstorey</v-card-title>
           <div id="results">
             <v-data-table
               :headers="headers"
-              :items="filteredPlants(this.storeyCodes.upper)"
+              :items="filteredPlants(storeyCodes.upper)"
               :pagination.sync="pagination"
               item-key="common_name"
               class="elevation-1"
             >
-
               <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
                   <td class="text-xs-right">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
-                        <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
+                        <div v-bind="attrs" v-on="on">
+                          {{ props.item.FAMILY }}
+                        </div>
                       </template>
                       <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
                     </v-tooltip>
@@ -133,9 +152,9 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-icon v-bind="attrs" v-on="on">
                           {{
-                          props.item.Standard_tube == '1'
-                          ? 'mdi-checkbox-marked'
-                          : 'mdi-checkbox-blank-outline'
+                            props.item.Standard_tube == '1'
+                              ? 'mdi-checkbox-marked'
+                              : 'mdi-checkbox-blank-outline'
                           }}
                         </v-icon>
                       </template>
@@ -152,7 +171,9 @@
                     <v-flex d-flex xs3>
                       <v-card>
                         <v-card-title class="h5">Floristics</v-card-title>
-                        <span class="grey--text subtitle-1">This species flowers in:</span>
+                        <span class="grey--text subtitle-1"
+                          >This species flowers in:</span
+                        >
                         <v-card-text>
                           <div v-if="props.item.Summer == '1'">Summer</div>
                           <div v-if="props.item.Autumn == '1'">Autumn</div>
@@ -165,14 +186,15 @@
                       <v-card dark color="primary">
                         <v-card-title class="h5">Soils</v-card-title>
                         <span class="grey--text subtitle-1">
-                          This species will grow well in the following
-                          soils:
+                          This species will grow well in the following soils:
                         </span>
                         <v-card-text>
                           <div v-if="props.item.Sand == '1'">Sand</div>
                           <div v-if="props.item.Loam == '1'">Loam</div>
                           <div v-if="props.item.Clay == '1'">Clay</div>
-                          <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
+                          <div v-if="props.item.Calcareous == '1'">
+                            Calcareous soil
+                          </div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -183,24 +205,72 @@
                           Metropolitan:
                         </span>
                         <v-card-text>
-                          <div><a href="https://treesforlife.org.au/westwood-nursery" target="_blank">Trees For Life</a></div>
-                          <div><a href="https://www.stateflora.sa.gov.au/home" target="_blank">State Flora</a></div>
-                          <div><a href="http://kersbrook.landcaregroup.org.au" target="_blank">Landcare</a></div>
+                          <div>
+                            <a
+                              href="https://treesforlife.org.au/westwood-nursery"
+                              target="_blank"
+                              >Trees For Life</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://www.stateflora.sa.gov.au/home"
+                              target="_blank"
+                              >State Flora</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="http://kersbrook.landcaregroup.org.au"
+                              target="_blank"
+                              >Landcare</a
+                            >
+                          </div>
                         </v-card-text>
                         <span class="grey--text subtitle-1">
                           Regional:
                         </span>
                         <v-card-text>
-                          <div><a href="http://eyrenativeseeds.com.au/site/" target="_blank">Eyre Native seeds</a></div>
-                          <div><a href="https://nativeplantwholesalers.com.au" target="_blank">Native Plant Wholesalers (Mount Gambier)</a></div>
+                          <div>
+                            <a
+                              href="http://eyrenativeseeds.com.au/site/"
+                              target="_blank"
+                              >Eyre Native seeds</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://nativeplantwholesalers.com.au"
+                              target="_blank"
+                              >Native Plant Wholesalers (Mount Gambier)</a
+                            >
+                          </div>
                         </v-card-text>
                         <span class="grey--text subtitle-1">
                           Restoration Services:
                         </span>
                         <v-card-text>
-                          <div><a href="http://treesforlife.org.au/direct-seeding" target="_blank">Trees for Life</a></div>
-                          <div><a href="https://www.greeningaustralia.org.au/" target="_blank">Greening Australia</a></div>
-                          <div><a href="http://ebservices.com.au/restoration/restoration-overview" target="_blank">EBS</a></div>
+                          <div>
+                            <a
+                              href="http://treesforlife.org.au/direct-seeding"
+                              target="_blank"
+                              >Trees for Life</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://www.greeningaustralia.org.au/"
+                              target="_blank"
+                              >Greening Australia</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="http://ebservices.com.au/restoration/restoration-overview"
+                              target="_blank"
+                              >EBS</a
+                            >
+                          </div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -211,23 +281,27 @@
           </div>
         </v-card>
 
-        <v-card class="mt-4 card-background" v-if="isShowMidstoreyResultSection">
+        <v-card
+          v-if="isShowMidstoreyResultSection"
+          class="mt-4 card-background"
+        >
           <v-card-title class="headline">Midstorey</v-card-title>
           <div id="results">
             <v-data-table
               :headers="headers"
-              :items="filteredPlants(this.storeyCodes.mid)"
+              :items="filteredPlants(storeyCodes.mid)"
               :pagination.sync="pagination"
               item-key="common_name"
               class="elevation-1"
             >
-
               <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
                   <td class="text-xs-right">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
-                        <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
+                        <div v-bind="attrs" v-on="on">
+                          {{ props.item.FAMILY }}
+                        </div>
                       </template>
                       <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
                     </v-tooltip>
@@ -241,9 +315,9 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-icon v-bind="attrs" v-on="on">
                           {{
-                          props.item.Standard_tube == '1'
-                          ? 'mdi-checkbox-marked'
-                          : 'mdi-checkbox-blank-outline'
+                            props.item.Standard_tube == '1'
+                              ? 'mdi-checkbox-marked'
+                              : 'mdi-checkbox-blank-outline'
                           }}
                         </v-icon>
                       </template>
@@ -260,7 +334,9 @@
                     <v-flex d-flex xs3>
                       <v-card>
                         <v-card-title class="h5">Floristics</v-card-title>
-                        <span class="grey--text subtitle-1">This species flowers in:</span>
+                        <span class="grey--text subtitle-1"
+                          >This species flowers in:</span
+                        >
                         <v-card-text>
                           <div v-if="props.item.Summer == '1'">Summer</div>
                           <div v-if="props.item.Autumn == '1'">Autumn</div>
@@ -273,14 +349,15 @@
                       <v-card dark color="primary">
                         <v-card-title class="h5">Soils</v-card-title>
                         <span class="grey--text subtitle-1">
-                          This species will grow well in the following
-                          soils:
+                          This species will grow well in the following soils:
                         </span>
                         <v-card-text>
                           <div v-if="props.item.Sand == '1'">Sand</div>
                           <div v-if="props.item.Loam == '1'">Loam</div>
                           <div v-if="props.item.Clay == '1'">Clay</div>
-                          <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
+                          <div v-if="props.item.Calcareous == '1'">
+                            Calcareous soil
+                          </div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -291,24 +368,72 @@
                           Metropolitan:
                         </span>
                         <v-card-text>
-                          <div><a href="https://treesforlife.org.au/westwood-nursery" target="_blank">Trees For Life</a></div>
-                          <div><a href="https://www.stateflora.sa.gov.au/home" target="_blank">State Flora</a></div>
-                          <div><a href="http://kersbrook.landcaregroup.org.au" target="_blank">Landcare</a></div>
+                          <div>
+                            <a
+                              href="https://treesforlife.org.au/westwood-nursery"
+                              target="_blank"
+                              >Trees For Life</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://www.stateflora.sa.gov.au/home"
+                              target="_blank"
+                              >State Flora</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="http://kersbrook.landcaregroup.org.au"
+                              target="_blank"
+                              >Landcare</a
+                            >
+                          </div>
                         </v-card-text>
                         <span class="grey--text subtitle-1">
                           Regional:
                         </span>
                         <v-card-text>
-                          <div><a href="http://eyrenativeseeds.com.au/site/" target="_blank">Eyre Native seeds</a></div>
-                          <div><a href="https://nativeplantwholesalers.com.au" target="_blank">Native Plant Wholesalers (Mount Gambier)</a></div>
+                          <div>
+                            <a
+                              href="http://eyrenativeseeds.com.au/site/"
+                              target="_blank"
+                              >Eyre Native seeds</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://nativeplantwholesalers.com.au"
+                              target="_blank"
+                              >Native Plant Wholesalers (Mount Gambier)</a
+                            >
+                          </div>
                         </v-card-text>
                         <span class="grey--text subtitle-1">
                           Restoration Services:
                         </span>
                         <v-card-text>
-                          <div><a href="http://treesforlife.org.au/direct-seeding" target="_blank">Trees for Life</a></div>
-                          <div><a href="https://www.greeningaustralia.org.au/" target="_blank">Greening Australia</a></div>
-                          <div><a href="http://ebservices.com.au/restoration/restoration-overview" target="_blank">EBS</a></div>
+                          <div>
+                            <a
+                              href="http://treesforlife.org.au/direct-seeding"
+                              target="_blank"
+                              >Trees for Life</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://www.greeningaustralia.org.au/"
+                              target="_blank"
+                              >Greening Australia</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="http://ebservices.com.au/restoration/restoration-overview"
+                              target="_blank"
+                              >EBS</a
+                            >
+                          </div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -318,24 +443,28 @@
             </v-data-table>
           </div>
         </v-card>
-        
-        <v-card class="mt-4 card-background" v-if="isShowUnderstoreyResultSection">
+
+        <v-card
+          v-if="isShowUnderstoreyResultSection"
+          class="mt-4 card-background"
+        >
           <v-card-title class="headline">Understorey</v-card-title>
           <div id="results">
             <v-data-table
               :headers="headers"
-              :items="filteredPlants(this.storeyCodes.under)"
+              :items="filteredPlants(storeyCodes.under)"
               :pagination.sync="pagination"
               item-key="common_name"
               class="elevation-1"
             >
-
               <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
                   <td class="text-xs-right">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
-                        <div v-bind="attrs" v-on="on">{{ props.item.FAMILY }}</div>
+                        <div v-bind="attrs" v-on="on">
+                          {{ props.item.FAMILY }}
+                        </div>
                       </template>
                       <span>{{ familyCommentShort(props.item.FAMILY) }}</span>
                     </v-tooltip>
@@ -349,9 +478,9 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-icon v-bind="attrs" v-on="on">
                           {{
-                          props.item.Standard_tube == '1'
-                          ? 'mdi-checkbox-marked'
-                          : 'mdi-checkbox-blank-outline'
+                            props.item.Standard_tube == '1'
+                              ? 'mdi-checkbox-marked'
+                              : 'mdi-checkbox-blank-outline'
                           }}
                         </v-icon>
                       </template>
@@ -368,7 +497,9 @@
                     <v-flex d-flex xs3>
                       <v-card>
                         <v-card-title class="h5">Floristics</v-card-title>
-                        <span class="grey--text subtitle-1">This species flowers in:</span>
+                        <span class="grey--text subtitle-1"
+                          >This species flowers in:</span
+                        >
                         <v-card-text>
                           <div v-if="props.item.Summer == '1'">Summer</div>
                           <div v-if="props.item.Autumn == '1'">Autumn</div>
@@ -381,14 +512,15 @@
                       <v-card dark color="primary">
                         <v-card-title class="h5">Soils</v-card-title>
                         <span class="grey--text subtitle-1">
-                          This species will grow well in the following
-                          soils:
+                          This species will grow well in the following soils:
                         </span>
                         <v-card-text>
                           <div v-if="props.item.Sand == '1'">Sand</div>
                           <div v-if="props.item.Loam == '1'">Loam</div>
                           <div v-if="props.item.Clay == '1'">Clay</div>
-                          <div v-if="props.item.Calcareous == '1'">Calcareous soil</div>
+                          <div v-if="props.item.Calcareous == '1'">
+                            Calcareous soil
+                          </div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -399,24 +531,72 @@
                           Metropolitan:
                         </span>
                         <v-card-text>
-                          <div><a href="https://treesforlife.org.au/westwood-nursery" target="_blank">Trees For Life</a></div>
-                          <div><a href="https://www.stateflora.sa.gov.au/home" target="_blank">State Flora</a></div>
-                          <div><a href="http://kersbrook.landcaregroup.org.au" target="_blank">Landcare</a></div>
+                          <div>
+                            <a
+                              href="https://treesforlife.org.au/westwood-nursery"
+                              target="_blank"
+                              >Trees For Life</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://www.stateflora.sa.gov.au/home"
+                              target="_blank"
+                              >State Flora</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="http://kersbrook.landcaregroup.org.au"
+                              target="_blank"
+                              >Landcare</a
+                            >
+                          </div>
                         </v-card-text>
                         <span class="grey--text subtitle-1">
                           Regional:
                         </span>
                         <v-card-text>
-                          <div><a href="http://eyrenativeseeds.com.au/site/" target="_blank">Eyre Native seeds</a></div>
-                          <div><a href="https://nativeplantwholesalers.com.au" target="_blank">Native Plant Wholesalers (Mount Gambier)</a></div>
+                          <div>
+                            <a
+                              href="http://eyrenativeseeds.com.au/site/"
+                              target="_blank"
+                              >Eyre Native seeds</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://nativeplantwholesalers.com.au"
+                              target="_blank"
+                              >Native Plant Wholesalers (Mount Gambier)</a
+                            >
+                          </div>
                         </v-card-text>
                         <span class="grey--text subtitle-1">
                           Restoration Services:
                         </span>
                         <v-card-text>
-                          <div><a href="http://treesforlife.org.au/direct-seeding" target="_blank">Trees for Life</a></div>
-                          <div><a href="https://www.greeningaustralia.org.au/" target="_blank">Greening Australia</a></div>
-                          <div><a href="http://ebservices.com.au/restoration/restoration-overview" target="_blank">EBS</a></div>
+                          <div>
+                            <a
+                              href="http://treesforlife.org.au/direct-seeding"
+                              target="_blank"
+                              >Trees for Life</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="https://www.greeningaustralia.org.au/"
+                              target="_blank"
+                              >Greening Australia</a
+                            >
+                          </div>
+                          <div>
+                            <a
+                              href="http://ebservices.com.au/restoration/restoration-overview"
+                              target="_blank"
+                              >EBS</a
+                            >
+                          </div>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -437,7 +617,6 @@ import { pageTitle } from '~/util/helpers'
 import * as d3 from 'd3'
 
 export default {
-  head: pageTitle('Planting Guide'),
   data() {
     return {
       expanded: [],
@@ -460,7 +639,8 @@ export default {
         { code: 'Hedge_TS', label: 'Hedge' },
         { code: 'Meadow_DS', label: 'Meadow' },
       ],
-      ecosystemServiceTypes: [        { code: 'Drought_tolerant', label: 'Drought tolerance' },
+      ecosystemServiceTypes: [
+        { code: 'Drought_tolerant', label: 'Drought tolerance' },
         { code: 'Salt_tolerant', label: 'Salt tolerance' },
         { code: 'Erosion_control', label: 'Erosion control' },
         { code: 'Fire_resistance', label: 'Fire tolerance' },
@@ -468,7 +648,7 @@ export default {
       storeyCodes: {
         upper: 'Over over 5m',
         mid: 'Mid 2-5m',
-        under: 'Under 2m'
+        under: 'Under 2m',
       },
       // Nick Planting advice table
       pagination: {
@@ -506,15 +686,6 @@ export default {
       ],
     }
   },
-  mounted() {
-    d3.csv(
-      '/planting/Plant_selector_rareandrangeltd_removed_ver1.02.csv',
-      data => {
-        this.plantData.push(data)
-        console.log('this.plantData = ' + this.plantData)
-      },
-    )
-  },
   computed: {
     agSettingType: {
       get() {
@@ -546,15 +717,23 @@ export default {
       )
     },
     isShowOverstoreyResultSection() {
-      return(this.filteredPlants(this.storeyCodes.upper).length > 0)
+      return this.filteredPlants(this.storeyCodes.upper).length > 0
     },
     isShowMidstoreyResultSection() {
-      return(this.filteredPlants(this.storeyCodes.mid).length > 0)
+      return this.filteredPlants(this.storeyCodes.mid).length > 0
     },
     isShowUnderstoreyResultSection() {
-      return(this.filteredPlants(this.storeyCodes.under).length > 0)
+      return this.filteredPlants(this.storeyCodes.under).length > 0
     },
-   
+  },
+  mounted() {
+    d3.csv(
+      '/planting/Plant_selector_rareandrangeltd_removed_ver1.02.csv',
+      data => {
+        this.plantData.push(data)
+        console.log('this.plantData = ' + this.plantData)
+      },
+    )
   },
   methods: {
     // async doPlantingGuideSearch() {
@@ -580,11 +759,11 @@ export default {
     //   }
     //   this.$store.commit('plantingAdviceResult', result)
     // },
-    checkboxNoneClickHandler(event) {
+    checkboxNoneClickHandler() {
       this.ecosystemServiceType = []
     },
-    checkboxAllClickHandler(event) {
-      this.ecosystemServiceType = this.ecosystemServiceTypes.map(e=>e.code)
+    checkboxAllClickHandler() {
+      this.ecosystemServiceType = this.ecosystemServiceTypes.map(e => e.code)
     },
     rowClick() {
       console.log('TODO - handle the click')
@@ -597,7 +776,9 @@ export default {
       console.log('FOR storey = ' + storey)
       console.log('USING settingTypeVar = ' + settingTypeVar)
       console.log('USING applicationTypeVar = ' + applicationTypeVar)
-      console.log('USING ecosystemServicesTypeVar = ' + ecosystemServicesTypeVar)
+      console.log(
+        'USING ecosystemServicesTypeVar = ' + ecosystemServicesTypeVar,
+      )
 
       if (this.plantData.length > 0) {
         //console.log('this.plantData[0] = ' + JSON.stringify(this.plantData[0]))
@@ -616,17 +797,17 @@ export default {
           plant => plant[settingTypeVar] === '1',
         )
 
-        var applicationMatches = undefined;
-        if (applicationTypeVar == "Standard_tube_LT") {
-          console.log("Munging <2HA selection; no filters to apply")
-          applicationMatches = settingMatches;
+        let applicationMatches = undefined
+        if (applicationTypeVar == 'Standard_tube_LT') {
+          console.log('Munging <2HA selection; no filters to apply')
+          applicationMatches = settingMatches
         } else {
-          console.log("Applying application filters..")
+          console.log('Applying application filters..')
           applicationMatches = settingMatches.filter(
             plant => plant[applicationTypeVar] === '1',
           )
         }
-        var ecosystemServicesMatches = applicationMatches
+        let ecosystemServicesMatches = applicationMatches
         /*
         if (ecosystemServicesTypeVar == 'ALL') {
           // Apply all filters
@@ -648,27 +829,30 @@ export default {
         */
         if (ecosystemServicesTypeVar != []) {
           for (const service of ecosystemServicesTypeVar) {
-              // Apply the specified filter
-              console.log("Filtering on Service: " + service);
-              ecosystemServicesMatches = ecosystemServicesMatches.filter(
-                plant => plant[service] === '1',
-              )
-              console.log("ecosystemServicesMatches.length = " + ecosystemServicesMatches.length);
+            // Apply the specified filter
+            console.log('Filtering on Service: ' + service)
+            ecosystemServicesMatches = ecosystemServicesMatches.filter(
+              plant => plant[service] === '1',
+            )
+            console.log(
+              'ecosystemServicesMatches.length = ' +
+                ecosystemServicesMatches.length,
+            )
           }
         }
 
         // Apply storey match
-        var storeyMatches = ecosystemServicesMatches.filter(
-            plant => plant[storey] === '1',
-          )
+        const storeyMatches = ecosystemServicesMatches.filter(
+          plant => plant[storey] === '1',
+        )
         return storeyMatches
       } else {
         return []
       }
     },
     familyCommentLong(family) {
-      var comment = 'No further Family information'
-      if ( (family == 'Asteraceae') || (family == 'Compositae') ) {
+      let comment = 'No further Family information'
+      if (family == 'Asteraceae' || family == 'Compositae') {
         comment =
           'Asteraceae / Compositae (Asters and daisies). Native daisies such as Chrysocephalum or Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators. Some daisies such as Brachycome also have long flowering periods and are widely available in nurseries. These families are generally compact and hardy and are therefore well suited to complimentary understory planting but may require intensive weed management (mulch, herbicides) and herbivore management (fencing, guarding) during their establishment.'
       } else if (family == 'Dilleniaceae') {
@@ -680,7 +864,7 @@ export default {
       } else if (family == 'Lilliaceae') {
         comment =
           'Lilliaceae includes a wide variety of plants. Generally this family is defined by herbaceous perennials which have evolved to be reasonably shade tolerant such as Arthropodium, Chamaescilla and Dianella. Pollen and nectar rewards are common in the family especially in spring and they are reasonably ubiquitous to many soil types throughout the focal agricultural regions of South Australia. Best applied at a site where some overstorey is present or as a follow up planting as the over story becomes established.'
-      } else if ( (family == 'Leguminosae') || (family == 'Fabaceae') ) {
+      } else if (family == 'Leguminosae' || family == 'Fabaceae') {
         comment =
           'Leguminosae / Fabaceae (Legumes and peas). Along with providing additional soil benefits like being efficient nitrogen fixers (e.g. the legumes) this family include many core restoration plants that are very important for pollinators. A wide variety of Acacia, Eutaxia, Daviesia, Dilwynia, Hardenbergia, Pultanaea and Templetonia species are all attractive to native pollinators. The wide diversity of growth forms and soil associations makes many plants from this family drought and/or salinity tolerant.'
       } else if (family == 'Myrtaceae') {
@@ -761,7 +945,7 @@ export default {
       } else if (family == 'Sterculariaceae') {
         comment =
           'Sterculariaceae is a family of flowering herbs which includes the genus Thomosia which produces good pollen.'
-      } else if (family == 'Sterculariaceae') {
+      } else if (family == 'Tremandraceae') {
         comment =
           'Tremandraceae is a family of flowering herbs which includes the genus Tetratheca which produces good pollen.'
       }
@@ -769,9 +953,9 @@ export default {
       return comment
     },
     familyCommentShort(family) {
-      var comment = 'No further Family information'
-      
-      if ( (family == 'Asteraceae') | (family == 'Compositae') ) {
+      let comment = 'No further Family information'
+
+      if ((family == 'Asteraceae') | (family == 'Compositae')) {
         comment =
           'Asteraceae / Compositae (Asters and daisies). Native daisies such as Chrysocephalum and Helichrysum have shallow flowers that provide accessible nectar and pollen to pollinators.'
       } else if (family == 'Dilleniaceae') {
@@ -783,7 +967,7 @@ export default {
       } else if (family == 'Lilliaceae') {
         comment =
           'Lilliaceae includes a wide variety of plants. Generally this family is defined by herbaceous perennials which have evolved to be reasonably shade tolerant such as Arthropodium, Chamaescilla and Dianella.'
-      } else if ( (family == 'Leguminosae') || (family == 'Fabaceae') ) {
+      } else if (family == 'Leguminosae' || family == 'Fabaceae') {
         comment =
           'Leguminosae / Fabaceae (Legumes and peas). Along with providing additional soil benefits like being efficient nitrogen fixers (e.g. the legumes) this family include many core restoration plants that are very important for pollinators.'
       } else if (family == 'Myrtaceae') {
@@ -864,7 +1048,7 @@ export default {
       } else if (family == 'Sterculariaceae') {
         comment =
           'Sterculariaceae is a family of flowering herbs which includes the genus Thomosia which produces good pollen.'
-      } else if (family == 'Sterculariaceae') {
+      } else if (family == 'Tremandraceae') {
         comment =
           'Tremandraceae is a family of flowering herbs which includes the genus Tetratheca which produces good pollen.'
       }
@@ -877,6 +1061,7 @@ export default {
       return ''
     },
   },
+  head: pageTitle('Planting Guide'),
 }
 </script>
 

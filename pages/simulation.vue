@@ -49,18 +49,20 @@
           </p>
           <p>There are also controls to edit or delete existing shapes.</p>
           <p8-map
-            @change="onFarmChange"
             :bounds="mapBounds"
-            :maxMapBounds="maxMapBounds"
-            :minZoom="minZoom"
-            :drawLayerColour="farmColour"
-            :initialDrawValue="farmFeatureCollection"
+            :max-map-bounds="maxMapBounds"
+            :min-zoom="minZoom"
+            :draw-layer-colour="farmColour"
+            :initial-draw-value="farmFeatureCollection"
+            @change="onFarmChange"
             @moved="onMapMove"
           ></p8-map>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
-        <v-card-title class="headline">Step 3: revegetation location</v-card-title>
+        <v-card-title class="headline"
+          >Step 3: revegetation location</v-card-title
+        >
         <v-card-text>
           <p>
             This step is very similar to the previous but the difference is that
@@ -74,14 +76,14 @@
             the farm shape, go back to the previous step and edit it there.
           </p>
           <p8-map
-            @change="onRevegChange"
             :bounds="mapBounds"
-            :maxMapBounds="maxMapBounds"
-            :minZoom="minZoom"
-            :geojsonGuide="farmFeatureCollection"
-            :initialDrawValue="revegFeatureCollection"
-            :drawLayerColour="revegColour"
-            :guideLayerColour="farmColour"
+            :max-map-bounds="maxMapBounds"
+            :min-zoom="minZoom"
+            :geojson-guide="farmFeatureCollection"
+            :initial-draw-value="revegFeatureCollection"
+            :draw-layer-colour="revegColour"
+            :guide-layer-colour="farmColour"
+            @change="onRevegChange"
           ></p8-map>
         </v-card-text>
       </v-card>
@@ -108,12 +110,23 @@
 
               <v-flex xs1>
                 <!-- FIXME add min/max validation -->
-                <v-text-field v-model="years" class="mt-0" type="number" max="15"></v-text-field>
+                <v-text-field
+                  v-model="years"
+                  class="mt-0"
+                  type="number"
+                  max="15"
+                ></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
           <div class="text-center">
-            <v-btn large color="primary" @click="doRun" :disabled="!isInputValid">Run the simulation</v-btn>
+            <v-btn
+              large
+              color="primary"
+              :disabled="!isInputValid"
+              @click="doRun"
+              >Run the simulation</v-btn
+            >
             <div v-if="!isInputValid">
               <small class="text-danger">
                 Enter at least one shape for the farm and one for the reveg
@@ -123,17 +136,19 @@
           </div>
         </v-card-text>
       </v-card>
-      <v-card class="mt-4" v-if="isShowResultSection">
+      <v-card v-if="isShowResultSection" class="mt-4">
         <v-card-title class="display-2 text-center">Results</v-card-title>
         <v-card-text v-if="isShowLoading">
           <p class="text-center">
             Processed {{ processedYearsCount }} of
             {{ totalYearsToProcess }} simulations
-            <span
-              v-if="isGatheringProcessingResults"
-            >(gathering results...)</span>
+            <span v-if="isGatheringProcessingResults"
+              >(gathering results...)</span
+            >
           </p>
-          <v-progress-linear v-model="processedYearsPercent"></v-progress-linear>
+          <v-progress-linear
+            v-model="processedYearsPercent"
+          ></v-progress-linear>
         </v-card-text>
         <v-card-text v-if="isShowError" class="text-center">
           <b-alert show variant="danger">
@@ -152,10 +167,13 @@
             <a
               href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
               target="_blank"
-            >in the NatCap InVEST documentation</a>.
+              >in the NatCap InVEST documentation</a
+            >.
           </p>
           <p class="text-muted">
-            <small @click="isShowRaster = true" v-if="!isShowRaster">Show clipped raster</small>
+            <small v-if="!isShowRaster" @click="isShowRaster = true"
+              >Show clipped raster</small
+            >
           </p>
           <div v-if="isShowRaster">
             <img :src="farmRaster" />

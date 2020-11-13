@@ -1,26 +1,26 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
+  <v-layout column justify-center align-center>
+    <v-flex xs12 sm8 md6>
       <v-card>
         <v-card-title class="headline">Welcome to Pollin8</v-card-title>
         <v-card-text>
-          <p>A tool to run simulations on revegetating the area around your
-            farm to support pollinators and how that affects your crop.</p>
-          <p>Built on the <a
-            href="https://naturalcapitalproject.stanford.edu/invest/">NatCap
-            InVEST</a> software.</p>
-          <p>To perform a simulation, use the <nuxt-link to="/simulation">Run
-              simulation</nuxt-link> item from the menu. The menu will appear
-            on the left for larger screens and on smaller ones, use the menu
-            button in the top left of the page.</p>
+          <p>
+            A tool to run simulations on revegetating the area around your farm
+            to support pollinators and how that affects your crop.
+          </p>
+          <p>
+            Built on the
+            <a href="https://naturalcapitalproject.stanford.edu/invest/"
+              >NatCap InVEST</a
+            >
+            software.
+          </p>
+          <p>
+            To perform a simulation, use the
+            <nuxt-link to="/simulation">Run simulation</nuxt-link> item from the
+            menu. The menu will appear on the left for larger screens and on
+            smaller ones, use the menu button in the top left of the page.
+          </p>
         </v-card-text>
       </v-card>
     </v-flex>

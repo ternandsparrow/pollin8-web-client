@@ -2,7 +2,7 @@ version: 2
 jobs:
   ci-job:
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node:12-browsers
 
     steps:
       - checkout
@@ -13,14 +13,15 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn install
+      - run: yarn install --frozen-lockfile
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "yarn.lock" }}
 
-      # FIXME probably need a stub API (and maybe Keycloak) to test against
+      - run: yarn lint
+
       - run: yarn test
 
   build-deploy-job:
@@ -70,22 +71,16 @@ workflows:
           filters:
             branches:
               only: master
-      - build-deploy-job:
-          requires:
-            - ci-job
-          filters:
-            branches:
-              only: master
+      # - build-deploy-job: # disabled until we decide we need this CD aspect
+      #     requires:
+      #       - ci-job
+      #     filters:
+      #       branches:
+      #         only: master
 
-  build-deploy-staging:
+  test-other-branches:
     jobs:
       - ci-job:
           filters:
             branches:
               ignore: master # will CI all branches
-      - build-deploy-job:
-          requires:
-            - ci-job
-          filters:
-            branches:
-              only: staging

@@ -133,6 +133,15 @@ module.exports = {
       if (ctx.isClient) {
         config.devtool = '#source-map'
       }
+      // thanks https://nuxtjs.org/docs/2.x/features/configuration#execute-eslint-on-every-webpack-build-in-dev-environment
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/,
+        })
+      }
     },
     vendor: ['vue-pdf', 'vue-vimeo-player'],
   },

@@ -1,8 +1,20 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app>
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      fixed
+      app
+    >
       <v-list>
-        <v-list-tile v-for="(item, i) in items" :key="i" :to="item.to" router exact>
+        <v-list-tile
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -17,12 +29,14 @@
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>{{ `chevron_${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
-      <v-toolbar-title>{{title}}</v-toolbar-title>
-      <v-chip color="warning" v-if="!isProd">
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-chip v-if="!isProd" color="warning">
         <span class="hidden-md-and-down">This is a&nbsp;</span>
         test
         <span class="hidden-xs-only">&nbsp;environment</span>
-        <span class="hidden-md-and-down">, things will break, data will be deleted</span>!
+        <span class="hidden-md-and-down"
+          >, things will break, data will be deleted</span
+        >!
       </v-chip>
     </v-toolbar>
     <v-content>
@@ -32,7 +46,11 @@
     </v-content>
     <v-footer absolute inset app height="120" width="auto" class="py-12">
       <v-layout justify-center row wrap>
-        <v-flex py-3 text-xs-center xs12>This project is supported by funding from the Australian Government Department of Agriculture, Water and the Environment as part of its Rural R&D for Profit program..</v-flex>
+        <v-flex py-3 text-xs-center xs12
+          >This project is supported by funding from the Australian Government
+          Department of Agriculture, Water and the Environment as part of its
+          Rural R&D for Profit program..</v-flex
+        >
         <div class="logo">
           <v-img src="/Agrifutures-Securing.png" width="200px"></v-img>
         </div>
@@ -45,8 +63,6 @@
 </template>
 
 <script>
-import * as helpers from '~/util/helpers.js'
-
 export default {
   data() {
     return {

@@ -1,16 +1,19 @@
 <template>
   <div>
-    <div class="headline">Season: {{season}}</div>
+    <div class="headline">Season: {{ season }}</div>
     <p8-line-chart :chartdata="chartData"></p8-line-chart>
-    <p class="text-muted"><small @click="isShowTable = true"
-       v-if="!isShowTable">Show data table</small></p>
+    <p class="text-muted">
+      <small v-if="!isShowTable" @click="isShowTable = true"
+        >Show data table</small
+      >
+    </p>
     <div v-if="isShowTable">
       <v-data-table
         :headers="headers"
         :items="relevantRecords"
         class="elevation-1"
         :pagination.sync="pagination"
-        >
+      >
         <template v-slot:items="props">
           <td>{{ props.item.year }}</td>
           <td>{{ props.item.season }}</td>
@@ -29,7 +32,7 @@ import P8LineChart from '~/components/P8LineChart'
 
 export default {
   name: 'P8ResultBlock',
-  components: {P8LineChart},
+  components: { P8LineChart },
   props: {
     season: {
       type: String,
@@ -43,7 +46,7 @@ export default {
   data() {
     return {
       isShowTable: false,
-      pagination: {rowsPerPage: 25},
+      pagination: { rowsPerPage: 25 },
       headers: [
         { text: 'Year', value: 'year' },
         { text: 'Season', value: 'season' },
@@ -55,35 +58,36 @@ export default {
     }
   },
   computed: {
-    relevantRecords () {
+    relevantRecords() {
       return this.records.filter(e => e.season === this.season)
     },
     chartData() {
-  return {
-    labels: this.relevantRecords.map((e) => e.year),
-    datasets: [
-      buildDataset(
-        'Total yield index (y_tot)',
-        this.relevantRecords.map((e) => e.y_tot),
-        '#FC2525',
-      ),
-      buildDataset(
-        'Index of total yield attributable to wild pollinators (y_wild)',
-        this.relevantRecords.map((e) => e.y_wild),
-        '#05CBE1',
-      ),
-      buildDataset(
-        'Average pollinator abundance on farm (p_abund)',
-        this.relevantRecords.map((e) => e.p_abund),
-        '#E15D05',
-      ),
-      buildDataset(
-        'Index of potential pollination dependent yield attributable ' + 'to wild pollinators (pdep_y_w)',
-        this.relevantRecords.map((e) => e.pdep_y_w),
-        '#3105E1',
-      ),
-    ],
-  }
+      return {
+        labels: this.relevantRecords.map(e => e.year),
+        datasets: [
+          buildDataset(
+            'Total yield index (y_tot)',
+            this.relevantRecords.map(e => e.y_tot),
+            '#FC2525',
+          ),
+          buildDataset(
+            'Index of total yield attributable to wild pollinators (y_wild)',
+            this.relevantRecords.map(e => e.y_wild),
+            '#05CBE1',
+          ),
+          buildDataset(
+            'Average pollinator abundance on farm (p_abund)',
+            this.relevantRecords.map(e => e.p_abund),
+            '#E15D05',
+          ),
+          buildDataset(
+            'Index of potential pollination dependent yield attributable ' +
+              'to wild pollinators (pdep_y_w)',
+            this.relevantRecords.map(e => e.pdep_y_w),
+            '#3105E1',
+          ),
+        ],
+      }
     },
   },
 }
