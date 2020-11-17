@@ -21,7 +21,7 @@ services:
         max-size: 100m
 
   p8_api:
-    image: ternandsparrow/natcap-invest-docker-flask:1.2.3_3.8.9
+    image: ternandsparrow/natcap-invest-docker-flask:1.2.4_3.8.9
     # TODO integrate Sentry into the API
     container_name: p8_api
     init: true
