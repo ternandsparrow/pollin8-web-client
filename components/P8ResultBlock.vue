@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="headline">Season: {{ season }}</div>
-    <p8-line-chart :chartdata="chartData"></p8-line-chart>
+    <div class="headline">Yield and pollination</div>
+    <p8-line-chart :chartdata="chartData" :chartoptions="chartOptions" />
     <p class="text-muted">
       <small v-if="!isShowTable" @click="isShowTable = true"
         >Show data table</small
@@ -10,7 +10,7 @@
     <div v-if="isShowTable">
       <v-data-table
         :headers="headers"
-        :items="relevantRecords"
+        :items="records"
         class="elevation-1"
         :pagination.sync="pagination"
       >
@@ -30,14 +30,16 @@
 <script>
 import P8LineChart from '~/components/P8LineChart'
 
+const yTotLabel = 'Total yield index (y_tot)'
+const yTotId = 'y_tot_axis'
+const yWildLabel =
+  'Index of total yield attributable to wild pollinators (y_wild)'
+const yWildId = 'y_wild_axis'
+
 export default {
   name: 'P8ResultBlock',
   components: { P8LineChart },
   props: {
-    season: {
-      type: String,
-      required: true,
-    },
     records: {
       type: Array,
       required: true,
@@ -55,36 +57,53 @@ export default {
         { text: 'y_tot', value: 'y_tot' },
         { text: 'y_wild', value: 'y_wild' },
       ],
+      chartOptions: {
+        scales: {
+          yAxes: [
+            {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              scaleLabel: {
+                display: true,
+                labelString: yTotLabel,
+              },
+              id: yTotId,
+            },
+            {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              scaleLabel: {
+                display: true,
+                labelString: yWildLabel,
+              },
+              id: yWildId,
+              gridLines: {
+                // only want the grid lines for one axis to show up
+                drawOnChartArea: false,
+              },
+            },
+          ],
+        },
+      },
     }
   },
   computed: {
-    relevantRecords() {
-      return this.records.filter(e => e.season === this.season)
-    },
     chartData() {
       return {
-        labels: this.relevantRecords.map(e => e.year),
         datasets: [
           buildDataset(
-            'Total yield index (y_tot)',
-            this.relevantRecords.map(e => e.y_tot),
+            yTotLabel,
+            this.records.map(e => ({ x: e.year, y: e.y_tot })),
             '#FC2525',
+            yTotId,
           ),
           buildDataset(
-            'Index of total yield attributable to wild pollinators (y_wild)',
-            this.relevantRecords.map(e => e.y_wild),
+            yWildLabel,
+            this.records.map(e => ({ x: e.year, y: e.y_wild })),
             '#05CBE1',
-          ),
-          buildDataset(
-            'Average pollinator abundance on farm (p_abund)',
-            this.relevantRecords.map(e => e.p_abund),
-            '#E15D05',
-          ),
-          buildDataset(
-            'Index of potential pollination dependent yield attributable ' +
-              'to wild pollinators (pdep_y_w)',
-            this.relevantRecords.map(e => e.pdep_y_w),
-            '#3105E1',
+            yWildId,
           ),
         ],
       }
@@ -92,7 +111,7 @@ export default {
   },
 }
 
-function buildDataset(label, data, colour) {
+function buildDataset(label, data, colour, axisId) {
   return {
     label,
     data,
@@ -100,6 +119,8 @@ function buildDataset(label, data, colour) {
     borderColor: colour,
     pointBackgroundColor: 'white',
     backgroundColor: 'rgba(0,0,0,0)',
+    showLine: true,
+    yAxisID: axisId,
   }
 }
 </script>

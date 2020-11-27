@@ -1,9 +1,13 @@
-import { Line } from 'vue-chartjs'
+import { Scatter } from 'vue-chartjs'
 
 export default {
-  extends: Line,
+  extends: Scatter,
   props: {
     chartdata: {
+      type: Object,
+      required: true,
+    },
+    chartoptions: {
       type: Object,
       required: true,
     },
@@ -12,6 +16,7 @@ export default {
     this.renderChart(this.chartdata, {
       responsive: true,
       maintainAspectRatio: false,
+      ...this.chartoptions,
     })
   },
 }
