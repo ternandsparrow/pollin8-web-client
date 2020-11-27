@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-model="drawer"
+      v-model="isDrawerOpen"
       :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
@@ -25,7 +25,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :clipped-left="clipped" fixed app>
-      <v-toolbar-side-icon @click="drawer = !drawer" />
+      <v-toolbar-side-icon @click="isDrawerOpen = !isDrawerOpen" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>{{ `chevron_${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       clipped: true,
-      drawer: true,
+      isDrawerOpen: false,
       fixed: true,
       miniVariant: false,
       title: 'Pollin8',
@@ -113,7 +113,12 @@ export default {
       return result
     },
   },
-  methods: {},
+  mounted() {
+    const isViewportWideEnough = window.innerWidth > 1263
+    if (isViewportWideEnough) {
+      this.isDrawerOpen = true
+    }
+  },
 }
 </script>
 
