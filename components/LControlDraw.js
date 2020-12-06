@@ -2,59 +2,116 @@
 export default {
   name: 'LControlDraw',
   props: {
-    options: {
-      type: Object,
+    drawLayerColour: {
+      type: String,
       required: true,
     },
     initialGeojson: {
       type: Object,
+      required: false,
     },
+  },
+  data() {
+    return {
+      drawToolbarFull: null,
+      drawToolbarEditOnly: null,
+      editableLayers: null,
+      map: null,
+    }
   },
   mounted() {
     require('leaflet-draw')
     require('leaflet-draw/dist/leaflet.draw.css')
-    const map = this.$parent.$parent.mapObject
-    const editableLayers = this.$parent.mapObject
+    // TODO this is brittle but I can't find another way to get a reference to
+    // the map.
+    const map = this.$parent.mapObject
+    this.map = map
+    this.editableLayers = this.$L.featureGroup().addTo(map)
     const options = {
-      ...this.options,
+      position: 'topleft',
+      draw: {
+        polygon: {
+          allowIntersection: false, // Restricts shapes to simple polygons
+          drawError: {
+            color: '#e1e100',
+            message:
+              "<strong>Oh snap!</strong> You can't<br />draw a " +
+              'shape that intersects itself!',
+          },
+          shapeOptions: this.commonShapeOptions,
+        },
+        rectangle: {
+          shapeOptions: this.commonShapeOptions,
+        },
+        circle: false,
+        marker: false,
+        circlemarker: false,
+        polyline: false,
+      },
       edit: {
-        featureGroup: editableLayers,
-        ...this.options.edit,
+        remove: true,
+        featureGroup: this.editableLayers,
       },
     }
-    this.mapObject = new this.$L.Control.Draw(options)
-    this.mapObject.addTo(map)
-    if (this.initialGeojson) {
-      const layerGroup = this.$L.geoJSON(this.initialGeojson, {
-        style: this.options.draw.rectangle.shapeOptions,
-      })
-      for (const curr of layerGroup.getLayers()) {
-        curr.addTo(editableLayers)
-      }
-    }
+    this.drawToolbarFull = new this.$L.Control.Draw(options)
+    // thanks https://github.com/Leaflet/Leaflet.draw/issues/315#issuecomment-500246272
+    this.drawToolbarEditOnly = new this.$L.Control.Draw({
+      ...options,
+      draw: false,
+    })
+    this.drawToolbarFull.addTo(map)
+    this.addInitialDrawingToMap()
     map.on(this.$L.Draw.Event.CREATED, e => {
-      editableLayers.addLayer(e.layer)
-      this.$emit('change', editableLayers.toGeoJSON())
+      this.editableLayers.addLayer(e.layer)
+      this.sendChangeEvent()
+      this.drawToolbarFull.remove(this.map)
+      this.drawToolbarEditOnly.addTo(this.map)
     })
     map.on(this.$L.Draw.Event.EDITED, e => {
-      const layers = e.layers
-      layers.eachLayer(function(layer) {
-        editableLayers.removeLayer(layer)
-        editableLayers.addLayer(layer)
-      })
-      this.$emit('change', editableLayers.toGeoJSON())
+      const editedLayersCount = e.layers.getLayers().length
+      if (!editedLayersCount) {
+        // nothing edited
+        return
+      }
+      this.sendChangeEvent()
     })
-    map.on(this.$L.Draw.Event.DELETED, e => {
-      editableLayers.removeLayer(e.layer)
-      this.$emit('change', editableLayers.toGeoJSON())
+    map.on(this.$L.Draw.Event.DELETED, () => {
+      this.sendChangeEvent()
+      if (this.editableLayers.getLayers().length === 0) {
+        this.drawToolbarEditOnly.remove(this.map)
+        this.drawToolbarFull.addTo(this.map)
+      }
     })
   },
   beforeDestroy() {
-    if (this.mapObject) {
-      this.mapObject.remove()
+    if (this.drawToolbar) {
+      this.drawToolbar.remove()
     }
   },
+  computed: {
+    commonShapeOptions() {
+      return {
+        color: this.drawLayerColour,
+      }
+    },
+  },
+  methods: {
+    sendChangeEvent() {
+      const data = this.editableLayers.toGeoJSON()
+      this.$emit('change', data)
+    },
+    addInitialDrawingToMap() {
+      const layerGroup = this.$L.geoJSON(this.initialGeojson, {
+        style: this.commonShapeOptions,
+      })
+      for (const curr of layerGroup.getLayers()) {
+        curr.addTo(this.editableLayers)
+      }
+    },
+  },
   render() {
+    // we have no template (not a .vue file) so we have to at least define this
+    // method.
     return null
   },
 }

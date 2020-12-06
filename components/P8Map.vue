@@ -9,19 +9,23 @@
         :options="mapOptions"
         @update:bounds="onBoundsUpdate"
       >
-        <l-tile-layer :url="hereMapsUrl()"></l-tile-layer>
+        <l-tile-layer :url="mapsUrl()"></l-tile-layer>
+        <l-geo-json
+          v-if="geojsonPredrawn"
+          :geojson="geojsonPredrawn"
+          :options-style="geojsonPredrawnStyle"
+        ></l-geo-json>
         <l-geo-json
           v-if="geojsonGuide"
           :geojson="geojsonGuide"
           :options-style="geojsonGuideStyle"
         ></l-geo-json>
-        <l-feature-group>
-          <l-control-draw
-            :options="drawOptions"
-            :initial-geojson="initialDrawValue"
-            @change="onDrawChange"
-          />
-        </l-feature-group>
+        <l-control-draw
+          v-if="!isDisableDraw"
+          :draw-layer-colour="drawLayerColour"
+          :initial-geojson="initialDrawValue"
+          @change="onDrawChange"
+        />
       </l-map>
     </client-only>
   </div>
@@ -52,6 +56,10 @@ export default {
       type: Object,
       required: false,
     },
+    geojsonPredrawn: {
+      type: Object,
+      required: false,
+    },
     drawLayerColour: {
       type: String,
       default: '#00e5ff',
@@ -62,6 +70,10 @@ export default {
     },
     initialDrawValue: {
       type: Object,
+    },
+    isDisableDraw: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -75,55 +87,22 @@ export default {
         },
       },
       geojsonGuideStyle: {
-        // TODO consider doing something to the guide layer to indicate it
-        // can't be edited here
         color: this.guideLayerColour,
       },
+      geojsonPredrawnStyle: {
+        color: this.drawLayerColour,
+      },
     }
-  },
-  computed: {
-    drawOptions() {
-      return {
-        position: 'topleft',
-        draw: {
-          polygon: {
-            allowIntersection: false, // Restricts shapes to simple polygons
-            drawError: {
-              color: '#e1e100',
-              message:
-                "<strong>Oh snap!</strong> You can't<br />draw a shape that intersects itself!",
-            },
-            shapeOptions: {
-              color: this.drawLayerColour,
-            },
-          },
-          rectangle: {
-            shapeOptions: {
-              color: this.drawLayerColour,
-            },
-          },
-          circle: false,
-          marker: false,
-          circlemarker: false,
-          polyline: false,
-        },
-        edit: {
-          remove: true,
-        },
-      }
-    },
   },
   mounted() {
     require('leaflet-sleep')
   },
   methods: {
-    hereMapsUrl() {
-      const appId = process.env.HEREMAPS_APP_ID
-      const appCode = process.env.HEREMAPS_APP_CODE
-      const template =
-        'https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8' +
-        '?app_id={app_id}&app_code={app_code}&lg=eng'
-      return template.replace('{app_id}', appId).replace('{app_code}', appCode)
+    mapsUrl() {
+      // we did use HereMaps for a while. Their satellite images were great but
+      // they didn't offer the tiles in the zoom that we expect our users to
+      // need. If we need satellite tiles, perhaps checkout Google Maps.
+      return 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
     },
     onDrawChange(geojson) {
       this.$emit('change', geojson)

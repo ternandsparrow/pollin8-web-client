@@ -1,6 +1,7 @@
 import VueScrollTo from 'vue-scrollto'
 import { mapState } from 'vuex'
 import io from 'socket.io-client'
+import transformScale from '@turf/transform-scale'
 import { pageTitle } from '~/util/helpers'
 import P8Logging from '~/mixins/P8Logging'
 import P8Map from '~/components/P8Map'
@@ -8,6 +9,7 @@ import P8ResultBlock from '~/components/P8ResultBlock'
 
 export default {
   head: pageTitle('Run simulation'),
+  name: 'Simulation',
   components: { P8Map, P8ResultBlock },
   data() {
     return {
@@ -24,17 +26,32 @@ export default {
         { lat: -34.958, lng: 138.574 },
         { lat: -35.012, lng: 138.735 },
       ),
-      // These bounds are manually copied from the Landcover raster on the
-      // server. Ideally we would read these dyanmically from the server.
-      // Let's call that a TODO item.
       maxMapBounds: buildLatLngBounds(
+        // These bounds are manually copied from the Landcover raster on the
+        // server. Ideally we would read these dyanmically from the server.
+        // Let's call that a TODO item.
         this.$L,
         { lat: -38.1693392, lng: 134.6313833 },
         { lat: -32.2179644, lng: 140.626525 },
       ),
       farmColour: '#ff6100',
       revegColour: '#00ff9d',
+      revegPct: 1,
+      minRevegPct: 0.1,
+      maxYears: 30,
     }
+  },
+  watch: {
+    years(newVal) {
+      if (newVal <= this.varroaYear) {
+        this.varroaYear = newVal - 1
+      }
+    },
+    varroaYear(newVal) {
+      if (newVal >= this.years) {
+        this.years = newVal + 1
+      }
+    },
   },
   mounted() {
     const socket = io()
@@ -70,6 +87,14 @@ export default {
       },
       set(v) {
         this.$store.commit('updateYears', v)
+      },
+    },
+    varroaYear: {
+      get() {
+        return this.$store.state.varroaYear
+      },
+      set(v) {
+        this.$store.commit('updateVarroaYear', v)
       },
     },
     cropType: {
@@ -144,32 +169,56 @@ export default {
     isShowResultSection() {
       return this.isShowChart || this.isShowLoading || this.isShowError
     },
+    revegPctErrorMsg() {
+      const v = this.revegPct
+      if (v >= this.minRevegPct) {
+        return null
+      }
+      return `Reveg percentage must be greater than ${this.minRevegPct}`
+    },
   },
   mixins: [P8Logging],
   methods: {
     async doRun() {
+      const clearExistingToasts = () => {
+        this.$toast.destroy()
+      }
       try {
         this.$store.commit('resetProcessedYearsCount', {})
         this.$store.dispatch('runSimulation')
-        this.$toast.destroy() // clear existing toasts
+        clearExistingToasts()
         setTimeout(() => {
           VueScrollTo.scrollTo('#bottom', 1000)
         }, 1000)
       } catch (err) {
         const msg = 'Failed to run simulation'
         this.consoleError(msg, err)
-        this.$toast.destroy() // clear existing toasts
+        clearExistingToasts()
         this.$toast.error(msg, 'Error', { timeout: 0 })
       }
     },
     onFarmChange(theGeojson) {
       this.$store.commit('updateFarm', theGeojson)
+      this.onSetScaledReveg()
     },
     onRevegChange(theGeojson) {
       this.$store.commit('updateReveg', theGeojson)
     },
     onMapMove(latLngBounds) {
       this.mapBounds = latLngBounds
+    },
+    onSetScaledReveg() {
+      const farmVector = this.farmFeatureCollection
+      const val = this.revegPct
+      if (!farmVector || val < this.minRevegPct) {
+        return
+      }
+      // the vector is scaled is both directions. If we want 50% of the area,
+      // we can't just scale by 0.5 because that would work out to be
+      // (0.5*0.5=0.25) 25% of the area. Square root is the answer!
+      const revegScalingFactor = Math.sqrt(val / 100)
+      const scaled = transformScale(farmVector, revegScalingFactor)
+      this.onRevegChange(scaled)
     },
   },
 }

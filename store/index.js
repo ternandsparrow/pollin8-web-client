@@ -3,7 +3,8 @@ import { consoleError } from '~/mixins/P8Logging'
 export const state = () => ({
   isProd: false,
   lastRunResult: null,
-  years: 3,
+  years: 25,
+  varroaYear: 7,
   cropType: 'apple',
   farmFeatureCollection: null,
   revegFeatureCollection: null,
@@ -36,6 +37,9 @@ export const mutations = {
   },
   updateYears: function(state, data) {
     state.years = data
+  },
+  updateVarroaYear: function(state, data) {
+    state.varroaYear = data
   },
   updateSimState: function(state, data) {
     state.simulationState = data
@@ -76,6 +80,7 @@ export const actions = {
     const postBody = {
       crop_type: state.cropType,
       years: state.years,
+      varroa_mite_year: state.varroaYear,
       farm: state.farmFeatureCollection,
       reveg: state.revegFeatureCollection,
       socketio_sid: state.socketioSid,

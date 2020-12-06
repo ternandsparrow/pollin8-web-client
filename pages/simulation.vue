@@ -33,10 +33,10 @@
       <v-card class="mt-4">
         <v-card-title class="headline">Step 2: farm location</v-card-title>
         <v-card-text>
-          <p>We need to know where you farm is located.</p>
+          <p>We need to know where your farm is located.</p>
           <p>
             Currently we only support farms in a subset of South Australia. The
-            map will stop you from scroll outside the supported area.
+            map will stop you from scrolling outside the supported area.
           </p>
           <p>
             Move the map until you can see your farm. Then use the drawing tools
@@ -44,8 +44,9 @@
             around the border of your farm on the map.
           </p>
           <p>
-            If you farm is not one continuous shape, you can draw multiple
-            shapes to capture the whole property.
+            You only draw <em>one</em> farm shape. If your farm consists of
+            multiple non-contiguous shapes, run the tool separately for each
+            piece.
           </p>
           <p>There are also controls to edit or delete existing shapes.</p>
           <p8-map
@@ -65,24 +66,39 @@
         >
         <v-card-text>
           <p>
-            This step is very similar to the previous but the difference is that
-            you're drawing
-            <strong>where you will be planting the revegetation area</strong>.
-            You'll be able to see where you drew the farm in the previous step
-            as a guide for drawing the reveg.
+            Now you need to define how much of the farm will be
+            <em>converted</em> to pollinator friendly revegetation.
           </p>
           <p>
             Note: you cannot edit the farm here. If you need to make a change to
             the farm shape, go back to the previous step and edit it there.
+          </p>
+          <p class="reveg-pct-input text-center">
+            <label>
+              Percentage of farm to use for reveg:
+              <input
+                v-model="revegPct"
+                type="number"
+                :min="minRevegPct"
+                :step="minRevegPct"
+                class="text-center"
+                @change="onSetScaledReveg"
+              />
+              %
+            </label>
+            <span v-if="revegPctErrorMsg" class="error-msg">{{
+              revegPctErrorMsg
+            }}</span>
           </p>
           <p8-map
             :bounds="mapBounds"
             :max-map-bounds="maxMapBounds"
             :min-zoom="minZoom"
             :geojson-guide="farmFeatureCollection"
-            :initial-draw-value="revegFeatureCollection"
+            :geojson-predrawn="revegFeatureCollection"
             :draw-layer-colour="revegColour"
             :guide-layer-colour="farmColour"
+            :is-disable-draw="true"
             @change="onRevegChange"
           ></p8-map>
         </v-card-text>
@@ -92,29 +108,56 @@
         <v-card-text>
           <p>
             Lastly, set how many years you would like to run the simulation for
-            (how many years to predict into the future). Running for more years
-            will take longer.
+            (how many years to predict into the future). This simulation will
+            also model the impact that varroa mite will have. You can adjust
+            which year varroa mite impacts.
           </p>
+          <p class="headline text-center">Year varroa mite impacts:</p>
           <v-container fluid grid-list-lg class="year-container">
             <v-layout row>
-              <v-flex xs11>
+              <v-flex xs10>
                 <v-slider
-                  v-model="years"
-                  :min="1"
-                  :max="15"
+                  v-model="varroaYear"
+                  :min="2"
+                  :max="maxYears - 1"
                   always-dirty
-                  label="Years"
+                  label="Varroa mite year"
                   thumb-label="always"
                 ></v-slider>
               </v-flex>
 
-              <v-flex xs1>
-                <!-- FIXME add min/max validation -->
+              <v-flex xs2>
+                <v-text-field
+                  v-model="varroaYear"
+                  class="mt-0"
+                  type="number"
+                  :min="2"
+                  :max="maxYears - 1"
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+          <p class="headline text-center">Year to simulate:</p>
+          <v-container fluid grid-list-lg class="year-container">
+            <v-layout row>
+              <v-flex xs10>
+                <v-slider
+                  v-model="years"
+                  :min="3"
+                  :max="maxYears"
+                  always-dirty
+                  label="Years to simulate"
+                  thumb-label="always"
+                ></v-slider>
+              </v-flex>
+
+              <v-flex xs2>
                 <v-text-field
                   v-model="years"
                   class="mt-0"
                   type="number"
-                  max="15"
+                  :min="3"
+                  :max="maxYears"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -129,8 +172,7 @@
             >
             <div v-if="!isInputValid">
               <small class="text-danger">
-                Enter at least one shape for the farm and one for the reveg
-                before running the simulation
+                Please draw your farm before running the simulation.
               </small>
             </div>
           </div>
@@ -160,8 +202,7 @@
           <p class="text-right">
             <small class="text-muted">Elaspsed time: {{ elapsedMs }}ms</small>
           </p>
-          <p8-result-block season="spring" :records="lastRunResultRecords" />
-          <p8-result-block season="summer" :records="lastRunResultRecords" />
+          <p8-result-block :records="lastRunResultRecords" />
           <p>
             Further reading on interpreting these results
             <a
@@ -191,8 +232,22 @@ import SimulationComponent from './simulation.js'
 export default SimulationComponent
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .year-container {
   width: 50vw;
+}
+
+.error-msg {
+  color: red;
+  border: 1px solid red;
+  background: #ffc6c6;
+}
+
+.reveg-pct-input {
+  font-size: 1.5em;
+}
+
+.reveg-pct-input label input {
+  width: 3em;
 }
 </style>

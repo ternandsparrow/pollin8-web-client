@@ -11,8 +11,4 @@ export DEPLOYED_TO_ENV=dev
 # where is the natcap invest API
 export API_BASE_URL=http://localhost:5000
 
-# credentials for the Here Maps API https://developer.here.com/products/maps
-export HEREMAPS_APP_ID=zM6cic4akir1Yp2L2eXF
-export HEREMAPS_APP_CODE=aEbtMxj4GbBX-3pvDgOMkQ
-
 yarn dev

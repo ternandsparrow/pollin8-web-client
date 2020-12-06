@@ -7,10 +7,8 @@ services:
     init: true
     environment:
       API_BASE_URL: 'http://p8_api:5000'
-      SENTRY_DSN: ${SENTRY_DSN:-}
+      SENTRY_DSN: ${SENTRY_DSN_WEB:-}
       DEPLOYED_TO_ENV: ${DEPLOYED_TO_ENV}
-      HEREMAPS_APP_ID: ${HEREMAPS_APP_ID}
-      HEREMAPS_APP_CODE: ${HEREMAPS_APP_CODE}
     restart: unless-stopped
     labels:
       caddy: ${WEBAPP_PUBLIC_DNS}
@@ -22,12 +20,12 @@ services:
 
   p8_api:
     image: ternandsparrow/natcap-invest-docker-flask:1.2.4_3.8.9
-    # TODO integrate Sentry into the API
     container_name: p8_api
     init: true
     environment:
       NIDF_ENV: production
       SOCKETIO_SECRET: ${SOCKETIO_SECRET}
+      SENTRY_DSN: ${SENTRY_DSN_API:-}
     restart: unless-stopped
     logging:
       driver: "json-file"
