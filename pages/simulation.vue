@@ -249,5 +249,9 @@ export default SimulationComponent
 
 .reveg-pct-input label input {
   width: 3em;
+  border: 3px solid green;
+  border-radius: 5px;
+  padding: 0.25em;
+  background-color: #eaf0ea;
 }
 </style>

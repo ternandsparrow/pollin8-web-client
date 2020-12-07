@@ -39,9 +39,11 @@ export default {
               'shape that intersects itself!',
           },
           shapeOptions: this.commonShapeOptions,
+          showArea: true,
         },
         rectangle: {
           shapeOptions: this.commonShapeOptions,
+          showArea: true,
         },
         circle: false,
         marker: false,

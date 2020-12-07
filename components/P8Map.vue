@@ -10,6 +10,7 @@
         @update:bounds="onBoundsUpdate"
       >
         <l-tile-layer :url="mapsUrl()"></l-tile-layer>
+        <l-control-scale position="bottomright" />
         <l-geo-json
           v-if="geojsonPredrawn"
           :geojson="geojsonPredrawn"

@@ -13,7 +13,12 @@
             <a href="https://naturalcapitalproject.stanford.edu/invest/"
               >NatCap InVEST</a
             >
-            software.
+            software. Specifically
+            <a
+              href="https://github.com/ternandsparrow/natcap-invest-docker-flask"
+              >our wrapper</a
+            >
+            around the InVEST model.
           </p>
           <p>
             To perform a simulation, use the
