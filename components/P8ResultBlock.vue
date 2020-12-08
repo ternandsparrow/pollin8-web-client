@@ -2,8 +2,15 @@
   <div>
     <div class="headline">Total yield</div>
     <p8-line-chart :chartdata="yieldChartData" :chartoptions="chartOptions" />
-    <div class="headline">Yield attributable to wild pollinators</div>
-    <p8-line-chart :chartdata="wildChartData" :chartoptions="chartOptions" />
+    <p class="text-muted">
+      <small v-if="!isShowYWildChart" @click="isShowYWildChart = true"
+        >Show "yield attributable to wild pollinators" chart</small
+      >
+    </p>
+    <template v-if="isShowYWildChart">
+      <div class="headline">Yield attributable to wild pollinators</div>
+      <p8-line-chart :chartdata="wildChartData" :chartoptions="chartOptions" />
+    </template>
     <p class="text-muted">
       <small v-if="!isShowTable" @click="isShowTable = true"
         >Show data table</small
@@ -45,6 +52,7 @@ export default {
   },
   data() {
     return {
+      isShowYWildChart: false,
       isShowTable: false,
       pagination: { rowsPerPage: 50 },
       headers: [
@@ -103,6 +111,7 @@ export default {
   },
   methods: {
     buildAllDatasetsForChart(mapper) {
+      const dashed = true
       return {
         datasets: [
           buildDataset(
@@ -111,7 +120,7 @@ export default {
             mapper,
             'F15BB5',
             'no reveg, no varroa',
-            true,
+            dashed,
           ),
           buildDataset(
             this.rescaledRecords,
@@ -119,7 +128,7 @@ export default {
             mapper,
             '5E548E',
             'no reveg, with varroa',
-            true,
+            dashed,
           ),
           buildDataset(
             this.rescaledRecords,
@@ -160,6 +169,7 @@ function buildDataset(
     backgroundColor: 'rgba(0,0,0,0)',
     showLine: true,
     lineTension: 0, // no curves
+    hidden: isDashed,
   }
 }
 

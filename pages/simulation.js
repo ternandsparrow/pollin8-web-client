@@ -1,11 +1,16 @@
 import VueScrollTo from 'vue-scrollto'
 import { mapState } from 'vuex'
 import io from 'socket.io-client'
+import turfArea from '@turf/area'
+import turfBooleanContains from '@turf/boolean-contains'
 import transformScale from '@turf/transform-scale'
+import transformTranslate from '@turf/transform-translate'
 import { pageTitle } from '~/util/helpers'
 import P8Logging from '~/mixins/P8Logging'
 import P8Map from '~/components/P8Map'
 import P8ResultBlock from '~/components/P8ResultBlock'
+
+const centre = 'centre'
 
 export default {
   head: pageTitle('Run simulation'),
@@ -36,9 +41,24 @@ export default {
       ),
       farmColour: '#ff6100',
       revegColour: '#00ff9d',
-      revegPct: 1,
+      revegPct: 1.5,
       minRevegPct: 0.1,
       maxYears: 30,
+      farmAreaKm: 0,
+      farmAreaHa: 0,
+      farmAreaAc: 0,
+      revegPosition: centre,
+      revegPositionOptions: {
+        [centre]: 'Centre',
+        '0': 'North',
+        '45': 'North East',
+        '90': 'East',
+        '135': 'South East',
+        '180': 'South',
+        '225': 'South West',
+        '270': 'West',
+        '315': 'North West',
+      },
     }
   },
   watch: {
@@ -60,9 +80,14 @@ export default {
       console.debug(`socket connected! SID='${sid}'`)
       this.$store.commit('updateSocketioSid', sid)
     })
+    socket.on('sim-count', payload => {
+      const count = payload.count
+      console.debug(`Setting total year/sim count to ${count}`)
+      this.$store.commit('setTotalSimCount', count)
+    })
     socket.on('year-complete', payload => {
       console.debug('Marking another year as done', payload)
-      this.$store.commit('incrementProcessedYearsCount', {})
+      this.$store.commit('incrementProcessedSimsCount', {})
     })
   },
   computed: {
@@ -70,16 +95,14 @@ export default {
       'lastRunResult',
       'farmFeatureCollection',
       'revegFeatureCollection',
-      'processedYearsCount',
+      'processedSimsCount',
+      'totalSimulationCount',
     ]),
-    totalYearsToProcess() {
-      return this.years + 1
-    },
     processedYearsPercent() {
-      return (this.processedYearsCount / this.totalYearsToProcess) * 100
+      return (this.processedSimsCount / this.totalSimulationCount) * 100
     },
     isGatheringProcessingResults() {
-      return this.processedYearsCount === this.totalYearsToProcess
+      return this.processedSimsCount === this.totalSimulationCount
     },
     years: {
       get() {
@@ -142,8 +165,7 @@ export default {
       return this.revegFeatureCollection.features.length
     },
     isInputValid() {
-      // FIXME add validation that reveg is close enough to farm (almost touching)
-      // FIXME add validation that zoom isn't too far out (i.e. shape is too large)
+      // TODO add validation that zoom isn't too far out (i.e. shape is too large)
       return (
         this.years &&
         this.cropType &&
@@ -184,7 +206,7 @@ export default {
         this.$toast.destroy()
       }
       try {
-        this.$store.commit('resetProcessedYearsCount', {})
+        this.$store.commit('resetProcessedSimsCount')
         this.$store.dispatch('runSimulation')
         clearExistingToasts()
         setTimeout(() => {
@@ -199,6 +221,10 @@ export default {
     },
     onFarmChange(theGeojson) {
       this.$store.commit('updateFarm', theGeojson)
+      const farmAreaMetres = turfArea(theGeojson)
+      this.farmAreaHa = (farmAreaMetres / 10000).toFixed(2)
+      this.farmAreaKm = (this.farmAreaHa / 10).toFixed(2)
+      this.farmAreaAc = (farmAreaMetres / 4046.8564224).toFixed(2)
       this.onSetScaledReveg()
     },
     onRevegChange(theGeojson) {
@@ -210,7 +236,12 @@ export default {
     onSetScaledReveg() {
       const farmVector = this.farmFeatureCollection
       const val = this.revegPct
-      if (!farmVector || val < this.minRevegPct) {
+      if (
+        !farmVector ||
+        !(farmVector.features || []).length ||
+        val < this.minRevegPct
+      ) {
+        this.onRevegChange(null)
         return
       }
       // the vector is scaled is both directions. If we want 50% of the area,
@@ -218,7 +249,32 @@ export default {
       // (0.5*0.5=0.25) 25% of the area. Square root is the answer!
       const revegScalingFactor = Math.sqrt(val / 100)
       const scaled = transformScale(farmVector, revegScalingFactor)
-      this.onRevegChange(scaled)
+      const pos = this.revegPosition
+      if (pos === centre) {
+        this.onRevegChange(scaled)
+        return
+      }
+      // turfjs doesn't offer a tool to move the scaled vector whilst keeping
+      // it inside the farm. Computing up front seems hard so we'll just brute
+      // force it by creeping up on the limit.
+      const moveDistance = 50
+      const directionDegrees = pos
+      let isContained
+      let moved = scaled
+      let lastMoved
+      do {
+        lastMoved = moved
+        moved = transformTranslate(moved, moveDistance, directionDegrees, {
+          units: 'metres',
+        })
+        // yeah, it's O^2 but we aren't expecting big numbers
+        isContained = farmVector.features.every(farmFeature =>
+          moved.features.every(revegFeature =>
+            turfBooleanContains(farmFeature, revegFeature),
+          ),
+        )
+      } while (isContained)
+      this.onRevegChange(lastMoved)
     },
   },
 }

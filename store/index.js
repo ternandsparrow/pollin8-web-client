@@ -10,7 +10,8 @@ export const state = () => ({
   revegFeatureCollection: null,
   simulationState: 'initial',
   socketioSid: null,
-  processedYearsCount: 0,
+  processedSimsCount: 0,
+  totalSimulationCount: 0,
   // Nick's Planting Selector
   // FIXME - get these defaults from a managed datastructure
   agSettingType: 'SL',
@@ -47,11 +48,17 @@ export const mutations = {
   updateSocketioSid: function(state, data) {
     state.socketioSid = data
   },
-  incrementProcessedYearsCount: function(state) {
-    state.processedYearsCount += 1
+  incrementProcessedSimsCount: function(state) {
+    state.processedSimsCount += 1
   },
-  resetProcessedYearsCount: function(state) {
-    state.processedYearsCount = 0
+  resetProcessedSimsCount: function(state) {
+    state.processedSimsCount = 0
+  },
+  setTotalSimCount: function(state, val) {
+    state.totalSimulationCount = val
+  },
+  resetTotalSimCount: function(state) {
+    state.totalSimulationCount = 0
   },
   // Nick's Plant Selector
   updateAgSettingType: function(state, data) {
@@ -77,6 +84,7 @@ export const actions = {
 
   async runSimulation({ commit, state }) {
     commit('updateSimState', 'processing')
+    commit('resetTotalSimCount')
     const postBody = {
       crop_type: state.cropType,
       years: state.years,

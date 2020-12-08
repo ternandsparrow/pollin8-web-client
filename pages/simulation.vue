@@ -58,6 +58,14 @@
             @change="onFarmChange"
             @moved="onMapMove"
           ></p8-map>
+          <p>
+            Area of farm: {{ farmAreaKm }} km² / {{ farmAreaHa }} ha /
+            {{ farmAreaAc }} acres
+          </p>
+          <p>
+            Note: the area reported by the map whilst drawing is an
+            approximation, the values here have better accuracy.
+          </p>
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
@@ -81,7 +89,7 @@
                 type="number"
                 :min="minRevegPct"
                 :step="minRevegPct"
-                class="text-center"
+                class="text-center emphasised-input"
                 @change="onSetScaledReveg"
               />
               %
@@ -89,6 +97,23 @@
             <span v-if="revegPctErrorMsg" class="error-msg">{{
               revegPctErrorMsg
             }}</span>
+          </p>
+          <p class="text-center">
+            <label>
+              Position of reveg:
+              <select
+                v-model="revegPosition"
+                class="emphasised-input"
+                @change="onSetScaledReveg"
+              >
+                <option
+                  v-for="curr of Object.entries(revegPositionOptions)"
+                  :key="curr[0]"
+                  :value="curr[0]"
+                  >{{ curr[1] }}</option
+                >
+              </select>
+            </label>
           </p>
           <p8-map
             :bounds="mapBounds"
@@ -180,17 +205,19 @@
       </v-card>
       <v-card v-if="isShowResultSection" class="mt-4">
         <v-card-title class="display-2 text-center">Results</v-card-title>
-        <v-card-text v-if="isShowLoading">
+        <v-card-text v-if="isShowLoading && !totalSimulationCount">
+          <p class="text-center">Starting simulation...</p>
+          <v-progress-linear :indeterminate="true" />
+        </v-card-text>
+        <v-card-text v-if="isShowLoading && totalSimulationCount">
           <p class="text-center">
-            Processed {{ processedYearsCount }} of
-            {{ totalYearsToProcess }} simulations
+            Processed {{ processedSimsCount }} of
+            {{ totalSimulationCount }} simulations
             <span v-if="isGatheringProcessingResults"
               >(gathering results...)</span
             >
           </p>
-          <v-progress-linear
-            v-model="processedYearsPercent"
-          ></v-progress-linear>
+          <v-progress-linear v-model="processedYearsPercent" />
         </v-card-text>
         <v-card-text v-if="isShowError" class="text-center">
           <b-alert show variant="danger">
@@ -247,8 +274,11 @@ export default SimulationComponent
   font-size: 1.5em;
 }
 
-.reveg-pct-input label input {
+.reveg-pct-input * .emphasised-input {
   width: 3em;
+}
+
+.emphasised-input {
   border: 3px solid green;
   border-radius: 5px;
   padding: 0.25em;
