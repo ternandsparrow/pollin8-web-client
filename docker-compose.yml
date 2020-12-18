@@ -25,6 +25,7 @@ services:
     environment:
       NIDF_ENV: production
       SOCKETIO_SECRET: ${SOCKETIO_SECRET}
+      CORS_ORIGIN: https://${WEBAPP_PUBLIC_DNS}
       SENTRY_DSN: ${SENTRY_DSN_API:-}
     restart: unless-stopped
     logging:
