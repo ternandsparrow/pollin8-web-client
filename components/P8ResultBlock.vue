@@ -17,6 +17,15 @@
       >
     </p>
     <div v-if="isShowTable">
+      <p>
+        All of the numbers in this table are the outputs of the NatCap InVEST
+        model. For definitions and explanations, read
+        <a
+          href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
+          target="_blank"
+          >the NatCap InVEST documentation</a
+        >.
+      </p>
       <v-data-table
         :headers="headers"
         :items="rescaledRecords"
@@ -81,7 +90,7 @@ export default {
             {
               scaleLabel: {
                 display: true,
-                labelString: 'Percentage (%) change from now',
+                labelString: 'Percentage (%) change from now (year 0)',
               },
             },
           ],

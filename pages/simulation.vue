@@ -4,14 +4,50 @@
       <v-card>
         <v-card-title class="display-2">Run simulation</v-card-title>
         <v-card-text>
+          <h3>What is this tool?</h3>
           <p>
-            Here you can run a simulation to see the effect pollinator friendly
-            revegetation will have on your crop. Fill in the required data at
-            each step and press the run button at the end of this page.
+            Here you can run a simulation to see how planting pollinator
+            friendly revegetation adjacent to your crop will influence yield.
+            The simulation will show you the effect of this revegetation for two
+            future scenarios: both with and without varroa mite.
           </p>
           <p>
-            Feel free to tweak the inputs and re-run the simulation as many
-            times as needed.
+            The assumption is that varroa mite will have a negative impact on
+            crop yields. This negative impact can be reduced by converting a
+            portion of the farm into revegetation that is pollinator friendly.
+            This revegetation will support and promote other pollinators that
+            can step in when varroa mite affects feral honey bees. We assume
+            varroa mite will reduce the abundance of the Apis genus (feral honey
+            bees) by 60%.
+          </p>
+          <p>
+            The revegetation will take time to grow and reach its full benefit
+            to the pollinators. The output of a simulation will show a chart
+            that plots crop yield over time so you can see how the revegetation
+            improves over time.
+          </p>
+          <h3>How do I use the tool?</h3>
+          <p>
+            To run a simulation, fill in the required data at each step and
+            press the run button at the end of this page. Feel free to tweak the
+            inputs and re-run the simulation as many times as needed.
+          </p>
+          <h3>More details</h3>
+          <p>
+            If you're interested in the details of the model that runs the
+            simulations, you can read the
+            <a
+              href="https://github.com/ternandsparrow/natcap-invest-docker-flask"
+              >source code for the server</a
+            >. The
+            <a href="https://github.com/ternandsparrow/pollin8-web-client"
+              >source code for <em>this</em> webapp</a
+            >
+            is also available. The underlying model software used by the server
+            is
+            <a href="https://naturalcapitalproject.stanford.edu/software/invest"
+              >NatCap's InVEST</a
+            >.
           </p>
           <hr class="my-3" />
         </v-card-text>
@@ -33,22 +69,29 @@
       <v-card class="mt-4">
         <v-card-title class="headline">Step 2: farm location</v-card-title>
         <v-card-text>
-          <p>We need to know where your farm is located.</p>
           <p>
-            Currently we only support farms in a subset of South Australia. The
-            map will stop you from scrolling outside the supported area.
+            The model needs to know where your farm is located as the
+            surrounding land will differ in how well it supports pollinators
+            depending if that land is, for example: industrial or conservation
+            park.
+          </p>
+          <p>
+            This tool only support farms located in a subset of South Australia.
+            The map will stop you from scrolling outside the supported area.
           </p>
           <p>
             Move the map until you can see your farm. Then use the drawing tools
             (rectangle or polygon) in the top left of the map window to draw
-            around the border of your farm on the map.
+            around the border of your farm on the map. There are also controls
+            to edit or delete existing shapes.
           </p>
           <p>
-            You only draw <em>one</em> farm shape. If your farm consists of
+            You may only draw <em>one</em> farm shape. If your farm consists of
             multiple non-contiguous shapes, run the tool separately for each
-            piece.
+            piece. Alternatively, draw one shape that encloses all parts of the
+            farm and accept that the extra, non-farm, land will have some impact
+            on the accuracy of the results.
           </p>
-          <p>There are also controls to edit or delete existing shapes.</p>
           <p8-map
             :bounds="mapBounds"
             :max-map-bounds="maxMapBounds"
@@ -75,7 +118,9 @@
         <v-card-text>
           <p>
             Now you need to define how much of the farm will be
-            <em>converted</em> to pollinator friendly revegetation.
+            <em>converted</em> to pollinator friendly revegetation. You can also
+            change the position of the revegetation within the farm, but note
+            that this usually has only a small impact on the result.
           </p>
           <p>
             Note: you cannot edit the farm here. If you need to make a change to
@@ -229,15 +274,41 @@
           <p class="text-right">
             <small class="text-muted">Elaspsed time: {{ elapsedMs }}ms</small>
           </p>
-          <p8-result-block :records="lastRunResultRecords" />
+          <h3>How to intepret the results</h3>
           <p>
-            Further reading on interpreting these results
-            <a
-              href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/croppollination.html#final-results"
-              target="_blank"
-              >in the NatCap InVEST documentation</a
-            >.
+            This chart shows the change in yield, as a percentage from now (year
+            0). By default, two datasets are visible: one where varroa mite is
+            present (labelled "with varroa") and another without (labelled "no
+            varroa"). Both of these datasets are "with reveg", that is they show
+            the effect planting revegetation has over time. The purpose of
+            showing both scenarios is to highlight the impact varroa mite will
+            have. Two more datasets, that are not visible by default (see below
+            for how to make them visible), simulate future scenarios where
+            revegetation has <em>not</em> been planted (labelled as "no reveg").
+            These datasets serve as a baseline to compare the "with reveg"
+            scenarios.
           </p>
+          <p>
+            Year 0 is right now, as your farm currently stands. This gives us
+            the baseline to compare to so the benefit of the revegetation can be
+            seen. Year 1 is the first year that revegetation has an effect on
+            farm yield. See the
+            <router-link to="/science#the-curve">About the science</router-link>
+            page.
+          </p>
+
+          <p>
+            Be sure to read the scale of the y-axis as it will be automatically
+            set to values that make the chart the most readable, so it maybe be
+            different for different simulation runs.
+          </p>
+          <h3>Interacting with the chart</h3>
+          <p>
+            You can turn datasets on and off by clicking their name in the
+            legend at the top of the chart. The exact values for datapoints can
+            be seen my hovering your cursor over them.
+          </p>
+          <p8-result-block :records="lastRunResultRecords" />
           <p class="text-muted">
             <small v-if="!isShowRaster" @click="isShowRaster = true"
               >Show clipped raster</small

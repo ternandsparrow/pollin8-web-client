@@ -1,6 +1,9 @@
 > Web client for the Pollin8 engine (which runs simulations of revegetation
 > effects on pollinators)
 
+This is only the frontend/UI. The simulation is run on the backend:
+[natcap-invest-docker-flask](https://github.com/ternandsparrow/natcap-invest-docker-flask).
+
 ## Quickstart for local dev
 
   1. ensure you have the required toolchain: `yarn 1.15`, `nodejs 10.x`, `docker

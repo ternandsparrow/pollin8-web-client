@@ -115,7 +115,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
-        <v-card-title class="headline"
+        <v-card-title id="the-curve" class="headline"
           >Revegetation resource accumulation curve</v-card-title
         >
         <v-card-text>

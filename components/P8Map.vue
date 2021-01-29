@@ -103,7 +103,7 @@ export default {
       // we did use HereMaps for a while. Their satellite images were great but
       // they didn't offer the tiles in the zoom that we expect our users to
       // need. If we need satellite tiles, perhaps checkout Google Maps.
-      return 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+      return 'https://{s}.tile.osm.org/{z}/{x}/{y}.png'
     },
     onDrawChange(geojson) {
       this.$emit('change', geojson)
