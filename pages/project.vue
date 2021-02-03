@@ -3,16 +3,19 @@
     <v-flex xs12 sm8 md6 class="vw-100">
       <v-card>
         <v-card-title class="display-2"
-          >Secure pollination for More Productive Agriculture</v-card-title
+          >Securing crop pollination through vegetation</v-card-title
         >
         <v-card-text>
           <p>
-            The project will realise significant productivity and yield gains
-            for producers through improved rates of pollination. The project
-            will assess the contribution of pollinators to nine crops, will
-            re-establish native vegetation to support pollinator food and
-            nesting resources and use new technology to communicate the findings
-            to primary producers.
+            Researchers from the University of Adelaide will collaborate with
+            grower organisations, state government partners, NRM boards and
+            non-government organisations to design revegetation strategies for
+            crop pollinators. This will involve identification of useful crop
+            pollinators, their seasonality and the native plants that support
+            them. The revegetation advice will be targeted to South Australian
+            pollination dependent crops and cropping regions. Demonstration
+            projects will be developed around pollinators of canola, lucerne and
+            apple and pear.
           </p>
         </v-card-text>
       </v-card>

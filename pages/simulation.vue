@@ -53,7 +53,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
-        <v-card-title class="headline">Step 1: crop type</v-card-title>
+        <v-card-title class="headline">Step 1: Crop type</v-card-title>
         <v-card-text>
           <p>What type of crop are you growing?</p>
           <v-radio-group v-model="cropType" :mandatory="true">
@@ -67,7 +67,7 @@
         </v-card-text>
       </v-card>
       <v-card class="mt-4">
-        <v-card-title class="headline">Step 2: farm location</v-card-title>
+        <v-card-title class="headline">Step 2: Farm location</v-card-title>
         <v-card-text>
           <p>
             The model needs to know where your farm is located as the
@@ -113,7 +113,7 @@
       </v-card>
       <v-card class="mt-4">
         <v-card-title class="headline"
-          >Step 3: revegetation location</v-card-title
+          >Step 3: Revegetation location</v-card-title
         >
         <v-card-text>
           <p>
