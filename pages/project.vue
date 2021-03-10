@@ -55,14 +55,37 @@
           ></vimeo-player>
         </client-only>
       </v-card>
+      <v-card class="mt-4">
+        <v-card-title class="headline"
+          >Strategies to increase almond pollination in South
+          Australia</v-card-title
+        >
+        <v-card-text>
+          <p>
+            Some information for Almond Growers on the project's results and how to make use of them.
+          </p>
+        </v-card-text>
+        <client-only>
+          <vuePdf
+            src="/flowering/AgriFutures Almond Pollination A4 82544_WEB.pdf"
+          ></vuePdf>
+        </client-only>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import { pageTitle } from '~/util/helpers'
+let vuePdf
+if (process.browser) {
+  vuePdf = require('vue-pdf').default
+}
 
 export default {
+  components: {
+    vuePdf,
+  },
   data() {
     return {
       videoID1: '271022981',
