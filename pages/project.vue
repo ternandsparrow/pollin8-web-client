@@ -62,7 +62,8 @@
         >
         <v-card-text>
           <p>
-            Some information for Almond Growers on the project's results and how to make use of them.
+            Some information for Almond Growers on the project's results and how
+            to make use of them.
           </p>
         </v-card-text>
         <client-only>

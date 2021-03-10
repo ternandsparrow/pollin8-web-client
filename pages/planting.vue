@@ -728,7 +728,7 @@ export default {
   },
   mounted() {
     d3.csv(
-      '/planting/Plant_selector_rareandrangeltd_removed_ver1.02.csv',
+      '/planting/plant_spreadsheet_background_pollin8_KH_ver_1.1_sorted.csv',
       data => {
         this.plantData.push(data)
         console.log('this.plantData = ' + this.plantData)
