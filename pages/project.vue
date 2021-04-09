@@ -56,6 +56,28 @@
         </client-only>
       </v-card>
       <v-card class="mt-4">
+        <v-card-title class="headline">Pollinate for Profit</v-card-title>
+        <v-card-text>
+          <p>
+            An information video on the project by the Hills and Fleurieu
+            Landscape Board.
+          </p>
+        </v-card-text>
+        <client-only>
+          <iframe
+            src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Ffb.watch%2F4Lon37iGBU%2F&width=640&show_text=false&appId=1595980173970891&height=640"
+            width="640"
+            height="640"
+            style="border:none;overflow:hidden"
+            scrolling="no"
+            frameborder="0"
+            allowfullscreen="false"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          ></iframe>
+        </client-only>
+      </v-card>
+
+      <v-card class="mt-4">
         <v-card-title class="headline"
           >Strategies to increase almond pollination in South
           Australia</v-card-title
