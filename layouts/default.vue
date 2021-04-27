@@ -85,6 +85,11 @@ export default {
           to: '/',
         },
         {
+          icon: 'mdi-folder',
+          title: 'Project overview and media',
+          to: '/project',
+        },
+        {
           icon: 'memory',
           title: 'Run simulation',
           to: '/simulation',
@@ -103,11 +108,6 @@ export default {
           icon: 'mdi-bee-flower',
           title: 'Native Bee Food Calendar',
           to: '/flowering',
-        },
-        {
-          icon: 'mdi-folder',
-          title: 'The Secure Pollination Project',
-          to: '/project',
         },
       ]
       return result
