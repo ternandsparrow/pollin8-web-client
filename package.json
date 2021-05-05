@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@babel/register": "^7.4.0",
+    "@nuxtjs/google-analytics": "^2.4.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "ava": "^1.4.1",

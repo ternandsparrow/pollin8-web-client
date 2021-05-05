@@ -14,6 +14,9 @@ export LETSENCRYPT_EMAIL=you@whatever.blah
 # export SENTRY_DSN_WEB=https://11111111111111111111111111111111@o222222.ingest.sentry.io/3333333
 # export SENTRY_DSN_API=https://11111111111111111111111111111111@o222222.ingest.sentry.io/3333333
 
+# Google Analytics. Uncomment, and supply a value to have GA enabled
+# export GA_ID=UA-XXX-X
+
 # Name of the environment that we're deploying to
 export DEPLOYED_TO_ENV=staging # TODO change to 'production' when appropriate
 

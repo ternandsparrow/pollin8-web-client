@@ -9,6 +9,7 @@ services:
       API_BASE_URL: 'http://p8_api:5000'
       SENTRY_DSN: ${SENTRY_DSN_WEB:-}
       DEPLOYED_TO_ENV: ${DEPLOYED_TO_ENV}
+      GA_ID: ${GA_ID}
     restart: unless-stopped
     labels:
       caddy: ${WEBAPP_PUBLIC_DNS}

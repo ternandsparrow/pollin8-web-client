@@ -44,6 +44,10 @@ module.exports = {
     { src: `~plugins/vimeo-player`, ssr: false },
   ],
 
+  buildModules: [
+    '@nuxtjs/google-analytics'
+  ],
+
   /*
    ** Nuxt.js modules
    */
@@ -64,6 +68,10 @@ module.exports = {
       },
     ],
   ],
+
+  googleAnalytics: {
+    id: process.env.GA_ID
+  }
 
   sentry: {
     dsn: (() => {

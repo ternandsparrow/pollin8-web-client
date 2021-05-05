@@ -9,8 +9,11 @@ echo "[INFO] deployed env name: $envName"
 sentryDsn=${SENTRY_DSN:-}
 echo "[INFO] Sentry DSN: ${sentryDsn:-(nothing)}"
 
-# Nuxt doesn't support runtime env vars in the nuxt.config.js so we'll do it
-# ourselves
+gaId=${GA_ID:-}
+echo "[INFO] Google Analytics ID: ${gaId:-(nothing)}"
+
+# At the time of writing, Nuxt didn't support runtime env vars in the
+# nuxt.config.js, so we'll do it ourselves.
 find .nuxt/ \
   -type f \
   -name '*.js' \
@@ -18,6 +21,7 @@ find .nuxt/ \
     -e "s+%%API_BASE_URL%%+${API_BASE_URL:?}+g" \
     -e "s+http://11SENTRY_DSN@o1/1+$sentryDsn+g" \
     -e "s+%%DEPLOYED_TO_ENV%%+$envName+g" \
+    -e "s+%%GA_ID%%+${gaId}+g" \
     '{}' \;
 
 exec yarn start
