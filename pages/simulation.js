@@ -223,7 +223,7 @@ export default {
       this.$store.commit('updateFarm', theGeojson)
       const farmAreaMetres = turfArea(theGeojson)
       this.farmAreaHa = (farmAreaMetres / 10000).toFixed(2)
-      this.farmAreaKm = (this.farmAreaHa / 10).toFixed(2)
+      this.farmAreaKm = (this.farmAreaHa / 100).toFixed(2)
       this.farmAreaAc = (farmAreaMetres / 4046.8564224).toFixed(2)
       this.onSetScaledReveg()
     },
