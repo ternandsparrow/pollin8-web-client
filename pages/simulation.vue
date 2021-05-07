@@ -306,7 +306,7 @@
           <p>
             You can turn datasets on and off by clicking their name in the
             legend at the top of the chart. The exact values for datapoints can
-            be seen my hovering your cursor over them.
+            be seen by hovering your cursor over them.
           </p>
           <p8-result-block :records="lastRunResultRecords" />
           <p class="text-muted">
