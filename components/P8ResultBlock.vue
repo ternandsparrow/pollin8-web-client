@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="headline">Total yield attributable to wild pollinators</div>
+    <div class="headline">Yield (attributable to all pollinators)</div>
     <p8-line-chart :chartdata="yieldChartData" :chartoptions="chartOptions" />
     <p class="text-muted">
       <small v-if="!isShowYWildChart" @click="isShowYWildChart = true"
@@ -8,7 +8,7 @@
       >
     </p>
     <template v-if="isShowYWildChart">
-      <div class="headline">Yield attributable to wild pollinators</div>
+      <div class="headline">Yield (attributable to wild pollinators)</div>
       <p8-line-chart :chartdata="wildChartData" :chartoptions="chartOptions" />
     </template>
     <p class="text-muted">
