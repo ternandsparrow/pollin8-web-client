@@ -290,16 +290,16 @@
           </p>
           <p>
             Year 0 is right now, as your farm currently stands. This gives us
-            the baseline to compare to so the benefit of the revegetation can be
-            seen. Year 1 is the first year that revegetation has an effect on
-            farm yield. See the
+            the baseline to compare to, so the benefit of the revegetation can
+            be seen. Year 1 is the first year that revegetation has an effect on
+            farm yield. See 
             <router-link to="/science#the-curve">About the science</router-link>
-            page.
+            for more information.
           </p>
 
           <p>
             Be sure to read the scale of the y-axis as it will be automatically
-            set to values that make the chart the most readable, so it maybe be
+            set to values that make the chart the most readable, so it may be
             different for different simulation runs.
           </p>
           <h3>Interacting with the chart</h3>
